@@ -16,7 +16,7 @@
   max-width: 50%;
   bottom: 10%;
   left: 5vw;
-  animation: fadeIn 3s;
+  animation: fadeIn 1s linear 1 !important;
 
 }
 .header-contents h2 {
