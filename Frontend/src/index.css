@@ -17,11 +17,14 @@ a {
   width: 80%;
   margin: auto;
 }
-@keyframes fadeIn{
-  0%{
+@keyframes fadeIn {
+  from {
+    transform: translateY(150px);
+    filter: blur(20px);
     opacity: 0;
   }
-  100%{
+  to {
+    transform: translateY(0);
     opacity: 1;
   }
 }
