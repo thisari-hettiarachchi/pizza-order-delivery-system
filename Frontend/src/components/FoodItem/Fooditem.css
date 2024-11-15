@@ -49,23 +49,25 @@
   
 }
 
-.food-item-footer .add {
+.food-item-img-container .add {
   width: 45px;
   position: absolute;
+  bottom: 8px;
+  right: 6px;
   cursor: pointer;
-  right: -10px;
   border-radius: 50%;
-  border: 2px solid #ff6a74;
+  
 }
+
 
 .food-item-counter {
   position: absolute;
-  right: 85px;
-  top: 11px;
+  bottom: 9px;
+  right: 6px;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 3px;
+  padding: 6px;
   border-radius: 50px;
   background-color: #ff6a74;
 }
@@ -74,7 +76,10 @@
   width: 23px;
 }
 
-.food-item-checkout .buy-button {
+
+.add-to-cart .add-to-cart-button {
+  position: relative;
+  left: 10px;
   background: #ed1c24;
   font-size: 16px;
   font-weight: 500;
@@ -84,7 +89,8 @@
   border-radius: 50px;
   cursor: pointer;
   transition: 0.3s;
+  
 }
-.food-item-checkout .buy-button:hover{
+.add-to-cart-button:hover{
     transform: scale(1.05);
 }
