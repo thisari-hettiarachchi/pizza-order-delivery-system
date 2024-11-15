@@ -32,38 +32,58 @@
   font-size: 12px;
 }
 
-
 .food-item-img-container {
   position: relative;
 }
-.food-item-footer{
+.food-item-footer {
   position: relative;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .food-item-footer .food-item-price {
   color: #ed1c24;
   font-size: 20px;
   font-weight: 500;
-  margin: 10px 0px;
+  margin: 12px 0px;
+  
 }
 
 .food-item-footer .add {
-  
   width: 45px;
   position: absolute;
   cursor: pointer;
-  right: 0px;
+  right: -10px;
   border-radius: 50%;
 }
 
 .food-item-counter {
   position: absolute;
-  right: 0px;
+  right: 85px;
+  top: 11px;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px;
+  padding: 3px;
   border-radius: 50px;
-  background-color: #FF6A74;
-  
+  background-color: #ff6a74;
+}
+
+.food-item-counter img {
+  width: 23px;
+}
+
+.food-item-checkout .buy-button {
+  background: #ed1c24;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 5px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.food-item-checkout .buy-button:hover{
+    transform: scale(1.05);
 }

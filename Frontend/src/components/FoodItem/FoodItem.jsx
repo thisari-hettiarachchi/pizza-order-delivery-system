@@ -16,8 +16,11 @@ const FoodItem = ({ id, name, price, description, image }) => {
         </div>
 
         <p className="food-item-desc">{description}</p>
+
         <div className="food-item-footer">
+
           <p className="food-item-price">Rs.{price}</p>
+
           {!itemCount ? (
             <img
               className="add"
@@ -26,18 +29,25 @@ const FoodItem = ({ id, name, price, description, image }) => {
               alt=""
             />
           ) : (
-            <div className="food-item-counter">
-              <img
-                onClick={() => setItemCount((prev) => prev - 1)}
-                src={assets.remove_icon_red}
-                alt=""
-              />
-              <p>{itemCount}</p>
-              <img
-                onClick={() => setItemCount((prev) => prev + 1)}
-                src={assets.add_icon_green}
-                alt=""
-              />
+              <div className="food-item-checkout">
+                
+              <div className="food-item-counter">
+                <img
+                  onClick={() => setItemCount((prev) => prev - 1)}
+                  src={assets.remove_icon_red}
+                  alt=""
+                />
+                <p>{itemCount}</p>
+                <img
+                  onClick={() => setItemCount((prev) => prev + 1)}
+                  src={assets.add_icon_green}
+                  alt=""
+                />
+              </div>
+
+              <div className="buy">
+                <button className="buy-button">Buy</button>
+              </div>
             </div>
           )}
         </div>
