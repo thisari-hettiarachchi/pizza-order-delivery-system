@@ -1,4 +1,4 @@
-
+// CartContext.js
 import React, { createContext, useContext, useState } from "react";
 
 const CartContext = createContext();
@@ -9,14 +9,14 @@ export const CartProvider = ({ children }) => {
   const [itemCount, setItemCount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const addItem = (price) => {
-    setItemCount((prevCount) => prevCount + 1);
-    setTotalPrice((prevPrice) => prevPrice + price);
+  const addItem = (quantity, price) => {
+    setItemCount((prevCount) => prevCount + quantity);
+    setTotalPrice((prevPrice) => prevPrice + quantity * price);
   };
 
-  const removeItem = (price) => {
-    setItemCount((prevCount) => Math.max(prevCount - 1, 0));
-    setTotalPrice((prevPrice) => Math.max(prevPrice - price, 0));
+  const removeItem = (quantity, price) => {
+    setItemCount((prevCount) => Math.max(prevCount - quantity, 0));
+    setTotalPrice((prevPrice) => Math.max(prevPrice - quantity * price, 0));
   };
 
   return (

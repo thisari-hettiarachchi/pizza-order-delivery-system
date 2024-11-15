@@ -4,8 +4,14 @@ import { assets } from "../../assets/assets";
 import { useCart } from "../../Context/CartContext";
 
 const FoodItem = ({ id, name, price, description, image }) => {
-  const [itemCount, setItemCount] = useState(0);
-  const { addItem, removeItem } = useCart();
+  const [localcount, setLocalCount] = useState(0);
+  const { addItem } = useCart();
+
+  const handleBuy = () => {
+    addItem(localcount, price);
+    setLocalCount(0); // Reset the local count after adding to cart
+  };
+
   return (
     <div className="food-item">
       <div className="food-item-img-container">
@@ -22,12 +28,11 @@ const FoodItem = ({ id, name, price, description, image }) => {
         <div className="food-item-footer">
           <p className="food-item-price">Rs.{price}</p>
 
-          {!itemCount ? (
+          {!localcount ? (
             <img
               className="add"
               onClick={() => {
-                setItemCount((prev) => prev + 1);
-                addItem(price);
+                setLocalCount((prev) => prev + 1);
               }}
               src={assets.add_icon_white}
               alt=""
@@ -37,17 +42,15 @@ const FoodItem = ({ id, name, price, description, image }) => {
               <div className="food-item-counter">
                 <img
                   onClick={() => {
-                    setItemCount((prev) => prev - 1);
-                    removeItem(price);
+                    localcount > 0 ? setLocalCount((prev) => prev - 1) : 0;
                   }}
                   src={assets.remove_icon_red}
                   alt=""
                 />
-                <p>{itemCount}</p>
+                <p>{localcount}</p>
                 <img
                   onClick={() => {
-                    setItemCount((prev) => prev + 1);
-                    addItem(price);
+                    setLocalCount((prev) => prev + 1);
                   }}
                   src={assets.add_icon_green}
                   alt=""
@@ -55,7 +58,13 @@ const FoodItem = ({ id, name, price, description, image }) => {
               </div>
 
               <div className="buy">
-                <button className="buy-button">Buy</button>
+                <button
+                  onClick={handleBuy}
+                  disabled={localcount === 0}
+                  className="buy-button"
+                >
+                  Buy
+                </button>
               </div>
             </div>
           )}
