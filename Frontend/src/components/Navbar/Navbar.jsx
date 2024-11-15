@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
-import { useCart } from "../../Context/CartContext";
+import { StoreContext } from "../../Context/StoreContext";
 
 const Navbar = () => {
   const [menu, setMenu] = useState("home");
-  const { itemCount, totalPrice } = useCart();
+  const { getTotalItems, getTotalPrice } = useContext(StoreContext);
 
   return (
     <div className="navbar">
@@ -43,9 +43,9 @@ const Navbar = () => {
 
         <div className="navbar-search-icon">
           <img src={assets.shopping_bag} alt="" />
-          {itemCount > 0 && <div className="dot"></div>}
+          <div className="dot"></div>
           <span className="cart-count-price">
-            {itemCount} items - Rs.{totalPrice.toFixed(2)}
+            {getTotalItems()} Items-Rs.{getTotalPrice().toFixed(2)}
           </span>
         </div>
 
