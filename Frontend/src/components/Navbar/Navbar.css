@@ -80,14 +80,33 @@
 }
 
 .navbar-search-icon {
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  gap: 10px;
+
   position: relative;
 }
-.navbar-search-icon .dot {
+.navbar-search-icon img {
+  width: 32px; 
+  height: 32x;
+  margin-right: 10px;
+  position: relative;
+}
+.dot {
   position: absolute;
-  min-width: 10px;
-  min-height: 10px;
-  background-color: #ed1c24;
-  border-radius: 5px;
-  top: -8px;
-  right: -8px;
+  top: 0px; 
+  left: 35px; 
+  width: 10px;
+  height: 10px;
+  background-color: #ed1c24; 
+  border-radius: 50%;
+}
+
+.cart-count-price{
+font-size: 16px;
+  font-weight: bold;
+  color: #000;
 }
