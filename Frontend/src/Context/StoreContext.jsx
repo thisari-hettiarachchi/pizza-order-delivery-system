@@ -20,9 +20,9 @@ const StoreContextProvider = (props) => {
 
   const addToCart = (itemId, quantity = 1) => {
     if (!cartItems[itemId]) {
-      setCartItem((prev) => ({ ...prev, [itemId]: quantity })); // Initialize with the specified quantity
+      setCartItem((prev) => ({ ...prev, [itemId]: quantity })); 
     } else {
-      setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] + quantity })); // Increment by the specified quantity
+      setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] + quantity })); 
     }
   };
 
