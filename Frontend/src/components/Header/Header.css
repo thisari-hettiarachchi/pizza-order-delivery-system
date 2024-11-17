@@ -1,56 +1,160 @@
-.header {
-  height: 34vw;
-  width: 100%;
-  margin: 30px auto;
-  background: url("../../assets/header_img.png") no-repeat;
-  background-size: contain;
+.main-section {
   position: relative;
-  border-radius: 12px;
+  background: url("../../assets/hero-1.jpg") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  padding-top: 170px;
+  padding-bottom: 90px;
 }
-.header-contents {
+.main-section .price-badge {
+  background: url("../../assets/price-badge-yellow.png") no-repeat center center;
+  background-size: cover;
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 1.5vw;
-  max-width: 50%;
-  bottom: 10%;
-  left: 5vw;
-  animation: fadeUp 1s linear 1 !important;
+  top: 60px;
+  right: -25px;
+  width: 180px;
+  height: 176px;
+  text-align: center;
+  z-index: 3;
 }
-.header-contents h2 {
-  font-weight: 500;
-  color: white;
-  font-size: max(4vw, 22px);
-}
-.header-contents p {
-  color: white;
-  font-size: 1vw;
+.main-section .img-pizza {
+  position: relative;
+  animation: rotatePizza 20s linear infinite;
+  z-index: 2;
 }
 
-.header-contents button {
-  border: none;
-  color: #747474;
-  font-weight: 500;
-  padding: 1vw 2.3vw;
-  background-color: white;
-  font-size: max(1vw, 13px);
-  border-radius: 50px;
+.main-section .img-pizza-slice-container {
+  position: relative;
+  width: 50vw;
+  overflow: hidden;
 }
 
-@media (max-width: 1050px) {
-  .header-contents {
-    max-width: 45%;
+.main-section .img-pizza-slice-container .img-pizza_slice {
+  position: absolute;
+  right: -750px;
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  top: -120px;
+  z-index: 2;
+  color: rgb(255, 255, 255);
+  width: 313px;
+  height: auto;
+  min-height: 0px;
+  min-width: 0px;
+  max-height: none;
+  max-width: none;
+  transform-origin: 50% 50%;
+  opacity: 1;
+  transform: translate(0px, 0px);
+  visibility: visible;
+}
+
+.main-section .img-tomato {
+  position: absolute;
+  top: -150px;
+  left: -250px;
+  z-index: 2;
+  color: rgb(255, 255, 255);
+  width: 313px;
+  height: auto;
+  min-height: 0px;
+  min-width: 0px;
+  max-height: none;
+  max-width: none;
+  transform-origin: 50% 50%;
+  opacity: 1;
+  transform: translate(0px, 0px);
+  visibility: visible;
+  rotate: 240deg;
+}
+
+.main-section .img-cheese {
+  position: absolute;
+  bottom: -90px;
+  left: -80px;
+  z-index: 0;
+  color: rgb(255, 255, 255);
+  width: 313px;
+  height: auto;
+  min-height: 0px;
+  min-width: 0px;
+  max-height: none;
+  max-width: none;
+  transform-origin: 50% 50%;
+  opacity: 1;
+  transform: translate(0px, 0px);
+  visibility: visible;
+  rotate: 0deg;
+}
+
+@keyframes rotatePizza {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
-@media (max-width: 750px) {
-  .header-contents {
-    max-width: 65%;
-  }
-  .header-contents p {
-    display: none;
-  }
-  .header-contents button {
-    padding: 2vw 4vw;
-  }
+.main-section .badge-text {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.main-section .badge-text .only {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.main-section .badge-text .price {
+  font-size: 2.875rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.main-section .main-text {
+  position: relative;
+  left: 80px;
+  top: 80px;
+}
+.main-section .main-text h1 {
+  font-family: var(--lilita-font);
+  font-size: 7rem;
+  line-height: 1;
+  margin-bottom: 15px;
+  letter-spacing: 3px;
+}
+.main-section .main-text h2 {
+  font-family: var(--lilita-font);
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 20px;
+  letter-spacing: 3px;
+}
+.main-section .main-text p {
+  margin-top: 30px;
+  padding: 5%;
+}
+.main-section .btn-order-now {
+  color: var(--light-black);
+  text-decoration: none;
+  background: var(--yellow);
+  border-color: var(--yellow);
+  border-radius: 15px;
+  padding: 15px 38px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-family: var(--oswald-font);
+  vertical-align: middle;
+  text-transform: uppercase;
+  transition: 0.2s ease-in-out 0s;
+  margin-left: 120px;
+  margin-top: 20px;
+}
+
+.main-section .btn-order-now:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  color: #000;
 }

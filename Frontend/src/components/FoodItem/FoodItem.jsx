@@ -4,13 +4,13 @@ import { assets } from "../../assets/assets";
 import { StoreContext } from "../../Context/StoreContext";
 
 const FoodItem = ({ id, name, price, description, image }) => {
-  const { cartItems, addToCart } = useContext(StoreContext);
+  const { addToCart } = useContext(StoreContext);
   const [localCount, setLocalCount] = useState(0);
 
   const handleBuy = () => {
     if (localCount > 0) {
       addToCart(id, localCount);
-      setLocalCount(0); 
+      setLocalCount(0);
     }
   };
 
@@ -33,7 +33,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
               src={assets.remove_icon_red}
               alt=""
             />
-            <p>{localCount}</p>
+            <span>{localCount}</span>
             <img
               onClick={() => setLocalCount((prev) => prev + 1)}
               src={assets.add_icon_green}
@@ -53,7 +53,12 @@ const FoodItem = ({ id, name, price, description, image }) => {
         <div className="food-item-footer">
           <p className="food-item-price">Rs.{price}</p>
           <div className="add-to-cart">
-            <button onClick={handleBuy} className="add-to-cart-button">
+            <button
+              onClick={() => {
+                localCount >= 1 ? handleBuy() : addToCart(id, 1);
+              }}
+              className="add-to-cart-button"
+            >
               Add to Cart
             </button>
           </div>
