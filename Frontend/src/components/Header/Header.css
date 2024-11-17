@@ -67,6 +67,7 @@
   transform: translate(0px, 0px);
   visibility: visible;
   rotate: 240deg;
+  animation: moveUp 2s ease forwards;
 }
 
 .main-section .img-cheese {
@@ -85,7 +86,7 @@
   opacity: 1;
   transform: translate(0px, 0px);
   visibility: visible;
-  rotate: 0deg;
+  animation: moveDown 2s ease forwards;
 }
 
 @keyframes rotatePizza {
@@ -116,6 +117,7 @@
   position: relative;
   left: 80px;
   top: 80px;
+  animation: moveUp 2s ease-in-out forwards;
 }
 .main-section .main-text h1 {
   font-family: var(--lilita-font);
@@ -140,7 +142,7 @@
   text-decoration: none;
   background: var(--yellow);
   border-color: var(--yellow);
-  border-radius: 15px;
+  border-radius: 10px;
   padding: 15px 38px;
   font-size: 18px;
   font-weight: 600;
