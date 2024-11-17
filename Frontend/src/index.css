@@ -41,6 +41,26 @@ a {
     opacity: 1;
   }
 }
+@keyframes moveUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes moveDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
 /* Root Variables */
 :root {
@@ -61,6 +81,7 @@ a {
   --brown: #6f5e4d;
   --bg-coffee: #642f21;
 }
+
 
 body,
 html {
@@ -99,8 +120,7 @@ a {
   transition: all 400ms ease-in-out;
 }
 
-/* Custom Scrollbar */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 5px;
 }
 ::-webkit-scrollbar-track {
@@ -108,37 +128,4 @@ a {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--yellow);
-} */
-
-/* Common Button */
-.order_now {
-  color: var(--light-black);
-  background: var(--yellow);
-  border-color: var(--yellow);
-  padding: 15px 38px;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  font-family: var(--oswald-font);
-  vertical-align: middle;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-}
-.order_now:hover,
-.order_now:focus {
-  color: var(--white);
-  background: transparent;
-  border-color: var(--white);
-}
-
-.btn_red {
-  color: var(--white);
-  background: var(--light-red);
-  border-color: var(--light-red);
-}
-.btn_red:hover,
-.btn_red:focus {
-  color: var(--light-red);
-  background: transparent;
-  border-color: var(--light-red);
 }

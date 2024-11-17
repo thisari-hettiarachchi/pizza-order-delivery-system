@@ -5,13 +5,12 @@ import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
 import "./Navbar.css";
 
-const Header = () => {
+const Navbars = () => {
   const { getTotalItems, getTotalPrice } = useContext(StoreContext);
   const [nav, setNav] = useState(false);
 
   const totalItems = getTotalItems();
 
-  // Scroll Navbar
   const changeValueOnScroll = () => {
     const scrollValue = document?.documentElement?.scrollTop;
     scrollValue > 100 ? setNav(true) : setNav(false);
@@ -25,47 +24,48 @@ const Header = () => {
   };
 
   window.addEventListener("scroll", changeValueOnScroll);
-
   return (
-    <header>
-      <Navbar
-        collapseOnSelect
-        expand="lg"
-        className={`${nav === true ? "sticky" : ""}`}
-      >
-        <Container>
-          <Navbar.Brand href="#home">
-            <Link to="/" className="logo">
-              <img src={assets.logo} alt="Logo" className="img-fluid" />
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="ms-auto">
-              <Link to="/" onClick={scrollTop}>
-                Home
+    <div>
+      <header>
+        <Navbar
+          collapseOnSelect
+          expand="lg"
+          className={`${nav === true ? "sticky" : ""}`}
+        >
+          <Container>
+            <Navbar.Brand href="#home">
+              <Link to="/" className="logo">
+                <img src={assets.logo} alt="Logo" className="img-fluid" />
               </Link>
-              <a href="#explore-menu">Menu</a>
-              <a href="#app-download">Mobile-app</a>
-              <a href="#footer">Contact-us</a>
-              <Nav.Link as={Link} to="/">
-                <div className="cart">
-                  <i class="bi bi-bag"></i>
-                  {totalItems > 0 && (
-                    <span className="cart-count">{totalItems}</span>
-                  )}
-                  <span className="cart-price">
-                    Rs.{getTotalPrice().toFixed(2)}
-                  </span>
-                  <div className="dot"></div>
-                </div>
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </header>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="ms-auto">
+                <Link to="/" onClick={scrollTop}>
+                  Home
+                </Link>
+                <a href="#explore-menu">Menu</a>
+                <a href="#app-download">Mobile-app</a>
+                <a href="#footer">Contact-us</a>
+                <Nav.Link as={Link} to="/">
+                  <div className="cart">
+                    <i class="bi bi-bag"></i>
+                    {totalItems > 0 && (
+                      <span className="cart-count">{totalItems}</span>
+                    )}
+                    <span className="cart-price">
+                      Rs.{getTotalPrice().toFixed(2)}
+                    </span>
+                    <div className="dot"></div>
+                  </div>
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </header>
+    </div>
   );
 };
 
-export default Header;
+export default Navbars;

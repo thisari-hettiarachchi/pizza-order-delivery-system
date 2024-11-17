@@ -62,6 +62,10 @@ import bag_icon from "./bag_icon.png";
 import logout_icon from "./logout_icon.png";
 import parcel_icon from "./parcel_icon.png";
 
+
+import Pizza from "./pizza.png";
+import Salad from "./salad.png";
+import Delivery from "./delivery-bike.png";
 export const assets = {
   logo,
   basket_icon,
@@ -85,6 +89,24 @@ export const assets = {
   bag_icon,
   parcel_icon,
 };
+
+export const mockData = [
+  {
+    image: Pizza,
+    title: "Original",
+    paragraph: `Porta semper lacus cursus, feugiat primis ultrice a ligula risus auctor an tempus feugiat dolor lacinia cubilia curae integer orci congue and metus integer primis in integer metus`,
+  },
+  {
+    image: Salad,
+    title: "Qualty Foods",
+    paragraph: `Porta semper lacus cursus, feugiat primis ultrice a ligula risus auctor an tempus feugiat dolor lacinia cubilia curae integer orci congue and metus integer primis in integer metus`,
+  },
+  {
+    image: Delivery,
+    title: "Fastest Delivery",
+    paragraph: `Porta semper lacus cursus, feugiat primis ultrice a ligula risus auctor an tempus feugiat dolor lacinia cubilia curae integer orci congue and metus integer primis in integer metus`,
+  },
+];
 
 export const menu_list = [
   {
