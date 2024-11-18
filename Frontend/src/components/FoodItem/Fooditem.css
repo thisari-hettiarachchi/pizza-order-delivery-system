@@ -42,11 +42,15 @@
   align-items: center;
 }
 .food-item-footer .food-item-price {
-  color: #ed1c24;
+  color: #fff;
   font-size: 20px;
   font-weight: 500;
   margin: 12px 0px;
+  padding: 0px 10px 0px 10px;
+  background-color: #650909;
+  border-radius: 10px;
 }
+
 
 .food-item-img-container .add {
   width: 45px;
@@ -85,9 +89,7 @@
   border-radius: 50px;
   cursor: pointer;
   transition: 0.3s;
-
 }
 .add-to-cart .add-to-cart-button:hover {
   transform: scale(1.05);
-  
 }

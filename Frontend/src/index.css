@@ -45,10 +45,12 @@ a {
   from {
     transform: translateY(100%);
     opacity: 0;
+    visibility: hidden;
   }
   to {
     transform: translateY(0);
     opacity: 1;
+    visibility: visible;
   }
 }
 @keyframes moveDown {
