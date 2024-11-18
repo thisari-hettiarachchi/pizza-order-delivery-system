@@ -52,6 +52,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
 
         <div className="food-item-footer">
           <p className="food-item-price">Rs.{price}</p>
+
           <div className="add-to-cart">
             <button
               onClick={() => {

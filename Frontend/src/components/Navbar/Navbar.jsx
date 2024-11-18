@@ -46,7 +46,7 @@ const Navbars = () => {
                 </Link>
                 <a href="#explore-menu">Menu</a>
                 <a href="#app-download">Mobile-app</a>
-                <a href="#footer">Contact-us</a>
+                <a href="#contact-us">Contact-us</a>
                 <Nav.Link as={Link} to="/">
                   <div className="cart">
                     <i class="bi bi-bag"></i>

@@ -51,7 +51,7 @@ function Footer() {
                 <h5>Order Now</h5>
                 <p>Quaerat neque purus ipsum</p>
                 <p>
-                  <Link to="tel:9998887777" className="calling">
+                  <Link to="tel:9998887777" className="calling" id = "contact-us">
                     999-888-7777
                   </Link>
                 </p>
