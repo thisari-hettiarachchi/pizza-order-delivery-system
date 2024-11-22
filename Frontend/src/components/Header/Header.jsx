@@ -19,10 +19,6 @@ const Header = () => {
                 <img src={Tomato} className="img-tomato" alt="" />
                 <img src={Cheese} className="img-cheese" alt="" />
 
-                <div className="img-pizza-slice-container">
-                  <img src={Pizza_slice} className="img-pizza_slice" alt="" />
-                </div>
-
                 <div className="price-badge">
                   <div className="badge-text">
                     <h4 className="only">Only</h4>

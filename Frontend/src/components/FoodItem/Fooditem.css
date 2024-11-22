@@ -47,8 +47,8 @@
   font-weight: 500;
   margin: 12px 0px;
   padding: 0px 10px 0px 10px;
-  background-color: #650909;
-  border-radius: 10px;
+  background-color: 	#D27D2D;
+  border-radius: 8px;
 }
 
 
@@ -86,7 +86,7 @@
   color: #fff;
   border: 2px solid #fff;
   padding: 5px 20px;
-  border-radius: 50px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
 }

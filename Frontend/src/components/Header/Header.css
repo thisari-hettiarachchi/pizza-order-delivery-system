@@ -23,32 +23,7 @@
   z-index: 2;
 }
 
-.main-section .img-pizza-slice-container {
-  position: relative;
-  width: 50vw;
-  overflow: hidden;
-}
 
-.main-section .img-pizza-slice-container .img-pizza_slice {
-  position: absolute;
-  right: -750px;
-  width: 100vw;
-  height: 100%;
-  object-fit: cover;
-  top: -120px;
-  z-index: 2;
-  color: rgb(255, 255, 255);
-  width: 313px;
-  height: auto;
-  min-height: 0px;
-  min-width: 0px;
-  max-height: none;
-  max-width: none;
-  transform-origin: 50% 50%;
-  opacity: 1;
-  transform: translate(0px, 0px);
-  visibility: visible;
-}
 
 .main-section .img-tomato {
   position: absolute;
