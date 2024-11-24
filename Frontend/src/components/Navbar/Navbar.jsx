@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
@@ -56,9 +56,15 @@ const Navbars = () => {
                     <span className="cart-price">
                       Rs.{getTotalPrice().toFixed(2)}
                     </span>
-                    <div className="dot"></div>
                   </div>
                 </Nav.Link>
+
+                <Link>
+                  <button className="sign-in-button">SIGN-IN</button>
+                </Link>
+                <Link>
+                  <button className="sign-up-button">SIGN-UP</button>
+                </Link>
               </Nav>
             </Navbar.Collapse>
           </Container>

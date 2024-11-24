@@ -1,9 +1,9 @@
-/* Header CSS */
 header .navbar {
   position: absolute;
   width: 100%;
   background-color: transparent;
   z-index: 1000;
+
 }
 
 header .navbar.sticky {
@@ -23,7 +23,7 @@ header .navbar.sticky {
   animation-fill-mode: both;
   -webkit-box-shadow: 0 2px 3px rgba(96, 96, 96, 0.1);
   -moz-box-shadow: 0 2px 3px rgba(96, 96, 96, 0.1);
-  box-shadow: 0 2px 3px rgba(96, 96, 96, 0.1);
+  box-shadow: 0 2px 3px rgba(255, 0, 0, 0.1);
 }
 @keyframes stickyTransition {
   0% {
@@ -36,6 +36,10 @@ header .navbar.sticky {
     -webkit-transform: none;
     transform: none;
   }
+}
+
+header .ms-auto{
+    margin-top: 20px;
 }
 
 header .logo img {
@@ -58,6 +62,7 @@ header a {
   -moz-transition: all 15ms ease-in-out;
   transition: all 15ms ease-in-out;
   text-decoration: none;
+  
 }
 header a:hover,
 header .cart i:hover {
@@ -78,13 +83,14 @@ header .nav-link:hover {
 header .cart {
   position: relative;
   top: -0.4375rem;
+  right: -20px;
 }
 
 .ms-auto .cart-count,
 .ms-auto .sticky .cart-count {
   position: absolute;
   top: -2px;
-  right: 66px;
+  right: 67px;
   background-color: red;
   color: white;
   border-radius: 50%;
@@ -101,20 +107,7 @@ header .cart i {
   color: white;
   font-size: 25px;
 }
-header .roundpoint {
-  width: 16px;
-  height: 16px;
-  background: var(--light-red);
-  border-radius: 50%;
-  color: var(--white);
-  font-size: 11.2px;
-  line-height: 16px;
-  text-align: center;
-  font-style: normal;
-  position: absolute;
-  top: 3.2px;
-  right: -8px;
-}
+
 .ms-auto .cart-price {
   font-size: 16px;
   font-weight: bold;
@@ -123,7 +116,19 @@ header .roundpoint {
   font-family: var(--oswald-font);
 }
 
-/* Media Query CSS */
+.ms-auto .sign-in-button,
+.ms-auto .sign-up-button {
+  position: relative;
+  background-color: #d27d2d;
+  color: #fff;
+  padding: 6px 25px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+  top: -5px;
+  font-family: var(--oswald-font);
+  right: -50px;
+}
 
 @media (max-width: 992px) {
   header .navbar {
