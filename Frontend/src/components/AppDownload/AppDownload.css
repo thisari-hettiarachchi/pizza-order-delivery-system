@@ -1,26 +1,28 @@
-.app-download{
-    margin: auto auto;
-    margin-top: 100px; 
-    font-size: max(3vw,20px);
-    text-align: center;
-    font-weight: 500;
+.shop_section {
+  padding: 100px 0 0;
+  background: var(--yellow);
+}
+.shop_section h4 {
+  font-size: 2.375rem;
+  font-weight: 400;
+  color: var(--bg-coffee);
+}
+.shop_section h2 {
+  font-size: 4.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--bg-coffee);
+}
+.shop_section p {
+  font-size: 1.125rem;
+  padding-right: 10%;
+  color: var(--bg-coffee);
+  margin-bottom: 40px;
+}
+.shop_section .store {
+  max-width: 40%;
+}
+.shop_section .e_shop {
+  text-align: center;
 }
 
-.app-download-platforms{
-    display: flex;
-    justify-content: center;
-    gap: max(2vw,10px);
-    margin-top: 40px;
-
-}
-
-.app-download-platforms img{
-    width: max(30vw,120px);
-    max-width: 180px;
-    transition: 0.5s;
-    cursor: pointer;
-}
-
-.app-download-platforms img:hover{
-  transform: scale(1.05);
-}
