@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
-import "./FoodItem.css";
+import FlyingButton from "react-flying-item";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../Context/StoreContext";
+import "./FoodItem.css";
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const { addToCart } = useContext(StoreContext);
@@ -54,14 +55,20 @@ const FoodItem = ({ id, name, price, description, image }) => {
           <p className="food-item-price">Rs.{price}</p>
 
           <div className="add-to-cart">
-            <button
-              onClick={() => {
-                localCount >= 1 ? handleBuy() : addToCart(id, 1);
-              }}
-              className="add-to-cart-button"
+            <FlyingButton
+              src={image}
+              targetTop={"5%"}
+              targetLeft={"70%"}
+              animationDuration={"1.5"}
             >
-              Add to Cart
-            </button>
+              <div
+                onClick={() => {
+                  localCount >= 1 ? handleBuy() : addToCart(id, 1);
+                }}
+              >
+                Add to Cart
+              </div>
+            </FlyingButton>
           </div>
         </div>
       </div>
