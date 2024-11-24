@@ -75,13 +75,21 @@ a {
     opacity: 1; /* Fully visible */
   }
 }
+@keyframes rotatePizza {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes slideRight {
-  0% {
-    left: -100%;  /* Start off-screen on the left */
+  from {
+    left: -70%;  
   }
-  100% {
-    left: 0;      /* End at its normal position (on screen) */
+  to {
+    left: 0;
   }
 }
 /* Root Variables */
