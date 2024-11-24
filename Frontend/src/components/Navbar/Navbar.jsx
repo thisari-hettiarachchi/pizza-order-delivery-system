@@ -5,7 +5,7 @@ import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
 import "./Navbar.css";
 
-const Navbars = () => {
+const Navbars = ({ setShowLogin, setFormType }) => {
   const { getTotalItems, getTotalPrice } = useContext(StoreContext);
   const [nav, setNav] = useState(false);
 
@@ -24,6 +24,7 @@ const Navbars = () => {
   };
 
   window.addEventListener("scroll", changeValueOnScroll);
+
   return (
     <div>
       <header>
@@ -60,10 +61,26 @@ const Navbars = () => {
                 </Nav.Link>
 
                 <Link>
-                  <button className="sign-in-button">SIGN-IN</button>
+                  <button
+                    onClick={() => {
+                      setShowLogin(true);
+                      setFormType("Login");
+                    }}
+                    className="sign-in-button"
+                  >
+                    SIGN-IN
+                  </button>
                 </Link>
                 <Link>
-                  <button className="sign-up-button">SIGN-UP</button>
+                  <button
+                    onClick={() => {
+                      setShowLogin(true);
+                      setFormType("Sign Up");
+                    }}
+                    className="sign-up-button"
+                  >
+                    SIGN-UP
+                  </button>
                 </Link>
               </Nav>
             </Navbar.Collapse>
