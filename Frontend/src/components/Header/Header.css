@@ -147,11 +147,11 @@
   padding-bottom: 90px;
 }
 .main-section-2 .img-pizza {
-  width: 700px;
+  width: 650px;
   height: auto;
   position: relative;
   z-index: 2;
-  animation: slideRight 2s ease-in-out forwards;
+  animation: slideRight 3s ease-in-out forwards;
 
 }
 
@@ -160,6 +160,11 @@
   height: auto;
   margin-right: 50px;
   animation: zoomIn 1s ease-in-out forwards;
+}
+
+.main-section-2 .main-text p,
+.main-section-2 .main-text .button-container{
+  visibility: hidden;
 }
 
 .main-section-2 .main-text .desc {

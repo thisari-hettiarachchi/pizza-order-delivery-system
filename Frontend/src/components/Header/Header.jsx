@@ -2,6 +2,7 @@ import React from "react";
 import { Carousel, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Pizza from "../../assets/hero-2.png";
+import Pizza_2 from "../../assets/pizza2.png";
 import Tomato from "../../assets/tomato.png";
 import Cheese from "../../assets/cheese.png";
 import ItalianPizza from "../../assets/Italianpizza.png";
@@ -53,7 +54,7 @@ const Header = () => {
         <section className="main-section-2">
           <Container>
             <Row>
-              <img src={Pizza} className="img-pizza" alt="Main" />
+              <img src={Pizza_2} className="img-pizza" alt="Main" />
 
               <Col lg={5}>
                 <div className="main-text">
