@@ -2,9 +2,9 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { mockData } from "../../assets/assets";
-import "./HeaderSection2.css";
+import "./Section2.css";
 
-const HeaderSection2 = () => {
+const Section2 = () => {
   return (
     <div>
       <>
@@ -20,7 +20,7 @@ const HeaderSection2 = () => {
                   risus auctor an tempus feugiat dolor lacinia cubilia curae
                   integer orci congue and metus integer primis in integer metus
                 </p>
-                <a href="#explore-menu" className="btn-order-now">
+                <a href="#explore-menu" className="explore-full-menu">
                   Explore Full Menu
                 </a>
               </Col>
@@ -53,4 +53,4 @@ const HeaderSection2 = () => {
   );
 };
 
-export default HeaderSection2;
+export default Section2;
