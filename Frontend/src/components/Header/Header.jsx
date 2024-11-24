@@ -91,7 +91,7 @@ const Header = () => {
 
               <Col lg={5}>
                 <div className="main-text">
-                  <h2>Want somthing Hot & Spicy</h2>
+                  <h2>Want something Hot & Spicy</h2>
                   <p className="desc">
                     Checkout our brand-new Italian Devilled Chicken & Italian
                     Spicy 4 Chicken Pizzas
