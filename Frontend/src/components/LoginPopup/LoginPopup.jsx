@@ -1,20 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 
 const LoginPopup = ({ setShowLogin, formType, setFormType }) => {
 
-    const [currentState, setCurrentState] = useState(formType);
-
-    useEffect(() => {
-      setCurrentState(formType);
-    }, [formType]);
-
   return (
     <div className="login-popup">
       <form action="" className="login-popup-container">
         <div className="login-popup-title">
-          <h2>{currentState}</h2>
+          <h2>{formType}</h2>
           <img
             onClick={() => setShowLogin(false)}
             src={assets.cross_icon}
