@@ -1,12 +1,12 @@
-.main-section {
+.main-section-1 {
   position: relative;
-  background: url("../../assets/hero-1.jpg") no-repeat center center;
+  background: url("../../assets/wood_2.jpg") no-repeat center center;
   background-size: cover;
   background-attachment: fixed;
   padding-top: 170px;
   padding-bottom: 90px;
 }
-.main-section .price-badge {
+.main-section-1 .price-badge {
   background: url("../../assets/price-badge-yellow.png") no-repeat center center;
   background-size: cover;
   position: absolute;
@@ -17,15 +17,16 @@
   text-align: center;
   z-index: 3;
 }
-.main-section .img-pizza {
+.main-section-1 .img-pizza {
+  width: 750px;
+  height: auto;
+  top: -40px;
   position: relative;
   animation: rotatePizza 20s linear infinite;
   z-index: 2;
 }
 
-
-
-.main-section .img-tomato {
+.main-section-1 .img-tomato {
   position: absolute;
   top: -150px;
   left: -250px;
@@ -45,7 +46,7 @@
   animation: moveUp 2s ease forwards;
 }
 
-.main-section .img-cheese {
+.main-section-1 .img-cheese {
   position: absolute;
   bottom: -90px;
   left: -80px;
@@ -72,29 +73,29 @@
     transform: rotate(360deg);
   }
 }
-.main-section .badge-text {
+.main-section-1 .badge-text {
   width: 100%;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 }
-.main-section .badge-text .only {
+.main-section-1 .badge-text .only {
   font-size: 1.875rem;
   font-weight: 600;
   line-height: 1;
 }
-.main-section .badge-text .price {
+.main-section-1 .badge-text .price {
   font-size: 2.875rem;
   font-weight: 600;
   line-height: 1;
 }
-.main-section .main-text {
+.main-section-1 .main-text {
   position: relative;
   left: 80px;
   top: 80px;
   visibility: hidden;
 }
-.main-section .main-text h1 {
+.main-section-1 .main-text h1 {
   font-family: var(--lilita-font);
   font-size: 7rem;
   line-height: 1;
@@ -102,9 +103,8 @@
   letter-spacing: 3px;
   animation: moveUp 0.5s ease-in-out forwards;
   animation-delay: 0s;
-  
 }
-.main-section .main-text h2 {
+.main-section-1 .main-text h2 {
   font-family: var(--lilita-font);
   font-size: 2.5rem;
   line-height: 1;
@@ -113,13 +113,13 @@
   animation: moveUp 0.5s ease-in-out forwards;
   animation-delay: 1s;
 }
-.main-section .main-text p {
+.main-section-1 .main-text p {
   margin-top: 30px;
   padding: 5%;
   animation: moveUp 0.5s ease-in-out forwards;
   animation-delay: 1.5s;
 }
-.main-section .btn-order-now {
+.main-section-1 .btn-order-now {
   color: var(--light-black);
   text-decoration: none;
   background: var(--yellow);
@@ -139,8 +139,215 @@
   animation-delay: 2s;
 }
 
-.main-section .btn-order-now:hover {
+.main-section-1 .btn-order-now:hover {
   cursor: pointer;
   transform: scale(1.05);
   color: #000;
+}
+
+.main-section-2 {
+  position: relative;
+  background: url("../../assets/dark_wood.jpg") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  padding-top: 170px;
+  padding-bottom: 90px;
+}
+.main-section-2 .img-pizza {
+  width: 700px;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  animation: slideRight 1.5s ease-in-out forwards;
+
+}
+
+.main-section-2 .img-italian-pizza {
+  width: 500px;
+  height: auto;
+  margin-right: 50px;
+  animation: zoomIn 1s ease-in-out forwards;
+}
+
+.main-section-2 .main-text .desc {
+  margin-top: 80px;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 0.5s;
+}
+.main-section-2 .main-text .call-now {
+  margin-top: 30px;
+  font-size: 30px;
+  text-align: center;
+  color: var(--yellow);
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 0.75s;
+}
+
+.main-section-2 .main-text .button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+.main-section-2 .main-text .menu {
+  margin-top: 30px;
+  color: white;
+  background: var(--light-red);
+  border-color: var(--light-red);
+  border-radius: 10px;
+  padding: 8px 38px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-family: var(--oswald-font);
+  vertical-align: middle;
+  text-transform: uppercase;
+  transition: 0.2s ease-in-out 0s;
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 1s;
+}
+.main-section-2 .main-text .about-us {
+  background-color: transparent;
+  border-color: white;
+  border-radius: 10px;
+  margin-top: 30px;
+  color: white;
+  padding: 8px 38px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-family: var(--oswald-font);
+  vertical-align: middle;
+  text-transform: uppercase;
+  transition: 0.2s ease-in-out 0s;
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 1.25s;
+}
+.main-section-2 .main-text .menu a,
+.main-section-2 .main-text .about-us a {
+  text-decoration: none;
+  color: white;
+}
+
+.main-section-2 .btn-order-now:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  color: #000;
+}
+
+.main-section-3 {
+  position: relative;
+  background: url("../../assets/red-wood-2.jpg") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  padding-top: 170px;
+  padding-bottom: 90px;
+}
+
+.main-section-3 .img-pizza {
+  width: 700px;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  animation: zoomIn 1.5s ease-in-out forwards;
+}
+.main-section-3 .main-text {
+  position: relative;
+  left: 80px;
+  top: 80px;
+  visibility: hidden;
+}
+.main-section-3 .main-text h2 {
+  font-family: var(--lilita-font);
+  color: white;
+  text-align: center;
+  font-size: 60px;
+  line-height: 1;
+  letter-spacing: 3px;
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 0.5s;
+}
+.main-section-3 .main-text .desc {
+  margin-top: 80px;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 0.75s;
+}
+.main-section-3 .main-text .call-now {
+  margin-top: 30px;
+  font-size: 30px;
+  text-align: center;
+  color: var(--yellow);
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
+.main-section-3 .main-text .button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+.main-section-3 .main-text .menu {
+  margin-top: 30px;
+  color: white;
+  background: var(--light-red);
+  border-color: var(--light-red);
+  border-radius: 10px;
+  padding: 8px 38px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-family: var(--oswald-font);
+  vertical-align: middle;
+  text-transform: uppercase;
+  transition: 0.2s ease-in-out 0s;
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 1.25s;
+}
+.main-section-3 .main-text .about-us {
+  background-color: transparent;
+  border-color: white;
+  border-radius: 10px;
+  margin-top: 30px;
+  color: white;
+  padding: 8px 38px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-family: var(--oswald-font);
+  vertical-align: middle;
+  text-transform: uppercase;
+  transition: 0.2s ease-in-out 0s;
+  animation: moveUp 0.5s ease-in-out forwards;
+  animation-delay: 1.5s;
+}
+.main-section-3 .main-text .menu a,
+.main-section-3 .main-text .about-us a {
+  text-decoration: none;
+  color: white;
+}
+
+.main-section-3 .btn-order-now:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  color: #000;
+}
+.carousel-control-prev-icon {
+  margin-right: 80px;
+}
+.carousel-control-next-icon {
+  margin-left: 80px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  padding: 25px;
+  width: 20px;
+  height: 20px;
 }

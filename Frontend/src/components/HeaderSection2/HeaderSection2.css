@@ -1,7 +1,7 @@
 .about_section {
   padding-top: 80px;
   padding-bottom: 300px;
-  background: url("../../assets/header_img9.png") no-repeat center center;
+  background: url("../../assets/header2.png") no-repeat center center;
   background-size: cover;
   width: 100%;
   height: 50%;
@@ -15,7 +15,7 @@
   font-size: 19px;
 }
 .about_wrapper {
-  background: 	#D27D2D;
+  background: #d27d2d;
   padding-top: 70px;
   padding-bottom: 30px;
 }
@@ -30,7 +30,7 @@
   margin-bottom: 20px;
 }
 
-.btn-order-now {
+.about_section .btn-order-now {
   color: white;
   text-decoration: none;
   background: var(--light-red);
@@ -46,5 +46,3 @@
   transition: 0.2s ease-in-out 0s;
   margin-top: 20px;
 }
-
-

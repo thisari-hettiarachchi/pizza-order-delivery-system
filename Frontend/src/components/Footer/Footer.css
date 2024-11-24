@@ -48,7 +48,11 @@ footer .copy_right ul li:after {
 footer .copy_right ul li:last-child:after {
   display: none;
 }
-
+footer .Cards{
+  margin-top: 10px;
+  width: 200px;
+  height: auto;
+}
 /* Scroll Top */
 .scroll_top {
   position: fixed;

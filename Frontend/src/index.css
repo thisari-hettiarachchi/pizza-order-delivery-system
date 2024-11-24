@@ -34,13 +34,14 @@ a {
 }
 
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
+  from {
+    opacity: 0; 
   }
-  100% {
+  to {
     opacity: 1;
   }
 }
+
 @keyframes moveUp {
   from {
     transform: translateY(100%);
@@ -64,6 +65,25 @@ a {
   }
 }
 
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8); /* Slightly smaller */
+    opacity: 0; /* Invisible */
+  }
+  to {
+    transform: scale(1); /* Original size */
+    opacity: 1; /* Fully visible */
+  }
+}
+
+@keyframes slideRight {
+  0% {
+    left: -100%;  /* Start off-screen on the left */
+  }
+  100% {
+    left: 0;      /* End at its normal position (on screen) */
+  }
+}
 /* Root Variables */
 :root {
   /* Fonts Family */
@@ -99,7 +119,6 @@ html {
   }
 }
 
-/* Headline Tag */
 h1,
 h2,
 h3,
@@ -113,7 +132,6 @@ h6 {
 }
 
 a {
-  color: var(--light-black);
   text-decoration: none;
   -webkit-transition: all 400ms ease-in-out;
   -moz-transition: all 400ms ease-in-out;

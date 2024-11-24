@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import './Footer.css'
+import Cards from "../../assets/Cards.png"
 import { assets } from "../../assets/assets";
 
 function Footer() {
@@ -55,6 +56,7 @@ function Footer() {
                     999-888-7777
                   </Link>
                 </p>
+                <img src={Cards} className="Cards" alt="" />
               </div>
             </Col>
             <Col sm={6} lg={3} className="mb-4 mb-lg-0">
