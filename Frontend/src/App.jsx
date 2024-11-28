@@ -1,18 +1,30 @@
-import React from 'react'
-import Navbar from './components/Navbar/Navbar'
-import { Route, Routes } from 'react-router-dom'
-import Home from './pages/Home/Home'
-import Cart from './pages/Cart/Cart'
-import PlaceOrder from './pages/PlaceOrder/PlaceOrder'
-import Footer from './components/Footer/Footer'
+import React, { useState } from "react";
+import Navbar from "./components/Navbar/Navbar";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home/Home";
+import Cart from "./pages/Cart/Cart";
+import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
+import Footer from "./components/Footer/Footer";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
+import LoginPopup from "./components/LoginPopup/LoginPopup";
 
 const App = () => {
+  const [showLogin, setShowLogin] = useState(false);
+  const [formType, setFormType] = useState("Login");
+
   return (
     <>
+      {showLogin ? (
+        <LoginPopup
+          setShowLogin={setShowLogin}
+          setFormType={setFormType}
+          formType={formType}
+        />
+      ) : (
+        <></>
+      )}
       <div className="app">
-        <Navbar />
+        <Navbar setShowLogin={setShowLogin} setFormType={setFormType} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
@@ -22,6 +34,6 @@ const App = () => {
       <Footer />
     </>
   );
-}
+};
 
-export default App
+export default App;
