@@ -9,6 +9,8 @@ const Navbars = ({ setShowLogin, setFormType }) => {
   const { getTotalItems, getTotalPrice } = useContext(StoreContext);
   const [nav, setNav] = useState(false);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token")); // Track login state
+
   const totalItems = getTotalItems();
 
   const changeValueOnScroll = () => {
@@ -24,6 +26,13 @@ const Navbars = ({ setShowLogin, setFormType }) => {
   };
 
   window.addEventListener("scroll", changeValueOnScroll);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Clear token
+    setIsLoggedIn(false); // Update login state
+    alert("You have been logged out.");
+    navigate("/");
+  };
 
   return (
     <div>
@@ -50,7 +59,7 @@ const Navbars = ({ setShowLogin, setFormType }) => {
                 <a href="#contact-us">Contact-us</a>
                 <Nav.Link as={Link} to="/">
                   <div className="cart">
-                    <i class="bi bi-bag"></i>
+                    <i className="bi bi-bag"></i>
                     {totalItems > 0 && (
                       <span className="cart-count">{totalItems}</span>
                     )}
@@ -60,28 +69,44 @@ const Navbars = ({ setShowLogin, setFormType }) => {
                   </div>
                 </Nav.Link>
 
-                <Link>
-                  <button
-                    onClick={() => {
-                      setShowLogin(true);
-                      setFormType("Login");
-                    }}
-                    className="sign-in-button"
-                  >
-                    SIGN-IN
-                  </button>
-                </Link>
-                <Link>
-                  <button
-                    onClick={() => {
-                      setShowLogin(true);
-                      setFormType("Sign Up");
-                    }}
-                    className="sign-up-button"
-                  >
-                    SIGN-UP
-                  </button>
-                </Link>
+                {!isLoggedIn ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        setShowLogin(true);
+                        setFormType("Login");
+                      }}
+                      className="sign-in-button"
+                    >
+                      SIGN-IN
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setShowLogin(true);
+                        setFormType("Sign Up");
+                      }}
+                      className="sign-up-button"
+                    >
+                      SIGN-UP
+                    </button>
+                  </>
+                ) : (
+                  <div className="navbar-profile">
+                    <img src={assets.profile_icon} alt="Profile Icon" />
+                    <ul className="nav-profile-dropdown">
+                      <li>
+                        <img src={assets.bag_icon} alt="Bag Icon" />
+                        <p>Order</p>
+                      </li>
+                      <hr />
+                      <li onClick={handleLogout}>
+                        <img src={assets.logout_icon} alt="Logout Icon" />
+                        <span>Log Out</span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>

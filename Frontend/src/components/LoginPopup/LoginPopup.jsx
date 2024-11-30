@@ -4,41 +4,68 @@ import { assets } from "../../assets/assets";
 
 const LoginPopup = ({ setShowLogin, formType, setFormType }) => {
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
 
     const formData = {
-      userName: e.target.userName?.value || "", // For Sign Up, name field will be present
+      userName: e.target.userName?.value || "",
       email: e.target.email.value,
       password: e.target.password.value,
     };
 
-    // Log the form data to check what is being sent to the backend
     console.log("Form Data:", formData);
 
-    // Determine the endpoint based on the formType (SignUp or Login)
     const endpoint = formType === "Sign Up" ? "signup" : "signin";
 
     try {
-      const response = await fetch(`http://localhost:8080/Backend/${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `http://localhost:8080/Backend/${endpoint}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
-      // Log the server response to check the backend response
       console.log("Response from servlet:", data);
 
       if (response.ok) {
-        // Handle successful response
-        console.log(`${formType} successful`);
-        setShowLogin(false); // Close the popup after successful sign up/sign in
+        // Store the token in localStorage after a successful login/signup
+        console.log(formType + " successful!");
+        localStorage.setItem("token", data.token); // Store token
+
+        // Optionally, store user name or other info
+        const userName = data.userName;
+        console.log("User Name:", userName);
+
+        // After successful login, close the login popup
+        setShowLogin(false);
+        alert(formType + " Successful");
+
+        // Access protected endpoint with the token
+        const token = localStorage.getItem("token");
+
+        if (token) {
+          try {
+            const protectedResponse = await fetch("/some-protected-endpoint", {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+              },
+            });
+
+            const protectedData = await protectedResponse.json();
+            console.log("Protected data:", protectedData);
+          } catch (error) {
+            console.error("Error accessing protected data:", error);
+          }
+        }
       } else {
-        // Handle error response
-        alert(data.error || "An error occurred");
+        console.log("Error:", data.error);
+        alert("Login failed. " + data.error);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -61,6 +88,7 @@ const LoginPopup = ({ setShowLogin, formType, setFormType }) => {
             alt=""
           />
         </div>
+
         <div className="login-popup-inputs">
           {formType === "Sign Up" && (
             <input
@@ -85,7 +113,7 @@ const LoginPopup = ({ setShowLogin, formType, setFormType }) => {
         </button>
         <div className="login-popup-condition">
           <input type="checkbox" required />
-          <p>By Continuing, i agree to the terms of use & privacy policy</p>
+          <p>By Continuing, I agree to the terms of use & privacy policy</p>
         </div>
         {formType === "Login" ? (
           <p>
