@@ -2,7 +2,7 @@ import React from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 
-const LoginPopup = ({ setShowLogin, formType, setFormType }) => {
+const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,36 +33,18 @@ const LoginPopup = ({ setShowLogin, formType, setFormType }) => {
       console.log("Response from servlet:", data);
 
       if (response.ok) {
-        // Store the token in localStorage after a successful login/signup
-        console.log(formType + " successful!");
+        // Store the token and user name in localStorage after a successful login/signup
         localStorage.setItem("token", data.token); // Store token
+        localStorage.setItem("userName", data.userName); // Store user name
 
-        // Optionally, store user name or other info
-        const userName = data.userName;
-        console.log("User Name:", userName);
+        console.log(formType + " successful!");
+
+        // Update login state in the parent component
+        setIsLoggedIn(true);
 
         // After successful login, close the login popup
         setShowLogin(false);
         alert(formType + " Successful");
-
-        // Access protected endpoint with the token
-        const token = localStorage.getItem("token");
-
-        if (token) {
-          try {
-            const protectedResponse = await fetch("/some-protected-endpoint", {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-              },
-            });
-
-            const protectedData = await protectedResponse.json();
-            console.log("Protected data:", protectedData);
-          } catch (error) {
-            console.error("Error accessing protected data:", error);
-          }
-        }
       } else {
         console.log("Error:", data.error);
         alert("Login failed. " + data.error);
@@ -85,7 +67,7 @@ const LoginPopup = ({ setShowLogin, formType, setFormType }) => {
           <img
             onClick={() => setShowLogin(false)}
             src={assets.cross_icon}
-            alt=""
+            alt="Close"
           />
         </div>
 
