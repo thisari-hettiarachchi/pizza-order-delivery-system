@@ -1,22 +1,29 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
 import "./Navbar.css";
 
-const Navbars = ({ setShowLogin, setFormType }) => {
+const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
   const { getTotalItems, getTotalPrice } = useContext(StoreContext);
   const [nav, setNav] = useState(false);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token")); // Track login state
+  const navigate = useNavigate();
 
   const totalItems = getTotalItems();
 
-  const changeValueOnScroll = () => {
-    const scrollValue = document?.documentElement?.scrollTop;
-    scrollValue > 100 ? setNav(true) : setNav(false);
-  };
+  // Add scroll listener
+  useEffect(() => {
+    const changeValueOnScroll = () => {
+      const scrollValue = document?.documentElement?.scrollTop || 0;
+      setNav(scrollValue > 100);
+    };
+
+    window.addEventListener("scroll", changeValueOnScroll);
+    return () => {
+      window.removeEventListener("scroll", changeValueOnScroll);
+    };
+  }, []);
 
   const scrollTop = () => {
     window.scrollTo({
@@ -25,12 +32,18 @@ const Navbars = ({ setShowLogin, setFormType }) => {
     });
   };
 
-  window.addEventListener("scroll", changeValueOnScroll);
-
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Clear token
-    setIsLoggedIn(false); // Update login state
+    // Clear user-related data
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+
+    // Update the logged-in state
+    setIsLoggedIn(false);
+
+    // Show a logout alert
     alert("You have been logged out.");
+
+    // Redirect to the home page
     navigate("/");
   };
 
@@ -40,11 +53,11 @@ const Navbars = ({ setShowLogin, setFormType }) => {
         <Navbar
           collapseOnSelect
           expand="lg"
-          className={`${nav === true ? "sticky" : ""}`}
+          className={`${nav ? "sticky" : ""}`}
         >
           <Container>
-            <Navbar.Brand href="#home">
-              <Link to="/" className="logo">
+            <Navbar.Brand>
+              <Link to="/" className="logo" onClick={scrollTop}>
                 <img src={assets.logo} alt="Logo" className="img-fluid" />
               </Link>
             </Navbar.Brand>
@@ -96,8 +109,8 @@ const Navbars = ({ setShowLogin, setFormType }) => {
                     <img src={assets.profile_icon} alt="Profile Icon" />
                     <ul className="nav-profile-dropdown">
                       <li>
-                        <img src={assets.bag_icon} alt="Bag Icon" />
-                        <p>Order</p>
+                        <img src={assets.profile_icon} alt="Profile Icon" />
+                        <span>Profile</span>
                       </li>
                       <hr />
                       <li onClick={handleLogout}>

@@ -130,13 +130,14 @@ header .cart i {
 }
 .navbar-profile {
   position: relative;
-  margin-left: 50px;
+  top: -5px;
+  margin-left: 40px;
 }
 .nav-profile-dropdown {
   position: absolute;
   display: none;
   right: 0;
-  width: 200px;
+  width: 180px;
   z-index: 1;
 }
 .navbar-profile:hover .nav-profile-dropdown {
@@ -156,9 +157,9 @@ header .cart i {
   gap: 10px;
   cursor: pointer;
 }
-.nav-profile-dropdown li p{
-  align-items: center;
-  font-size: 15px;
+.nav-profile-dropdown li span{
+  margin-left: 10px;
+  font-size: 16px;
 }
 .nav-profile-dropdown img{
   width: 20px;

@@ -11,20 +11,25 @@ import LoginPopup from "./components/LoginPopup/LoginPopup";
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [formType, setFormType] = useState("Login");
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token")); // Check login status on page load
 
   return (
     <>
-      {showLogin ? (
+      {showLogin && (
         <LoginPopup
           setShowLogin={setShowLogin}
           setFormType={setFormType}
           formType={formType}
+          setIsLoggedIn={setIsLoggedIn}
         />
-      ) : (
-        <></>
       )}
       <div className="app">
-        <Navbar setShowLogin={setShowLogin} setFormType={setFormType} />
+        <Navbar
+          setShowLogin={setShowLogin}
+          setFormType={setFormType}
+          setIsLoggedIn={setIsLoggedIn}
+          isLoggedIn={isLoggedIn}
+        />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
