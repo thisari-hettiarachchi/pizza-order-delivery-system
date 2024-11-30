@@ -8,6 +8,7 @@ import "./Navbar.css";
 const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
   const { getTotalItems, getTotalPrice } = useContext(StoreContext);
   const [nav, setNav] = useState(false);
+  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
   const totalItems = getTotalItems();
@@ -25,6 +26,13 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const storedUserName = localStorage.getItem("userName");
+    if (storedUserName) {
+      setUserName(storedUserName);
+    }
+  }, [isLoggedIn]);
+
   const scrollTop = () => {
     window.scrollTo({
       top: 0,
@@ -38,6 +46,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
     localStorage.removeItem("userName");
 
     // Update the logged-in state
+    setUserName("");
     setIsLoggedIn(false);
 
     // Show a logout alert
@@ -106,15 +115,15 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
                   </>
                 ) : (
                   <div className="navbar-profile">
-                    <img src={assets.profile_icon} alt="Profile Icon" />
+                    <i class="bi bi-person"></i>
+                    <span className="profile-username">{userName}</span>
                     <ul className="nav-profile-dropdown">
                       <li>
-                        <img src={assets.profile_icon} alt="Profile Icon" />
+                        <i class="bi bi-person-vcard"></i>
                         <span>Profile</span>
                       </li>
-                      <hr />
                       <li onClick={handleLogout}>
-                        <img src={assets.logout_icon} alt="Logout Icon" />
+                        <i class="bi bi-box-arrow-right"></i>
                         <span>Log Out</span>
                       </li>
                     </ul>

@@ -83,7 +83,10 @@ header .cart {
   top: -0.4375rem;
   right: -20px;
 }
-
+header .cart i {
+  color: white;
+  font-size: 25px;
+}
 .ms-auto .cart-count,
 .ms-auto .sticky .cart-count {
   position: absolute;
@@ -98,13 +101,12 @@ header .cart {
 }
 
 header .sticky .cart i,
-header .sticky .cart .cart-price {
+header .sticky .cart .cart-price,
+header .sticky .navbar-profile .profile-username,
+header .sticky .navbar-profile i {
   color: black;
 }
-header .cart i {
-  color: white;
-  font-size: 25px;
-}
+
 
 .ms-auto .cart-price {
   font-size: 16px;
@@ -129,41 +131,67 @@ header .cart i {
   right: -50px;
 }
 .navbar-profile {
+  display: flex;
+  justify-content: flex-start;
   position: relative;
   top: -5px;
   margin-left: 40px;
 }
+.navbar-profile i {
+  position: relative;
+  top: -5px;
+  font-size: 28px;
+  color: #fff;
+}
+
+.navbar-profile .profile-username {
+  text-transform: uppercase;
+  position: relative;
+  white-space: nowrap;
+  top: 5px;
+  margin-left: 10px;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 500;
+  font-family: var(--oswald-font);
+}
+
 .nav-profile-dropdown {
   position: absolute;
+  top: 35px;
   display: none;
   right: 0;
-  width: 180px;
+  width: 150px;
   z-index: 1;
 }
 .navbar-profile:hover .nav-profile-dropdown {
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   background-color: #fff2ff;
-  padding: 12px 25px;
+  padding: 8px 25px;
   border-radius: 4px;
   border: 1px solid #ed1c24;
   outline: 2px solid white;
   list-style: none;
 }
-.nav-profile-dropdown li{
-  display: flex;
+.nav-profile-dropdown li {
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  display: flex;
+  gap: 20px;
   cursor: pointer;
 }
-.nav-profile-dropdown li span{
-  margin-left: 10px;
+.nav-profile-dropdown li span {
   font-size: 16px;
+  padding-bottom: 10px;
 }
-.nav-profile-dropdown img{
-  width: 20px;
-}.nav-profile-dropdown li:hover{
+.nav-profile-dropdown li i {
+  color: black;
+  font-size: 20px;
+}
+.nav-profile-dropdown li:hover {
   color: #ed1c24;
 }
 @media (max-width: 992px) {
