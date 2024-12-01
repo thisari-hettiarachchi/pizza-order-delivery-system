@@ -7,11 +7,19 @@ import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
 import Footer from "./components/Footer/Footer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
+import { ToastContainer, cssTransition, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "animate.css";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [formType, setFormType] = useState("Login");
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token")); // Check login status on page load
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
+  const bounce = cssTransition({
+    enter: "animate__animated animate__bounceIn",
+    exit: "animate__animated animate__bounceOut",
+  });
 
   return (
     <>
@@ -37,6 +45,16 @@ const App = () => {
         </Routes>
       </div>
       <Footer />
+      <ToastContainer
+        stacked
+        transition={bounce}
+        limit={3}
+        style={{
+          width: "290px",
+          height: "50px",
+          fontSize: "16px",
+        }}
+      />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
+import { toast } from "react-toastify";
 
 const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
   const handleSubmit = async (e) => {
@@ -33,25 +34,30 @@ const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
       console.log("Response from servlet:", data);
 
       if (response.ok) {
-        // Store the token and user name in localStorage after a successful login/signup
-        localStorage.setItem("token", data.token); // Store token
-        localStorage.setItem("userName", data.userName); // Store user name
+        if (formType === "Sign Up") {
+          // Sign-up success
+          toast.success("Sign Up Successful. Please log in to continue."); // Show toast for sign-up success
+          setFormType("Login"); // Switch to login form
+        } else if (formType === "Login") {
+          // Login success
+          localStorage.setItem("token", data.token); // Store token
+          localStorage.setItem("userName", data.userName); // Store user name
+          console.log("Login successful!");
 
-        console.log(formType + " successful!");
+          // Update login state in the parent component
+          setIsLoggedIn(true);
 
-        // Update login state in the parent component
-        setIsLoggedIn(true);
-
-        // After successful login, close the login popup
-        setShowLogin(false);
-        alert(formType + " Successful");
+          // Close the login popup
+          setShowLogin(false);
+          toast.success("Login Successful!"); // Show toast for login success
+        }
       } else {
         console.log("Error:", data.error);
-        alert("Login failed. " + data.error);
+        toast.error(formType + " failed. " + data.error); // Show toast for failure
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error connecting to the server.");
+      toast.error("Error connecting to the server."); // Show toast for server error
     }
   };
 
