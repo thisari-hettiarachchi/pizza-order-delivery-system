@@ -50,7 +50,7 @@ const App = () => {
         transition={bounce}
         limit={3}
         style={{
-          width: "290px",
+          width: "300px",
           height: "50px",
           fontSize: "16px",
         }}
