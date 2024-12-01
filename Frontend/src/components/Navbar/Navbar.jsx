@@ -3,6 +3,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
+import { toast } from "react-toastify";
 import "./Navbar.css";
 
 const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
@@ -41,19 +42,21 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
   };
 
   const handleLogout = () => {
-    // Clear user-related data
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
+    // Confirm the action before logging out
+    const userConfirmed = window.confirm("Are you sure you want to log out?");
+    if (!userConfirmed) return;
 
-    // Update the logged-in state
+    // Clear user-related data
+    localStorage.clear(); // Clears all localStorage data related to the user
+    sessionStorage.clear(); // Optional: Clears sessionStorage if used
+
+    // Update the application state
     setUserName("");
     setIsLoggedIn(false);
 
-    // Show a logout alert
-    alert("You have been logged out.");
-
     // Redirect to the home page
-    navigate("/");
+    toast.success("Logged out successfully!");
+    navigate("/", { replace: true }); // Prevents navigating back to the protected page
   };
 
   return (
