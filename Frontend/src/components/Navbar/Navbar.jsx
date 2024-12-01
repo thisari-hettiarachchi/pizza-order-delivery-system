@@ -115,8 +115,12 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
                   </>
                 ) : (
                   <div className="navbar-profile">
-                    <i class="bi bi-person"></i>
-                    <span className="profile-username">{userName}</span>
+                    <ul className="profile-username-container">
+                      <li>
+                        <i class="bi bi-person"></i>
+                        <span className="profile-username">{userName}</span>
+                      </li>
+                    </ul>
                     <ul className="nav-profile-dropdown">
                       <li>
                         <i class="bi bi-person-vcard"></i>
