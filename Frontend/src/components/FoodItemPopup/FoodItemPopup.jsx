@@ -23,9 +23,7 @@ const FoodItemPopup = ({
   };
   return (
     <div className="food_item_container">
-      <div className="food_item_image">
-        <img src={image} alt={name} />
-      </div>
+      <img src={image} alt={name} className="food_item_image" />
       <div className="food_item_details">
         <h1>{name}</h1>
         <h4 className="price">Rs.{price}</h4>
