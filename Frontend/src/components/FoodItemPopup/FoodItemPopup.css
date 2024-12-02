@@ -13,10 +13,11 @@
   animation: zoomIn 0.3s ease-in-out;
 }
 
-.food_item_image img {
+.food_item_image {
   position: relative;
   top: 10%;
   height: 75%;
+  margin-left: 10px;
   border-radius: 5px;
 }
 
@@ -53,7 +54,7 @@
   font-size: 40px;
   color: black;
   top: -25px;
-  right: -20px;
+  right: -15px;
 }
 .food_item_counter_container {
   position: relative;
