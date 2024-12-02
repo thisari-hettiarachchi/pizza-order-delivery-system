@@ -43,14 +43,6 @@
   animation: scroll-name 8s linear infinite;
 }
 
-@keyframes scroll-name {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
 .food-item-name-rating img {
   margin-bottom: 10px;
   margin-left: 20px;

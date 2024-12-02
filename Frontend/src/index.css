@@ -92,6 +92,16 @@ a {
     left: 0;
   }
 }
+
+@keyframes scroll-name {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 /* Root Variables */
 :root {
   /* Fonts Family */
