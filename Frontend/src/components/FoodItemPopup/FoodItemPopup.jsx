@@ -4,7 +4,7 @@ import "./FoodItemPopup.css"
 const FoodItemPopup = () => {
   return (
     <div>
-      
+      <p>item name</p>
     </div>
   )
 }
