@@ -12,7 +12,6 @@ import "animate.css";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const [showItem, setShowItem] = useState(false);
   const [formType, setFormType] = useState("Login");
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
