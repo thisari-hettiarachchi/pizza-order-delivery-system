@@ -3,6 +3,7 @@ import FlyingButton from "react-flying-item";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../Context/StoreContext";
 import "./FoodItem.css";
+import FoodItemPopup from "../FoodItemPopup/FoodItemPopup";
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const { addToCart } = useContext(StoreContext);
@@ -19,6 +20,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
     <div className="food-item">
       <div className="food-item-img-container">
         <img className="food-item-image" src={image} alt="" />
+        <i class="bi bi-search search-icon" onClick={FoodItemPopup}></i>
 
         {!localCount ? (
           <img
