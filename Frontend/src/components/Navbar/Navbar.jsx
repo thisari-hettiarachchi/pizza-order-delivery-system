@@ -82,7 +82,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
                 <a href="#explore-menu">Menu</a>
                 <a href="#app-download">Mobile-app</a>
                 <a href="#contact-us">Contact-us</a>
-                <Nav.Link as={Link} to="/">
+                <Nav.Link as={Link} to="/cart">
                   <div className="cart">
                     <i className="bi bi-bag"></i>
                     {totalItems > 0 && (

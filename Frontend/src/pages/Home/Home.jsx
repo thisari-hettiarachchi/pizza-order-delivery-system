@@ -7,6 +7,7 @@ import AppDownload from "../../components/AppDownload/AppDownload";
 import Section2 from "../../components/Section2/Section2";
 import Section3 from "../../components/Section3/Section3";
 import Section4 from "../../components/Section4/Section4";
+import Footer from "../../components/Footer/Footer";
 
 const Home = () => {
   const [category, setCategory] = useState("All");
@@ -20,6 +21,7 @@ const Home = () => {
       <Section3 />
       <AppDownload />
       <Section4 />
+      <Footer />
     </div>
   );
 };

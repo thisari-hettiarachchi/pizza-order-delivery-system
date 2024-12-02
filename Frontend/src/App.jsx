@@ -4,10 +4,9 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
-import Footer from "./components/Footer/Footer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
-import { ToastContainer, cssTransition, Bounce } from "react-toastify";
+import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "animate.css";
 
@@ -44,7 +43,6 @@ const App = () => {
           <Route path="/order" element={<PlaceOrder />} />
         </Routes>
       </div>
-      <Footer />
       <ToastContainer
         stacked
         transition={bounce}
