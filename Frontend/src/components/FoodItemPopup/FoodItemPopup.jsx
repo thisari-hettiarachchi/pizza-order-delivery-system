@@ -38,10 +38,25 @@ const FoodItemPopup = ({
       <div className="food_item_details">
         <h1>{name}</h1>
         {selectedSize ? (
-          <h4 className="price">Rs.{selectedPrice}</h4>
+          <h4 className="price">
+            Rs.{" "}
+            {selectedPrice.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </h4>
         ) : (
           <h4 className="price">
-            Rs.{price.small} - Rs.{price.large}
+            Rs.{" "}
+            {price.small.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}{" "}
+            - Rs.{" "}
+            {price.large.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
           </h4>
         )}
         <hr />

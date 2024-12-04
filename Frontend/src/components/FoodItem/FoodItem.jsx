@@ -9,7 +9,12 @@ const FoodItem = ({ id, name, price, description, image }) => {
   return (
     <div className="food-item">
       <div className="food-item-img-container">
-        <img className="food-item-image" src={image} alt="" />
+        <img
+          className="food-item-image"
+          src={image}
+          alt=""
+          onClick={() => setShowItem(true)}
+        />
         <i
           class="bi bi-search search-icon"
           onClick={() => setShowItem(true)}
@@ -23,12 +28,23 @@ const FoodItem = ({ id, name, price, description, image }) => {
           <img src={assets.rating_starts} alt="" />
         </div>
 
-        <p className="food-item-desc">{description}</p>
+        <div className="food-item-desc-container">
+          <p className="food-item-desc">{description}</p>
+        </div>
 
         <div className="food-item-footer">
           <div className="food-item-price-container">
             <span className="food-item-price">
-              Rs.{price.small} - Rs.{price.large}
+              Rs.{" "}
+              {price.small.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}{" "}
+              - Rs.{" "}
+              {price.large.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </span>
           </div>
 
