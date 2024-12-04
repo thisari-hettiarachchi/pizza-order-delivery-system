@@ -29,6 +29,10 @@
   gap: 10px;
   
 }
+.food_item_details .price{
+  color: #ed1c24;
+  margin-top: 10px;
+}
 
 .food_item_details p{
   font-size: 17px;
@@ -95,7 +99,7 @@
   font-size: 16px;
   font-weight: 500;
   color: #fff;
-  margin-top: 50px;
+  margin-top: 30px;
   padding: 5px 20px;
   border-radius: 8px;
   cursor: pointer;

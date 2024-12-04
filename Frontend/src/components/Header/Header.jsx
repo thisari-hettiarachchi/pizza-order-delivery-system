@@ -25,7 +25,7 @@ const Header = () => {
                   <div className="price-badge">
                     <div className="badge-text">
                       <h4 className="only">Only</h4>
-                      <h4 className="price">RS.6.99</h4>
+                      <h4 className="price">RS.899.00</h4>
                     </div>
                   </div>
                 </div>
