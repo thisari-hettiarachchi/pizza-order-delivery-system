@@ -43,7 +43,7 @@ const FoodItemPopup = ({
           <span className="quantity">Select quantity</span>
           <div className="food_item_counter">
             <img
-              onClick={() => setLocalCount((prev) => prev - 1)}
+              onClick={() => setLocalCount((prev) => (prev > 0 ? prev - 1 : 0))}
               src={assets.remove_icon_red}
               alt=""
             />

@@ -15,7 +15,7 @@ footer p {
 footer .calling {
   font-size: 1.8rem;
   font-weight: 800;
-  color: var(--yellow);
+  color: #d20a2e;
 }
 footer ul li {
   display: inline-block;
