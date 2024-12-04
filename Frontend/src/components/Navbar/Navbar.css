@@ -91,7 +91,7 @@ header .sticky .navbar-profile .profile-username-container li:hover span {
 .ms-auto .sticky .cart-count {
   position: absolute;
   top: -2px;
-  right: 67px;
+  right: 75px;
   background-color: red;
   color: white;
   border-radius: 50%;

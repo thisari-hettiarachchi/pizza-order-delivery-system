@@ -27,24 +27,29 @@
   align-items: center;
   margin-bottom: 10px;
 }
-
-.food-item-name-rating p {
+.foof-item-name-container {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  overflow: hidden;
+}
+.food-item-name {
   font-size: 20px;
   font-weight: 500;
-  white-space: nowrap;
   display: inline-block;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
+  
 }
 
-.food-item:hover .food-item-name-rating p {
+.food-item:hover .food-item-name,
+.food-item:hover .food-item-price {
   text-overflow: clip;
   display: inline-block;
   animation: scroll-name 8s linear infinite;
 }
 
 .food-item-name-rating img {
-  margin-bottom: 10px;
   margin-left: 20px;
   width: 70px;
 }
@@ -79,14 +84,22 @@
   justify-content: space-between;
   align-items: center;
 }
-.food-item-footer .food-item-price {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 500;
-  margin: 12px 0px;
-  padding: 0px 10px 0px 10px;
-  background-color: #d27d2d;
-  border-radius: 8px;
+
+.food-item-price-container {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  max-width: 40%;
+  overflow: hidden;
+}
+
+.food-item-price {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0;
+  color: #ff5722;
 }
 
 .food-item-img-container .add {
@@ -113,12 +126,14 @@
 .food-item-counter img {
   width: 25px;
 }
-
+.add-to-cart {
+  margin-top: 5px;
+}
 .add-to-cart button {
   position: relative;
   left: 10px;
   background: #ed1c24;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 500;
   color: #fff;
   border: 2px solid #fff;
