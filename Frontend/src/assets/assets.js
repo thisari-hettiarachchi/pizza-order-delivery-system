@@ -22,26 +22,26 @@ import pizza_5 from "./Cheesy Onion with Green Chillies.jpg";
 import pizza_6 from "./Cheesy Tomato with Green Chillies.jpg";
 import pizza_7 from "./Sausage Delight.jpg";
 import pizza_8 from "./Chicken Bacon & Potato with Nai Miris.jpg";
-import pizza_9 from "./food_9.png";
-import pizza_10 from "./food_10.png";
-import pizza_11 from "./food_11.png";
-import pizza_12 from "./food_12.png";
-import pizza_13 from "./food_13.png";
-import pizza_14 from "./food_14.png";
-import pizza_15 from "./food_15.png";
+import pizza_9 from "./Chicken Triple Treat Pizza.jpg";
+import pizza_10 from "./Chicken Salami Pizza.jpg";
+import pizza_11 from "./Double Chicken Surprise.jpg";
+import pizza_12 from "./Cheese Lovers.jpg";
+import pizza_13 from "./Tandoori Chicken.jpg";
+import pizza_14 from "./Black Chicken.jpg";
+import pizza_15 from "./Hot & Spicy Chicken.jpg";
 import pizza_16 from "./food_16.png";
 import pizza_17 from "./food_17.png";
 import pizza_18 from "./food_18.png";
 import pizza_19 from "./food_19.png";
 import pizza_20 from "./food_20.png";
-import pizza_21 from "./food_21.png";
-import pizza_22 from "./food_22.png";
-import pizza_23 from "./food_23.png";
-import pizza_24 from "./food_24.png";
-import pizza_25 from "./food_25.png";
-import pizza_26 from "./food_26.png";
-import pizza_27 from "./food_27.png";
-import pizza_28 from "./food_28.png";
+import pasta_21 from "./pasta_21.png";
+import pasta_22 from "./pasta_22.png";
+import pasta_23 from "./pasta_23.png";
+import pasta_24 from "./pasta_24.png";
+import dessert_25 from "./dessert_25.png";
+import dessert_26 from "./dessert_26.png";
+import dessert_27 from "./dessert_27.png";
+import dessert_28 from "./dessert_28.png";
 import pizza_29 from "./food_29.png";
 import pizza_30 from "./food_30.png";
 import pizza_31 from "./food_31.png";
@@ -156,7 +156,7 @@ export const food_list = [
     },
     description:
       "Italian Pizza Dough, Original Italian Olive oil, Fresh Garlic, Mozzarella Cheese, Basil",
-    category: "Salad",
+    category: "Pizza",
   },
   {
     _id: "2",
@@ -168,7 +168,7 @@ export const food_list = [
       large: 2840,
     },
     description: "Made with Spicy Fish & 2 layers of cheese",
-    category: "Salad",
+    category: "Pizza",
   },
   {
     _id: "3",
@@ -180,7 +180,7 @@ export const food_list = [
       large: 2840,
     },
     description: "Made with spicy veggie masala, onions, tomato & cheese",
-    category: "Salad",
+    category: "Pizza",
   },
   {
     _id: "4",
@@ -193,101 +193,150 @@ export const food_list = [
     },
     description:
       "A pizza topped with Spicy Chicken, Green Chillies, Onions & Mozzarella",
-    category: "Salad",
+    category: "Pizza",
   },
   {
     _id: "5",
     name: "Cheesy Onion with Green Chillies",
     image: pizza_5,
     price: {
-      small: 15,
-      medium: 20,
-      large: 25,
+      small: 840,
+      medium: 1560,
+      large: 2840,
     },
     description:
       "Rich tomato sauce base topped with cream cheese, onions, green chillies & Mozzarella.",
-    category: "Rolls",
+    category: "Pizza",
   },
   {
     _id: "6",
     name: "Cheesy Tomato with Green Chillies",
     image: pizza_6,
     price: {
-      small: 1500,
-      medium: 20,
-      large: 2500,
+      small: 840,
+      medium: 1560,
+      large: 2840,
     },
     description:
       "Rich tomato sauce base topped with cream cheese, onions, tomato, green chillies & Mozzarella",
-    category: "Rolls",
+    category: "Pizza",
   },
   {
     _id: "7",
     name: "Sausage Delight",
     image: pizza_7,
     price: {
-      small: 15,
-      medium: 20,
-      large: 25,
+      small: 840,
+      medium: 1560,
+      large: 2840,
     },
     description: "Chicken sausages & onions with a double layer of cheese.",
-    category: "Rolls",
+    category: "Pizza",
   },
   {
     _id: "8",
-    name: "Chicken Bacon & Potato with Nai Miris",
+    name: "Chicken Bacon Potato Nai Miris",
     image: pizza_8,
     price: {
-      small: 15,
-      medium: 20,
-      large: 25,
+      small: 840,
+      medium: 1560,
+      large: 2840,
     },
     description:
-      "A flavoursome duo of chicken bacon and spicy potatoes on a fiery base of Nai Miris sauce complemented with crunchy onions and green chillies, topped with a layer of mozzarella cheese",
-    category: "Rolls",
+      "Chicken bacon and spicy potatoes on a fiery Nai Miris sauce, with onions, green chillies, and mozzarella cheese.",
+    category: "Pizza",
+  },
+  {
+    _id: "9",
+    name: "Chicken Triple Treat Pizza",
+    image: pizza_9,
+    price: {
+      small: 980,
+      medium: 1930,
+      large: 3460,
+    },
+    description:
+      "Made with Chicken Salami, Roast Chicken, Chicken Bacon, Onions & Cheese",
+    category: "Pizza",
+  },
+  {
+    _id: "10",
+    name: "Chicken Salami Pizza",
+    image: pizza_10,
+    price: {
+      small: 980,
+      medium: 1930,
+      large: 3460,
+    },
+    description: "Made with Chicken Salami, Jalapenos & cheese",
+    category: "Pizza",
+  },
+  {
+    _id: "11",
+    name: "Double Chicken Surprise",
+    image: pizza_11,
+    price: {
+      small: 980,
+      medium: 1930,
+      large: 3460,
+    },
+    description:
+      "A combination of spicy chicken and succulent chicken sausages accompanied with crunchy onions and capsicum, topped with a layer of mozzarella",
+    category: "Pizza",
+  },
+  {
+    _id: "12",
+    name: "Cheese Lovers",
+    image: pizza_12,
+    price: {
+      small: 980,
+      medium: 1930,
+      large: 3460,
+    },
+    description: "Rich tomato sauce with a triple layer of mozzarella cheese.",
+    category: "Pizza",
   },
   {
     _id: "13",
-    name: "Chicken Sandwich",
+    name: "Tandoori Chicken",
     image: pizza_13,
     price: {
-      small: 15,
-      medium: 20,
-      large: 25,
+      small: 980,
+      medium: 1930,
+      large: 3460,
     },
-    description:
-      "Food provides essential nutrients for overall health and well-being",
-    category: "Sandwich",
+    description: "Tandoori chicken & onions with a double layer of cheese.",
+    category: "Pizza",
   },
   {
     _id: "14",
-    name: "Vegan Sandwich",
+    name: "Black Chicken",
     image: pizza_14,
     price: {
-      small: 15,
-      medium: 20,
-      large: 25,
+      small: 980,
+      medium: 1930,
+      large: 3460,
     },
     description:
-      "Food provides essential nutrients for overall health and well-being",
-    category: "Sandwich",
+      "Flavoursome pieces of black chicken and crunchy onion with a double layer of cheese.",
+    category: "Pizza",
   },
   {
     _id: "15",
-    name: "Grilled Sandwich",
+    name: "Hot & Spicy Chicken",
     image: pizza_15,
     price: {
-      small: 15,
-      medium: 20,
-      large: 25,
+      small: 980,
+      medium: 1930,
+      large: 3460,
     },
     description:
-      "Food provides essential nutrients for overall health and well-being",
-    category: "Sandwich",
+      "Spicy chunks of chicken, capsicums & onions with a double layer of cheese.",
+    category: "Pizza",
   },
   {
     _id: "16",
-    name: "Bread Sandwich",
+    name: "Sliced Pizza",
     image: pizza_16,
     price: {
       small: 15,
@@ -296,11 +345,11 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Sandwich",
+    category: "Pizza",
   },
   {
     _id: "17",
-    name: "Cup Cake",
+    name: "Garlic Mushroom ",
     image: pizza_17,
     price: {
       small: 15,
@@ -309,11 +358,11 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Cake",
+    category: "Pure Veg",
   },
   {
     _id: "18",
-    name: "Vegan Cake",
+    name: "Fried Cauliflower",
     image: pizza_18,
     price: {
       small: 15,
@@ -322,11 +371,11 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Cake",
+    category: "Pure Veg",
   },
   {
     _id: "19",
-    name: "Butterscotch Cake",
+    name: "Mix Veg Pulao",
     image: pizza_19,
     price: {
       small: 15,
@@ -335,11 +384,11 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Cake",
+    category: "Pure Veg",
   },
   {
     _id: "20",
-    name: "Sliced Cake",
+    name: "Rice Zucchini",
     image: pizza_20,
     price: {
       small: 15,
@@ -348,12 +397,12 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Cake",
+    category: "Pure Veg",
   },
   {
     _id: "21",
-    name: "Garlic Mushroom ",
-    image: pizza_21,
+    name: "Cheese Pasta",
+    image: pasta_21,
     price: {
       small: 15,
       medium: 20,
@@ -361,12 +410,12 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Pure Veg",
+    category: "Pasta",
   },
   {
     _id: "22",
-    name: "Fried Cauliflower",
-    image: pizza_22,
+    name: "Tomato Pasta",
+    image: pasta_22,
     price: {
       small: 15,
       medium: 20,
@@ -374,12 +423,12 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Pure Veg",
+    category: "Pasta",
   },
   {
     _id: "23",
-    name: "Mix Veg Pulao",
-    image: pizza_23,
+    name: "Creamy Pasta",
+    image: pasta_23,
     price: {
       small: 15,
       medium: 20,
@@ -387,12 +436,12 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Pure Veg",
+    category: "Pasta",
   },
   {
     _id: "24",
-    name: "Rice Zucchini",
-    image: pizza_24,
+    name: "Chicken Pasta",
+    image: pasta_24,
     price: {
       small: 15,
       medium: 20,
@@ -400,12 +449,12 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Pure Veg",
+    category: "Pasta",
   },
   {
     _id: "25",
-    name: "Cheese Pasta",
-    image: pizza_25,
+    name: "Ripple Ice Cream",
+    image: dessert_25,
     price: {
       small: 15,
       medium: 20,
@@ -413,12 +462,12 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Pasta",
+    category: "Desserts",
   },
   {
     _id: "26",
-    name: "Tomato Pasta",
-    image: pizza_26,
+    name: "Fruit Ice Cream",
+    image: dessert_26,
     price: {
       small: 15,
       medium: 20,
@@ -426,12 +475,12 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Pasta",
+    category: "Desserts",
   },
   {
     _id: "27",
-    name: "Creamy Pasta",
-    image: pizza_27,
+    name: "Jar Ice Cream",
+    image: dessert_27,
     price: {
       small: 15,
       medium: 20,
@@ -439,64 +488,12 @@ export const food_list = [
     },
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Pasta",
+    category: "Desserts",
   },
   {
     _id: "28",
-    name: "Chicken Pasta",
-    image: pizza_28,
-    price: {
-      small: 15,
-      medium: 20,
-      large: 25,
-    },
-    description:
-      "Food provides essential nutrients for overall health and well-being",
-    category: "Pasta",
-  },
-  {
-    _id: "9",
-    name: "Ripple Ice Cream",
-    image: pizza_9,
-    price: {
-      small: 15,
-      medium: 20,
-      large: 25,
-    },
-    description:
-      "Food provides essential nutrients for overall health and well-being",
-    category: "Desserts",
-  },
-  {
-    _id: "10",
-    name: "Fruit Ice Cream",
-    image: pizza_10,
-    price: {
-      small: 15,
-      medium: 20,
-      large: 25,
-    },
-    description:
-      "Food provides essential nutrients for overall health and well-being",
-    category: "Desserts",
-  },
-  {
-    _id: "11",
-    name: "Jar Ice Cream",
-    image: pizza_11,
-    price: {
-      small: 15,
-      medium: 20,
-      large: 25,
-    },
-    description:
-      "Food provides essential nutrients for overall health and well-being",
-    category: "Desserts",
-  },
-  {
-    _id: "12",
     name: "Vanilla Ice Cream",
-    image: pizza_12,
+    image: dessert_28,
     price: {
       small: 15,
       medium: 20,
