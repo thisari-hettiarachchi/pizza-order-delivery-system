@@ -1,12 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { assets } from "../../assets/assets";
 import FoodItemPopup from "../FoodItemPopup/FoodItemPopup";
 import "./FoodItem.css";
 
 const FoodItem = ({ id, name, price, description, image }) => {
-
   const [showItem, setShowItem] = useState(false);
-
 
   return (
     <div className="food-item">
@@ -19,14 +17,20 @@ const FoodItem = ({ id, name, price, description, image }) => {
       </div>
       <div className="food-item-info">
         <div className="food-item-name-rating">
-          <p>{name}</p>
+          <div className="foof-item-name-container">
+            <span className="food-item-name">{name}</span>
+          </div>
           <img src={assets.rating_starts} alt="" />
         </div>
 
         <p className="food-item-desc">{description}</p>
 
         <div className="food-item-footer">
-          <p className="food-item-price">Rs.{price}</p>
+          <div className="food-item-price-container">
+            <span className="food-item-price">
+              Rs.{price.small} - Rs.{price.large}
+            </span>
+          </div>
 
           <div className="add-to-cart">
             <button onClick={() => setShowItem(true)}>Add to Cart</button>
@@ -35,7 +39,6 @@ const FoodItem = ({ id, name, price, description, image }) => {
       </div>
       {showItem && (
         <FoodItemPopup
-          
           setShowItem={setShowItem}
           id={id}
           image={image}

@@ -6,32 +6,68 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItem] = useState({});
 
- const getTotalPrice = () => {
-   return Object.entries(cartItems).reduce((total, [itemId, count]) => {
-     const item = food_list.find((food) => food._id === itemId); // Use _id here
-     return total + (item?.price || 0) * count;
-   }, 0);
- };
+const getTotalPrice = () => {
+  return Object.entries(cartItems).reduce((total, [compositeKey, count]) => {
+    const [itemId, size] = compositeKey.split("|");
+    const item = food_list.find((food) => food._id === itemId);
+
+    if (item) {
+      const sizePrice = item.price[size] || 0; // Directly access the size-specific price
+      total += sizePrice * count;
+    }
+
+    return total;
+  }, 0);
+};
 
 
   const getTotalItems = () => {
     return Object.values(cartItems).reduce((total, count) => total + count, 0);
   };
 
-  const addToCart = (itemId, quantity = 1) => {
-    if (!cartItems[itemId]) {
-      setCartItem((prev) => ({ ...prev, [itemId]: quantity })); 
-    } else {
-      setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] + quantity })); 
+
+ const addToCart = (itemId, size, quantity = 1) => {
+   const compositeKey = `${itemId}|${size}`; // Unique identifier for each size
+
+   if (!cartItems[compositeKey]) {
+     setCartItem((prev) => ({ ...prev, [compositeKey]: quantity }));
+   } else {
+     setCartItem((prev) => ({
+       ...prev,
+       [compositeKey]: prev[compositeKey] + quantity,
+     }));
+   }
+ };
+  const removeFromCart = (itemId, size) => {
+    const compositeKey = `${itemId}|${size}`; // Unique identifier for each size
+
+    if (cartItems[compositeKey]) {
+      const updatedCart = { ...cartItems };
+      const updatedQuantity = updatedCart[compositeKey] - 1;
+
+      if (updatedQuantity <= 0) {
+        delete updatedCart[compositeKey]; // Remove the item completely if quantity is 0
+      } else {
+        updatedCart[compositeKey] = updatedQuantity; // Update the quantity
+      }
+
+      setCartItem(updatedCart); // Update state with the new cart
     }
   };
-
-  const removeFromCart = (itemId) => {
-    setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
-  };
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
+useEffect(() => {
+  console.log(
+    "Cart Items:",
+    Object.entries(cartItems).map(([key, count]) => {
+      const [itemId, size] = key.split("|");
+      const item = food_list.find((food) => food._id === itemId); // Use _id here
+      return {
+        name: item?.name || "Unknown Item",
+        size,
+        quantity: count, // Include the selected quantity
+      };
+    })
+  );
+}, [cartItems]);
 
   const contextValue = {
     food_list,
