@@ -46,7 +46,7 @@
 .food-item:hover .food-item-price {
   text-overflow: clip;
   display: inline-block;
-  animation: scroll-name 8s linear infinite;
+  animation: scroll-name 12s linear infinite;
 }
 
 .food-item-name-rating img {
