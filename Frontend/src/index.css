@@ -64,7 +64,14 @@ a {
     opacity: 1;
   }
 }
-
+@keyframes moveRightToLeft {
+  0% {
+    transform: translateX(20px); 
+  }
+  100% {
+    transform: translateX(0); 
+  }
+}
 @keyframes zoomIn {
   from {
     transform: scale(0.8); /* Slightly smaller */
