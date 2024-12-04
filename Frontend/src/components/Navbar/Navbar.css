@@ -9,7 +9,7 @@ header .navbar.sticky {
   position: fixed;
   left: 0;
   top: 0;
-  background-color: var(--white);
+  background-color: #d20a2e;
   -webkit-transition: all 15ms ease-in-out;
   -moz-transition: all 15ms ease-in-out;
   -o-transition: all 15ms ease-in-out;
@@ -75,7 +75,7 @@ header .sticky .cart:hover i,
 header .sticky .cart:hover .cart-price,
 header .sticky .navbar-profile .profile-username-container li:hover i,
 header .sticky .navbar-profile .profile-username-container li:hover span {
-  color: #ed1c24;
+  color: var(--yellow);
 }
 
 .ms-auto .cart {
@@ -119,14 +119,34 @@ header .sticky .navbar-profile .profile-username-container li:hover span {
   margin-left: 20px;
   top: -5px;
   font-family: var(--oswald-font);
+  font-weight: 500;
   right: -50px;
+}
+
+.sticky .ms-auto .sign-in-button,
+.sticky .ms-auto .sign-up-button {
+  background-color: #fff;
+  color: black;
+}
+.sticky .ms-auto .sign-in-button:hover,
+.sticky .ms-auto .sign-up-button:hover {
+  background-color: var(--yellow);
 }
 header .sticky a,
 header .sticky .cart i,
 header .sticky .cart .cart-price,
 header .sticky .navbar-profile .profile-username-container li i,
 header .sticky .navbar-profile .profile-username-container li span {
-  color: var(--light-black);
+  color: #fff;
+}
+
+header .sticky .cart .cart-count {
+  background-color: #fff;
+  color: black;
+}
+
+header .sticky .cart:hover .cart-count {
+  background-color: var(--yellow);
 }
 
 .navbar-profile {
@@ -196,7 +216,7 @@ header .sticky .navbar-profile .profile-username-container li span {
   font-size: 20px;
 }
 .nav-profile-dropdown li:hover i,
-.nav-profile-dropdown li:hover span{
+.nav-profile-dropdown li:hover span {
   color: #ed1c24;
 }
 @media (max-width: 992px) {
