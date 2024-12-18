@@ -1,10 +1,13 @@
 package com.pizzadelivery.pizza_backend.service;
 
 import com.pizzadelivery.pizza_backend.model.User;
+import com.pizzadelivery.pizza_backend.model.AuthResponse;
 import com.pizzadelivery.pizza_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -12,26 +15,30 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    // Check if email is already taken
-    public boolean isEmailTaken(String email) {
-        return userRepository.findByEmail(email) != null; // Returns true if email exists
-    }
-
-    // Sign Up
-    public User signUp(User user) {
-        // Encrypt the password before saving
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-    // Sign In
-    public boolean signIn(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            return false;
+    public AuthResponse registerUser(User user) {
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent()) {
+            return new AuthResponse(null, "Email already exists", false);
         }
-        return passwordEncoder.matches(password, user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return new AuthResponse(null, "Registration successful", true);
+    }
+
+    public AuthResponse loginUser(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
+            String token = generateToken(user.get()); // Replace with actual JWT generation logic
+            return new AuthResponse(token, "Login successful", true);
+        }
+        return new AuthResponse(null, "Invalid email or password", false);
+    }
+
+    private String generateToken(User user) {
+        // Implement JWT token generation logic here
+        return "dummy-jwt-token";
     }
 }
