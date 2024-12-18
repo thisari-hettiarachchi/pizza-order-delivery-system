@@ -19,7 +19,7 @@ const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/Backend/${endpoint}`,
+        `http://localhost:8080/api/auth/${endpoint}`,
         {
           method: "POST",
           headers: {
@@ -31,7 +31,7 @@ const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
 
       const data = await response.json();
 
-      console.log("Response from servlet:", data);
+      console.log("Response from backend:", data);
 
       if (response.ok) {
         if (formType === "Sign Up") {
@@ -60,6 +60,7 @@ const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
       toast.error("Error connecting to the server."); // Show toast for server error
     }
   };
+
 
   return (
     <div className="login-popup">
