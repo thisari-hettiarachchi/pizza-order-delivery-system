@@ -44,15 +44,23 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
 
         // Check if the user exists and the password matches
-        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
-            // Generate JWT token using email
-            String token = jwtUtil.generateToken(user.get().getEmail());
+        if (user.isPresent()) {
 
-            // Return a successful login response with the token
-            return new AuthResponse(token, "Login successful", true);
+            if (passwordEncoder.matches(password, user.get().getPassword())){
+                // Generate JWT token using email
+                String token = jwtUtil.generateToken(user.get().getEmail());
+
+                // Return a successful login response with the token
+                return new AuthResponse(token, "Login successful", true);
+            }else {
+                return new AuthResponse(null, "Invalid password", false);
+            }
+
+        } else {
+
+            // Return an error response if login fails
+            return new AuthResponse(null, "Invalid email", false);
         }
 
-        // Return an error response if login fails
-        return new AuthResponse(null, "Invalid email or password", false);
     }
 }
