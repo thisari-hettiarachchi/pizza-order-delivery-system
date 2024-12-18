@@ -15,11 +15,11 @@ public class AuthController {
 
     @PostMapping("/signup")
     public AuthResponse registerUser(@RequestBody User user) {
-        return userService.registerUser(user);
+        return userService.userRegister(user);
     }
 
     @PostMapping("/signin")
     public AuthResponse loginUser(@RequestParam String email, @RequestParam String password) {
-        return userService.loginUser(email, password);
+        return userService.userLogin(email, password);
     }
 }
