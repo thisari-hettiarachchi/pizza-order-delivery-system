@@ -5,6 +5,7 @@ import com.pizzadelivery.pizza_backend.model.AuthResponse;
 import com.pizzadelivery.pizza_backend.repository.UserRepository;
 import com.pizzadelivery.pizza_backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class UserService {
         // Check if the email already exists
         Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser.isPresent()) {
-            return new AuthResponse(null, "Email already exists", false);
+            return new AuthResponse(null, null, "Email already exists", false);
         }
 
         // Encode the password before saving
@@ -35,7 +36,7 @@ public class UserService {
         userRepository.save(user);
 
         // Return a successful response
-        return new AuthResponse(null, "Registration successful", true);
+        return new AuthResponse(null, user.getUserName(), "Registration successful", true);
     }
 
     // User Login
@@ -51,15 +52,15 @@ public class UserService {
                 String token = jwtUtil.generateToken(user.get().getEmail());
 
                 // Return a successful login response with the token
-                return new AuthResponse(token, "Login successful", true);
+                return new AuthResponse(token, user.get().getUserName(), "Login successful", true);
             }else {
-                return new AuthResponse(null, "Invalid password", false);
+                return new AuthResponse(null, null, "Invalid password", false);
             }
 
         } else {
 
             // Return an error response if login fails
-            return new AuthResponse(null, "Invalid email", false);
+            return new AuthResponse(null, null, "Invalid email", false);
         }
 
     }
