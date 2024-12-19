@@ -17,9 +17,28 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/signup")
-    public AuthResponse registerUser(@RequestBody User user) {
-        return userService.userRegister(user);
+    public ResponseEntity<AuthResponse> registerUser(@RequestBody User user) {
+        AuthResponse response = userService.userRegister(user);
+
+        if (response.isSuccess()) {
+            // User successfully registered, return CREATED status
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        } else if ("Email already exists".equals(response.getMessage())) {
+            // Conflict if email already exists
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+
+        } else if ("Username already exists".equals(response.getMessage())) {
+            // Conflict if username already exists
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+
+        } else {
+            // Return BAD_REQUEST for any other errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
+
+
 
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest loginRequest) {
