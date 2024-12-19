@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
 
 const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const formData = {
-      userName: e.target.userName?.value || "",
+      userName: formType === "Sign Up" ? e.target.userName?.value || "" : null,
       email: e.target.email.value,
       password: e.target.password.value,
     };
@@ -35,32 +38,26 @@ const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
 
       if (response.ok) {
         if (formType === "Sign Up") {
-          // Sign-up success
-          toast.success("Sign Up Successful. Please log in to continue."); // Show toast for sign-up success
-          setFormType("Login"); // Switch to login form
+          toast.success("Sign Up Successful. Please log in to continue.");
+          setFormType("Login");
         } else if (formType === "Login") {
-          // Login success
-          localStorage.setItem("token", data.token); // Store token
-          localStorage.setItem("userName", data.userName); // Store user name
-          console.log("Login successful!");
-
-          // Update login state in the parent component
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("userName", data.userName);
           setIsLoggedIn(true);
-
-          // Close the login popup
           setShowLogin(false);
-          toast.success("Login Successful!"); // Show toast for login success
+          toast.success("Login Successful!");
         }
       } else {
-        console.log("Error:", data.error);
-        toast.error(formType + " failed. " + data.error); // Show toast for failure
+        console.log("Error:", data.message);
+        toast.error(`${formType} failed. ${data.message}`);
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("Error connecting to the server."); // Show toast for server error
+      toast.error("Error connecting to the server.");
+    } finally {
+      setLoading(false); // Stop processing
     }
   };
-
 
   return (
     <div className="login-popup">
@@ -97,13 +94,19 @@ const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
           />
         </div>
 
-        <button type="submit">
-          {formType === "Sign Up" ? "Create account" : "Login"}
+        <button type="submit" disabled={loading}>
+          {loading
+            ? "Processing..."
+            : formType === "Sign Up"
+            ? "Create account"
+            : "Login"}
         </button>
+
         <div className="login-popup-condition">
           <input type="checkbox" required />
           <p>By Continuing, I agree to the terms of use & privacy policy</p>
         </div>
+
         {formType === "Login" ? (
           <p>
             Create a new account?{" "}
