@@ -5,7 +5,6 @@ import com.pizzadelivery.pizza_backend.model.AuthResponse;
 import com.pizzadelivery.pizza_backend.repository.UserRepository;
 import com.pizzadelivery.pizza_backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +24,13 @@ public class UserService {
 
     // User Registration
     public AuthResponse userRegister(User user) {
-        // Check if the email already exists
-        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail())
+                .or(() -> userRepository.findByUserName(user.getUserName()));
+
         if (existingUser.isPresent()) {
-            return new AuthResponse(null, null, "Email already exists", false);
+            String errorMessage = existingUser.get().getEmail().equals(user.getEmail()) ? "Email already exists" : "Username already exists";
+            return new AuthResponse(null, null, errorMessage, false);
         }
 
         // Encode the password before saving
