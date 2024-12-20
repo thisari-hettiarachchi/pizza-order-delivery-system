@@ -1,4 +1,4 @@
-package com.pizzadelivery.pizza_backend.test;
+package com.pizzadelivery.pizza_backend.testapi;
 
 import org.springframework.web.bind.annotation.*;
 
