@@ -1,12 +1,87 @@
-import React from 'react'
-import './Cart.css'
+import React, { useContext } from "react";
+import { StoreContext } from "../../Context/StoreContext";
+import "./cart.css";
 
-const Cart = () => {
+export default function Cart() {
+  const { food_list, cartItems, removeFromCart, getTotalPrice } = useContext(StoreContext);
+
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <div className="Cart">
+      <div className="cart-item">
+        <div className="cart-item-title">
+          <p>Image</p>
+          <p>Title</p>
+          <p>Size</p>
+          <p>Price</p>
+          <p>Quantity</p>
+          <p>Total</p>
+          <p>Remove</p>
+        </div>
+        <br />
+        <hr />
 
-export default Cart
+        {Object.entries(cartItems).map(([compositeKey, quantity]) => {
+          const [itemId, size] = compositeKey.split("|");
+          const item = food_list.find((food) => food._id === itemId);
+
+          if (item && quantity > 0) {
+            const sizePrice = item.price[size] || 0; // Size-specific price
+            return (
+              <div key={compositeKey}>
+                <div className="cart-item-title cart-items-item">
+                  <img src={item.image} alt={item.name} />
+                  <p>{item.name}</p>
+                  <p>{size}</p>
+                  <p>RS {sizePrice}</p>
+                  <p>{quantity}</p>
+                  <p>RS {sizePrice * quantity}</p>
+                  <p
+                    onClick={() => removeFromCart(itemId, size)}
+                    className="cross"
+                  >
+                    x
+                  </p>
+                </div>
+                <hr />
+              </div>
+            );
+          }
+          return null; // Skip items with no quantity
+        })}
+      </div>
+      <div className="cart-bottom">
+        <div className="cart-total">
+          <h2>Cart Total</h2>
+          <div>
+            <div className="cart-total-details">
+              <p>Subtotal</p>
+              <p>RS {getTotalPrice()}</p>
+            </div>
+            <hr />
+            <div className="cart-total-details">
+              <p>Delivery Fee</p>
+              <p>RS 20</p>
+            </div>
+            <hr />
+            <div className="cart-total-details">
+              <b>Total</b>
+              <b>RS {getTotalPrice() + 20}</b>
+            </div>
+          </div>
+        </div>
+        <button>Proceed To Checkout</button>
+      </div>
+      <div>
+        <div className="cart-promocode">
+          <div>
+            <p>If you have a promo code, enter it here:</p>
+            <div className="cart-promeocode-input">
+              <input type="text" placeholder="promo_code" />
+              <button>Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
