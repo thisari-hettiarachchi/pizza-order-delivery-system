@@ -1,42 +1,53 @@
-import React from 'react'
-import { useContext } from 'react'
-import './cart.css'
+import React, { useContext } from "react";
+import { StoreContext } from "../../Context/StoreContext";
+import "./cart.css";
 
-export default function cart() {
-  const {Cart_Items,Foodlist,removeFromcart,getTotalcartAmount} =useContext(Storecontext);  
+export default function Cart() {
+  const { food_list, cartItems, removeFromCart, getTotalPrice } = useContext(StoreContext);
+
   return (
-    <div class="Cart">
+    <div className="Cart">
       <div className="cart-item">
         <div className="cart-item-title">
-          <p>Items</p>
+          <p>Image</p>
           <p>Title</p>
-          <p>price</p>
+          <p>Size</p>
+          <p>Price</p>
           <p>Quantity</p>
           <p>Total</p>
           <p>Remove</p>
-
         </div>
-        <br/>
-        <hr/>
-        {Foodlist.map(( item,index)=>{
-          if (Cart_Items[item_id]>0) {
-            return(
-              <div>`
-              <div className='cart-item-title cart-items-item'>
-                <img src='{item.image}' alt=""/>
-                <p>{item.name}</p>
-                <p>RS{item.price}</p>
-                <p>{Cart_Items[item_id]}</p>
-                <p>Rs{item.price*Cart_Items[item_id]}</p>
-                <p  onClick={()=>removeFromcart(item_id)}className='cross'>x</p>
+        <br />
+        <hr />
+
+        {Object.entries(cartItems).map(([compositeKey, quantity]) => {
+          const [itemId, size] = compositeKey.split("|");
+          const item = food_list.find((food) => food._id === itemId);
+
+          if (item && quantity > 0) {
+            const sizePrice = item.price[size] || 0; // Size-specific price
+            return (
+              <div key={compositeKey}>
+                <div className="cart-item-title cart-items-item">
+                  <img src={item.image} alt={item.name} />
+                  <p>{item.name}</p>
+                  <p>{size}</p>
+                  <p>RS {sizePrice}</p>
+                  <p>{quantity}</p>
+                  <p>RS {sizePrice * quantity}</p>
+                  <p
+                    onClick={() => removeFromCart(itemId, size)}
+                    className="cross"
+                  >
+                    x
+                  </p>
+                </div>
+                <hr />
               </div>
-              <hr/>
-              </div>
-            )
-            
+            );
           }
-        }
-      )}
+          return null; // Skip items with no quantity
+        })}
       </div>
       <div className="cart-bottom">
         <div className="cart-total">
@@ -44,42 +55,33 @@ export default function cart() {
           <div>
             <div className="cart-total-details">
               <p>Subtotal</p>
-
-              <p>RS{getTotalcartAmount()}</p>
+              <p>RS {getTotalPrice()}</p>
             </div>
-            <hr/>
+            <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-
-              <p>RS{20}</p>
+              <p>RS 20</p>
             </div>
-            <hr/>
+            <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>RS{getTotalcartAmount()+20}</b>
+              <b>RS {getTotalPrice() + 20}</b>
             </div>
-            
           </div>
         </div>
         <button>Proceed To Checkout</button>
-      </div> 
+      </div>
       <div>
         <div className="cart-promocode">
           <div>
-            <p>If you have promocode, Enter here,</p>
+            <p>If you have a promo code, enter it here:</p>
             <div className="cart-promeocode-input">
-              <input type='text' placeholder='promo_code'/>
+              <input type="text" placeholder="promo_code" />
               <button>Submit</button>
-
             </div>
           </div>
         </div>
       </div>
-
     </div>
-  )
+  );
 }
-
-
-    
-
