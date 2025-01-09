@@ -65,7 +65,7 @@ export default function Cart() {
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>RS {getTotalPrice() + 20}</b>
+              <b>RS {getTotalPrice() + 200}</b>
             </div>
           </div>
         </div>
