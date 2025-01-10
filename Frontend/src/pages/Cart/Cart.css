@@ -11,9 +11,11 @@ body {
  
     margin: 20px auto;
     padding: 20px;
-    background-color:#555;
+    background-color:#da52ea;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 25px;
+    margin-bottom: 25px;
     
   }
   
@@ -99,7 +101,7 @@ body {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    background-color: #28a745;
+    background-color: tomato;
     color: #fff;
     font-size: 1rem;
     cursor: pointer;
@@ -149,7 +151,7 @@ body {
   }
   
   .cart-promeocode-input button:hover {
-    background-color: #0056b3;
+    background-color: green;
   }
   
   /* Responsive Design */

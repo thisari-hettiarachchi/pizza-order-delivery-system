@@ -39,7 +39,7 @@ export default function Cart() {
                     onClick={() => removeFromCart(itemId, size)}
                     className="cross"
                   >
-                    x
+                    <button type="button" className="btn btn-outline-warning" >Remove</button>
                   </p>
                 </div>
                 <hr />
