@@ -1,4 +1,4 @@
-package com.pizzadelivery.pizza_backend.dto;
+package com.pizzadelivery.pizza_backend.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
