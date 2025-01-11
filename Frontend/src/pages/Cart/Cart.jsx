@@ -2,17 +2,11 @@ import React, { useContext } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import "./cart.css";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer,cssTransition, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "animate.css";
+import { toast } from "react-toastify";
+
 
 export default function Cart() {
 
-   const bounce = cssTransition({
-      enter: "animate__animated animate__bounceIn",
-      exit: "animate__animated animate__bounceOut",
-   });
-  
   const {
     food_list,
     cartItems,
@@ -30,16 +24,6 @@ export default function Cart() {
 
   return (
     <div className="Cart">
-      <ToastContainer
-              stacked
-              transition={bounce}
-              limit={3}
-              style={{
-                width: "300px",
-                height: "50px",
-                fontSize: "16px",
-              }}
-            />
       <div className="cart-items">
         <div className="cart-items-title">
           <p>Image</p>
