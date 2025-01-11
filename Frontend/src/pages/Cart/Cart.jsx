@@ -3,12 +3,18 @@ import { StoreContext } from "../../Context/StoreContext";
 import "./cart.css";
 
 export default function Cart() {
-  const { food_list, cartItems, removeFromCart, getTotalPrice,lastTotalprice } = useContext(StoreContext);
+  const {
+    food_list,
+    cartItems,
+    removeFromCart,
+    getTotalPrice,
+    lastTotalprice,
+  } = useContext(StoreContext);
 
   return (
     <div className="Cart">
-      <div className="cart-item">
-        <div className="cart-item-title">
+      <div className="cart-items">
+        <div className="cart-items-title">
           <p>Image</p>
           <p>Title</p>
           <p>Size</p>
@@ -25,10 +31,10 @@ export default function Cart() {
           const item = food_list.find((food) => food._id === itemId);
 
           if (item && quantity > 0) {
-            const sizePrice = item.price[size] || 0; // Size-specific price
+            const sizePrice = item.price[size] || 0;
             return (
               <div key={compositeKey}>
-                <div className="cart-item-title cart-items-item">
+                <div className="cart-items-title cart-items-item">
                   <img src={item.image} alt={item.name} />
                   <p>{item.name}</p>
                   <p>{size}</p>
@@ -39,14 +45,16 @@ export default function Cart() {
                     onClick={() => removeFromCart(itemId, size)}
                     className="cross"
                   >
-                    <button type="button" className="btn btn-outline-warning" >Remove</button>
+                    <button type="button" className="btn btn-outline-warning">
+                      Remove
+                    </button>
                   </p>
                 </div>
                 <hr />
               </div>
             );
           }
-          return null; // Skip items with no quantity
+          return null;
         })}
       </div>
       <div className="cart-bottom">
@@ -65,23 +73,22 @@ export default function Cart() {
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>RS {lastTotalprice() }</b>
+              <b>RS {lastTotalprice()}</b>
             </div>
           </div>
+          <button className="proceed-btn">Proceed To Checkout</button>
         </div>
-        <button className="proceed-btn">Proceed To Checkout</button>
-      </div>
-      <div>
         <div className="cart-promocode">
           <div>
             <p>If you have a promo code, enter it here:</p>
-            <div className="cart-promeocode-input">
+            <div className="cart-promocode-input">
               <input type="text" placeholder="promo_code" />
               <button className="submit.btn">Submit</button>
             </div>
           </div>
         </div>
       </div>
+      <div></div>
     </div>
   );
 }

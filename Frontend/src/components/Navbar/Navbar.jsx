@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
@@ -13,6 +13,10 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   const totalItems = getTotalItems();
+
+  const location = useLocation();
+
+  const isCartPage = location.pathname === "/cart";
 
   // Add scroll listener
   useEffect(() => {
@@ -65,7 +69,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
         <Navbar
           collapseOnSelect
           expand="lg"
-          className={`${nav ? "sticky" : ""}`}
+          className={`${nav || isCartPage ? "sticky" : ""}`}
         >
           <Container>
             <Navbar.Brand>
