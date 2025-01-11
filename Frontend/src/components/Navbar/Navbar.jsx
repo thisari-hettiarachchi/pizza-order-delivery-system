@@ -15,8 +15,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
   const totalItems = getTotalItems();
 
   const location = useLocation();
-
-  const isCartPage = location.pathname === "/cart";
+  const isNotHomePage = location.pathname !== "/";
 
   // Add scroll listener
   useEffect(() => {
@@ -69,7 +68,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
         <Navbar
           collapseOnSelect
           expand="lg"
-          className={`${nav || isCartPage ? "sticky" : ""}`}
+          className={`${nav || isNotHomePage ? "sticky" : ""}`}
         >
           <Container>
             <Navbar.Brand>
@@ -83,9 +82,9 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
                 <Link to="/" onClick={scrollTop}>
                   Home
                 </Link>
-                <a href="#explore-menu">Menu</a>
-                <a href="#app-download">Mobile-app</a>
-                <a href="#contact-us">Contact-us</a>
+                <Link to="/#explore-menu">Menu</Link>
+                <Link to="/#app-download">Mobile-app</Link>
+                <Link to="/#contact-us">Contact-us</Link>
                 <Nav.Link as={Link} to="/cart">
                   <div className="cart">
                     <i className="bi bi-bag"></i>
