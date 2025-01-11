@@ -1,7 +1,7 @@
 package com.pizzadelivery.pizza_backend.service;
 
 import com.pizzadelivery.pizza_backend.model.User;
-import com.pizzadelivery.pizza_backend.model.AuthResponse;
+import com.pizzadelivery.pizza_backend.dto.response.AuthResponse;
 import com.pizzadelivery.pizza_backend.repository.UserRepository;
 import com.pizzadelivery.pizza_backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;

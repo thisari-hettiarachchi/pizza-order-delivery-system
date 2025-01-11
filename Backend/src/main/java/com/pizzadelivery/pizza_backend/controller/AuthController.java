@@ -1,8 +1,8 @@
 package com.pizzadelivery.pizza_backend.controller;
 
-import com.pizzadelivery.pizza_backend.dto.LoginRequest;
+import com.pizzadelivery.pizza_backend.dto.request.LoginRequest;
 import com.pizzadelivery.pizza_backend.model.User;
-import com.pizzadelivery.pizza_backend.model.AuthResponse;
+import com.pizzadelivery.pizza_backend.dto.response.AuthResponse;
 import com.pizzadelivery.pizza_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

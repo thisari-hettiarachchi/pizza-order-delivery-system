@@ -1,4 +1,4 @@
-package com.pizzadelivery.pizza_backend.model;
+package com.pizzadelivery.pizza_backend.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
