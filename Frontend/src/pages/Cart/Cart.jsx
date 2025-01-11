@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import "./cart.css";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Cart() {
   const {
@@ -10,6 +12,13 @@ export default function Cart() {
     getTotalPrice,
     lastTotalprice,
   } = useContext(StoreContext);
+
+  const navigate = useNavigate();
+
+  const totalItems = Object.values(cartItems).reduce(
+    (acc, quantity) => acc + quantity,
+    0
+  );
 
   return (
     <div className="Cart">
@@ -76,7 +85,16 @@ export default function Cart() {
               <b>RS {lastTotalprice()}</b>
             </div>
           </div>
-          <button className="proceed-btn">Proceed To Checkout</button>
+          <button
+            onClick={() =>
+              totalItems === 0
+                ? toast.warn("Your cart is empty. Add items to proceed!")
+                : navigate("/order")
+            }
+            className={`proceed-btn ${totalItems === 0 ? "disabled" : ""}`}
+          >
+            Proceed To Checkout
+          </button>
         </div>
         <div className="cart-promocode">
           <div>
@@ -88,7 +106,6 @@ export default function Cart() {
           </div>
         </div>
       </div>
-      <div></div>
     </div>
   );
 }

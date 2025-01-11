@@ -12,7 +12,7 @@ const getTotalPrice = () => {
     const item = food_list.find((food) => food._id === itemId);
 
     if (item) {
-      const sizePrice = item.price[size] || 0; // Directly access the size-specific price
+      const sizePrice = item.price[size] || 0;
       total += sizePrice * count;
     }
 
