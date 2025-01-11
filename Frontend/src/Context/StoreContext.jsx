@@ -18,7 +18,15 @@ const getTotalPrice = () => {
 
     return total;
   }, 0);
+
 };
+
+  const lastTotalprice = () => {
+    const deliveryFee = 200;
+    const subtotal = getTotalPrice();
+    return subtotal > 0 ? subtotal + deliveryFee : 0;
+  };
+
 
 
   const getTotalItems = () => {
@@ -77,6 +85,8 @@ useEffect(() => {
     removeFromCart,
     getTotalItems,
     getTotalPrice,
+    lastTotalprice,
+
   };
 
   return (
