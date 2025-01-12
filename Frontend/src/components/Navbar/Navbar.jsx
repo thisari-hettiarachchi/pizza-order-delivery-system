@@ -17,7 +17,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
   const location = useLocation();
   const isNotHomePage = location.pathname !== "/";
 
-  // Add scroll listener
+  
   useEffect(() => {
     const changeValueOnScroll = () => {
       const scrollValue = document?.documentElement?.scrollTop || 0;

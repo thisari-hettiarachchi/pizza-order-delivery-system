@@ -14,7 +14,7 @@ const FoodItemPopup = ({
   description,
   price,
 }) => {
-  const { addToCart } = useContext(StoreContext);
+  const { addToCart, url } = useContext(StoreContext);
   const [localCount, setLocalCount] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const selectedPrice = price[selectedSize];
@@ -34,7 +34,11 @@ const FoodItemPopup = ({
   };
   return (
     <div className="food_item_container">
-      <img src={image} alt={name} className="food_item_image" />
+      <img
+        src={url + "/api/food/image/" + image}
+        alt={name}
+        className="food_item_image"
+      />
       <div className="food_item_details">
         <h1>{name}</h1>
         {selectedSize ? (

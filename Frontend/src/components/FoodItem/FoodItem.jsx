@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { assets } from "../../assets/assets";
 import FoodItemPopup from "../FoodItemPopup/FoodItemPopup";
 import "./FoodItem.css";
+import { StoreContext } from "../../Context/StoreContext";
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const [showItem, setShowItem] = useState(false);
-
+  const { url } = useContext(StoreContext);
   return (
     <div className="food-item">
       <div className="food-item-img-container">
         <img
           className="food-item-image"
-          src={image}
+          src={url + "/api/food/image/" + image}
           alt=""
           onClick={() => setShowItem(true)}
         />
