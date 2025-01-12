@@ -79,7 +79,9 @@ export default function Cart() {
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-              <p>RS 200</p>
+              <p>
+                <p>Rs{getTotalPrice() === 0 ? 0 : 200}</p>
+              </p>
             </div>
             <hr />
             <div className="cart-total-details">
