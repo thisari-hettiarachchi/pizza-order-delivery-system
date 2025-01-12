@@ -8,11 +8,12 @@ import { toast } from "react-toastify";
 export default function Cart() {
 
   const {
-    food_list,
+    foodList,
     cartItems,
     removeFromCart,
     getTotalPrice,
-    lastTotalprice,
+    lastTotalPrice,
+    url
   } = useContext(StoreContext);
 
   const navigate = useNavigate();
@@ -39,19 +40,22 @@ export default function Cart() {
 
         {Object.entries(cartItems).map(([compositeKey, quantity]) => {
           const [itemId, size] = compositeKey.split("|");
-          const item = food_list.find((food) => food._id === itemId);
+          const item = foodList.find((food) => food.id === itemId);
 
           if (item && quantity > 0) {
             const sizePrice = item.price[size] || 0;
             return (
               <div key={compositeKey}>
                 <div className="cart-items-title cart-items-item">
-                  <img src={item.image} alt={item.name} />
+                  <img
+                    src={url + "/api/food/image/" + item.image}
+                    alt={item.name}
+                  />
                   <p>{item.name}</p>
                   <p>{size}</p>
-                  <p>RS {sizePrice}</p>
+                  <p>RS.{sizePrice}</p>
                   <p>{quantity}</p>
-                  <p>RS {sizePrice * quantity}</p>
+                  <p>RS.{sizePrice * quantity}</p>
                   <p
                     onClick={() => removeFromCart(itemId, size)}
                     className="cross"
@@ -74,19 +78,19 @@ export default function Cart() {
           <div>
             <div className="cart-total-details">
               <p>Subtotal</p>
-              <p>RS {getTotalPrice()}</p>
+              <p>RS.{getTotalPrice()}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
               <p>
-                <p>Rs{getTotalPrice() === 0 ? 0 : 200}</p>
+                <p>RS.{getTotalPrice() === 0 ? 0 : 200}</p>
               </p>
             </div>
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>RS {lastTotalprice()}</b>
+              <b>RS.{lastTotalPrice()}</b>
             </div>
           </div>
           <button
