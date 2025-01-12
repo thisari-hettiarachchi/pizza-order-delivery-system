@@ -85,7 +85,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
                 <Link to="/#explore-menu">Menu</Link>
                 <Link to="/#app-download">Mobile-app</Link>
                 <Link to="/#contact-us">Contact-us</Link>
-                <Nav.Link as={Link} to="/cart">
+                <Link to="/cart" onClick={scrollTop}>
                   <div className="cart">
                     <i className="bi bi-bag"></i>
                     {totalItems > 0 && (
@@ -95,7 +95,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
                       Rs.{getTotalPrice().toFixed(2)}
                     </span>
                   </div>
-                </Nav.Link>
+                </Link>
 
                 {!isLoggedIn ? (
                   <>
