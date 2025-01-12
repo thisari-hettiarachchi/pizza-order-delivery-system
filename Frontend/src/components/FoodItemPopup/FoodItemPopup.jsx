@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import "./FoodItemPopup.css";
 import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
-import FlyingButton from "react-flying-item";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,7 +22,8 @@ const FoodItemPopup = ({
     if (localCount > 0 && selectedSize) {
       addToCart(id, selectedSize, localCount);
       setLocalCount(0);
-      setSelectedSize(""); // Reset size after adding to cart
+      setSelectedSize("");
+      toast.success(name+" add to cart successfully")// Reset size after adding to cart
     } else if (localCount === 0 && selectedSize === "") {
       toast.error("Please select a size and quantity before adding to cart");
     } else if (localCount === 0) {
@@ -99,7 +99,7 @@ const FoodItemPopup = ({
           </div>
         </div>
         <div className="add_to_cart">
-          <FlyingButton
+          <button
             src={image}
             targetTop={"5%"}
             targetLeft={"75%"}
@@ -112,7 +112,7 @@ const FoodItemPopup = ({
             >
               Add to Cart
             </div>
-          </FlyingButton>
+          </button>
         </div>
       </div>
       <i class="bi bi-x close_icon" onClick={() => setShowItem(false)} />
