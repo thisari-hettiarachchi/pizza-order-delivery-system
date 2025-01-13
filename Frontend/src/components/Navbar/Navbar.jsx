@@ -7,13 +7,12 @@ import { toast } from "react-toastify";
 import "./Navbar.css";
 
 const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
-  const { getTotalItems, getTotalPrice } = useContext(StoreContext);
+  const { getTotalItems, getTotalPrice, setCartItem } =
+    useContext(StoreContext);
   const [nav, setNav] = useState(false);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
-
   const totalItems = getTotalItems();
-
   const location = useLocation();
   const isNotHomePage = location.pathname !== "/";
 
@@ -52,6 +51,10 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
     // Clear user-related data
     localStorage.clear(); // Clears all localStorage data related to the user
     sessionStorage.clear(); // Optional: Clears sessionStorage if used
+
+     localStorage.removeItem("userName");
+     setCartItem([]); // Clear cart state
+     console.log("User logged out and cart cleared");
 
     // Update the application state
     setUserName("");

@@ -3,9 +3,68 @@ import { createContext, useEffect, useState } from "react";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const [cartItems, setCartItem] = useState({});
+  const [cartItems, setCartItem] = useState([]);
   const [foodList, setFoodList] = useState([]);
+  const userName = localStorage.getItem("userName");
   const url = "http://localhost:8080";
+
+  //Fetch Cart Item
+  const fetchCartItems = async () => {
+    try {
+      const response = await fetch(`${url}/api/cart/getcart/${userName}`);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch cart items: ${response.status} ${response.statusText}`
+        );
+      }
+      const cartData = await response.json();
+
+      // Convert fetched cart data into the expected structure
+      const formattedCartData = {};
+      cartData.forEach((item) => {
+        const compositeKey = `${item.itemId}|${item.size}`;
+        formattedCartData[compositeKey] = item.quantity;
+      });
+
+      setCartItem(formattedCartData);
+      console.log("Fetched and formatted cart data:", formattedCartData);
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      setCartItem([]); // Clear cart items on error
+    }
+  };
+
+  useEffect(() => {
+    if (!userName) {
+      console.warn("No userName found in localStorage");
+      return;
+    }
+    fetchCartItems();
+  }, [userName]);
+
+  useEffect(() => {
+    if (!cartItems.length || !foodList.length) return;
+
+    const cartDetails = Object.entries(cartItems)
+      .map(([key, count]) => {
+        const [itemId, size] = key.split("|");
+        const item = foodList.find((food) => food.id === itemId);
+
+        if (!item) {
+          console.warn(`Food item with ID ${itemId} not found in foodList.`);
+          return null; // Handle missing items gracefully
+        }
+
+        return {
+          name: item.name,
+          size,
+          quantity: count,
+        };
+      })
+      .filter(Boolean); // Filter out null values
+
+    console.log("Mapped Cart Items:", cartDetails);
+  }, [cartItems, foodList]);
 
   // Fetch food list from the API
   const fetchFoodList = async () => {
@@ -25,27 +84,49 @@ const StoreContextProvider = (props) => {
   };
 
   useEffect(() => {
-    console.log(foodList); // This will log the updated foodList after it changes
-  }, [foodList]);
-
-  useEffect(() => {
     async function loadData() {
       await fetchFoodList();
     }
     loadData();
   }, []);
 
+  // useEffect(() => {
+  //   if (foodList.length === 0) return; // Ensure foodList is populated
+
+  //   console.log(
+  //     "Cart Items:",
+  //     Object.entries(cartItems).map(([key, count]) => {
+  //       const [itemId, size] = key.split("|");
+  //       const item = foodList.find((food) => food.id === itemId);
+
+  //       if (!item) {
+  //         console.warn(`Food item with ID ${itemId} not found in foodList.`);
+  //       }
+
+  //       return {
+  //         name: item?.name,
+  //         size,
+  //         quantity: count,
+  //       };
+  //     })
+  //   );
+  // }, [cartItems, foodList]);
+
+  // Calculate the total price of the items in the cart
   // Calculate the total price of the items in the cart
   const getTotalPrice = () => {
+    if (!cartItems || !foodList) return 0; // Ensure valid data
     return Object.entries(cartItems).reduce((total, [compositeKey, count]) => {
       const [itemId, size] = compositeKey.split("|");
       const item = foodList.find((food) => food.id === itemId);
 
-      if (item) {
-        const sizePrice = item.price[size] || 0;
-        total += sizePrice * count;
+      if (item && item.price[size]) {
+        const sizePrice = item.price[size]; // Fetch the price for the specific size
+        total += sizePrice * count; // Add the item's total price to the total
       } else {
-        console.warn(`Food item with ID ${itemId} not found in foodList.`);
+        console.warn(
+          `Item with ID: ${itemId} or size: ${size} not found in foodList or missing price.`
+        );
       }
 
       return total;
@@ -54,30 +135,17 @@ const StoreContextProvider = (props) => {
 
   // Calculate the final total price including delivery fee
   const lastTotalPrice = () => {
-    const deliveryFee = 200;
-    const subtotal = getTotalPrice();
-    return subtotal > 0 ? subtotal + deliveryFee : 0;
+    const deliveryFee = 200; // Fixed delivery fee
+    const subtotal = getTotalPrice(); // Subtotal from cart items
+    return subtotal > 0 ? subtotal + deliveryFee : 0; // Add delivery fee only if subtotal is greater than 0
   };
 
   // Get the total number of items in the cart
   const getTotalItems = () => {
-    return Object.values(cartItems).reduce((total, count) => total + count, 0);
-  };
-
-  // Add item to the cart
-  const addToCart = (itemId, size, quantity = 1) => {
-    console.log("Adding to cart:", itemId, size); // Debugging log
-
-    if (!itemId || !size) {
-      console.warn("Invalid itemId or size:", itemId, size);
-      return;
-    }
-
-    const compositeKey = `${itemId}|${size}`;
-    setCartItem((prev) => ({
-      ...prev,
-      [compositeKey]: (prev[compositeKey] || 0) + quantity,
-    }));
+    if (!cartItems) return 0; // Ensure cartItems is valid
+    return Object.values(cartItems)
+      .map(Number) // Convert each value to a number
+      .reduce((total, count) => total + count, 0); // Sum all quantities
   };
 
   // Remove item from the cart
@@ -99,36 +167,16 @@ const StoreContextProvider = (props) => {
   };
 
   // Log cart items when they change
-  useEffect(() => {
-    if (foodList.length === 0) return; // Ensure foodList is populated
-
-    console.log(
-      "Cart Items:",
-      Object.entries(cartItems).map(([key, count]) => {
-        const [itemId, size] = key.split("|");
-        const item = foodList.find((food) => food.id === itemId);
-
-        if (!item) {
-          console.warn(`Food item with ID ${itemId} not found in foodList.`);
-        }
-
-        return {
-          name: item?.name,
-          size,
-          quantity: count,
-        };
-      })
-    );
-  }, [cartItems, foodList]);
 
   const contextValue = {
     foodList,
     cartItems,
-    addToCart,
     removeFromCart,
     getTotalItems,
     getTotalPrice,
     lastTotalPrice,
+    fetchCartItems,
+    setCartItem,
     url,
   };
 
