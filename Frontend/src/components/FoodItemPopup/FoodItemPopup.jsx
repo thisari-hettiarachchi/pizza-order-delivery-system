@@ -14,14 +14,14 @@ const FoodItemPopup = ({
   description,
   price,
 }) => {
-  const { addToCart, url } = useContext(StoreContext);
+  const { url } = useContext(StoreContext);
   const [localCount, setLocalCount] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const selectedPrice = selectedSize ? price[selectedSize] : null;
   const token = localStorage.getItem("token");
   const userName = localStorage.getItem("userName");
 
-  const sendCartData = async () => {
+  const addToCart = async () => {
     if (localCount > 0 && selectedSize) {
       try {
         const cartItem = {
@@ -34,7 +34,7 @@ const FoodItemPopup = ({
         };
 
         await axios.post("http://localhost:8080/api/cart/addtocart", cartItem);
-        toast.success("Item added to cart!");
+        toast.success(name + " added to cart!");
       } catch (error) {
         console.error("Error adding item to cart:", error);
         toast.error("Failed to add item to cart.");
@@ -43,17 +43,20 @@ const FoodItemPopup = ({
   };
 
   const handleBuy = () => {
-    if (localCount > 0 && selectedSize) {
-      sendCartData(); // Send cart data after adding to the cart
-      setLocalCount(0);
-      setSelectedSize("");
-      toast.success(name + " added to cart successfully!");
-    } else if (localCount === 0 && selectedSize === "") {
-      toast.error("Please select a size and quantity before adding to cart");
-    } else if (localCount === 0) {
-      toast.error("Please select a quantity before adding to cart");
+    if (token) {
+      if (localCount > 0 && selectedSize) {
+        addToCart(); // Send cart data after adding to the cart
+        setLocalCount(0);
+        setSelectedSize("");
+      } else if (localCount === 0 && selectedSize === "") {
+        toast.error("Please select a size and quantity before adding to cart");
+      } else if (localCount === 0) {
+        toast.error("Please select a quantity before adding to cart");
+      } else {
+        toast.error("Please select a size before adding to cart");
+      }
     } else {
-      toast.error("Please select a size before adding to cart");
+      toast.error("You need Sign in to add item to cart");
     }
   };
 
