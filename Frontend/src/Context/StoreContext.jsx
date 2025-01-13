@@ -1,4 +1,6 @@
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export const StoreContext = createContext(null);
 
@@ -90,29 +92,7 @@ const StoreContextProvider = (props) => {
     loadData();
   }, []);
 
-  // useEffect(() => {
-  //   if (foodList.length === 0) return; // Ensure foodList is populated
-
-  //   console.log(
-  //     "Cart Items:",
-  //     Object.entries(cartItems).map(([key, count]) => {
-  //       const [itemId, size] = key.split("|");
-  //       const item = foodList.find((food) => food.id === itemId);
-
-  //       if (!item) {
-  //         console.warn(`Food item with ID ${itemId} not found in foodList.`);
-  //       }
-
-  //       return {
-  //         name: item?.name,
-  //         size,
-  //         quantity: count,
-  //       };
-  //     })
-  //   );
-  // }, [cartItems, foodList]);
-
-  // Calculate the total price of the items in the cart
+  
   // Calculate the total price of the items in the cart
   const getTotalPrice = () => {
     if (!cartItems || !foodList) return 0; // Ensure valid data
@@ -149,22 +129,58 @@ const StoreContextProvider = (props) => {
   };
 
   // Remove item from the cart
-  const removeFromCart = (itemId, size) => {
+  const removeFromCart = async (itemId, size) => {
     const compositeKey = `${itemId}|${size}`;
 
     if (cartItems[compositeKey]) {
-      const updatedCart = { ...cartItems };
-      const updatedQuantity = updatedCart[compositeKey] - 1;
+      const item = foodList.find((food) => food.id === itemId);
+      const quantity = cartItems[compositeKey];
+      const sizePrice = item.price[size] || 0;
 
-      if (updatedQuantity <= 0) {
-        delete updatedCart[compositeKey];
-      } else {
-        updatedCart[compositeKey] = updatedQuantity;
+      // Decrease the quantity for the item (or remove it completely if quantity is 1)
+      const updatedQuantity = quantity - 1;
+
+      // Prepare the updated cart data for the API request
+      const updatedCartItem = {
+        userName,
+        itemId,
+        itemName: item.name,
+        quantity: updatedQuantity,
+        size: size,
+        price: sizePrice,
+      };
+
+      try {
+        // Send a request to update the cart in the backend
+        const response = await axios.put(
+          `${url}/api/cart/updatecart/${userName}`,
+          updatedCartItem
+        );
+
+        if (response.status === 200) {
+          // If the request was successful, update the local cart state
+          const updatedCart = { ...cartItems };
+
+          if (updatedQuantity <= 0) {
+            delete updatedCart[compositeKey]; // Remove the item if quantity is 0
+          } else {
+            updatedCart[compositeKey] = updatedQuantity; // Update the quantity
+          }
+
+          setCartItem(updatedCart); // Update the local state
+          toast.success("Item removed from cart!");
+        } else {
+          toast.error("Failed to remove item from cart.");
+        }
+      } catch (error) {
+        console.error("Error removing item from cart:", error);
+        toast.error("Failed to remove item from cart.");
       }
-
-      setCartItem(updatedCart);
+    } else {
+      toast.error("Item not found in cart.");
     }
   };
+
 
   // Log cart items when they change
 
