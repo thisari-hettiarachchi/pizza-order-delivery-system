@@ -14,7 +14,7 @@ const FoodItemPopup = ({
   description,
   price,
 }) => {
-  const { url } = useContext(StoreContext);
+  const { url, setCartItem } = useContext(StoreContext);
   const [localCount, setLocalCount] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const selectedPrice = selectedSize ? price[selectedSize] : null;
@@ -33,14 +33,26 @@ const FoodItemPopup = ({
           price: selectedPrice,
         };
 
+        // Send the cart item to the backend
         await axios.post("http://localhost:8080/api/cart/addtocart", cartItem);
-        toast.success(name + " added to cart!");
+
+        // Update cartItems state/context dynamically
+        setCartItem((prevCartItems) => {
+          const compositeKey = `${id}|${selectedSize}`;
+          return {
+            ...prevCartItems,
+            [compositeKey]: (prevCartItems[compositeKey] || 0) + localCount,
+          };
+        });
+
+        toast.success(`${name} added to cart!`);
       } catch (error) {
         console.error("Error adding item to cart:", error);
         toast.error("Failed to add item to cart.");
       }
     }
   };
+
 
   const handleBuy = () => {
     if (token) {
