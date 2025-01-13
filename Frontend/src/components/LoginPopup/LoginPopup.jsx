@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
+import { StoreContext } from "../../Context/StoreContext";
 
 const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
   const [loading, setLoading] = useState(false);
+  const { fetchCartItems } = useContext(StoreContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +47,7 @@ const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
           localStorage.setItem("userName", data.userName);
           setIsLoggedIn(true);
           setShowLogin(false);
+          fetchCartItems();
           toast.success("Login Successful!");
         }
       } else {

@@ -3,6 +3,7 @@ import "./FoodItemPopup.css";
 import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 const FoodItemPopup = ({
@@ -16,14 +17,37 @@ const FoodItemPopup = ({
   const { addToCart, url } = useContext(StoreContext);
   const [localCount, setLocalCount] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
-  const selectedPrice = price[selectedSize];
+  const selectedPrice = selectedSize ? price[selectedSize] : null;
+  const token = localStorage.getItem("token");
+  const userName = localStorage.getItem("userName");
+
+  const sendCartData = async () => {
+    if (localCount > 0 && selectedSize) {
+      try {
+        const cartItem = {
+          userName,
+          itemId: id,
+          itemName: name,
+          quantity: localCount,
+          size: selectedSize,
+          price: selectedPrice,
+        };
+
+        await axios.post("http://localhost:8080/api/cart/addtocart", cartItem);
+        toast.success("Item added to cart!");
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+        toast.error("Failed to add item to cart.");
+      }
+    }
+  };
 
   const handleBuy = () => {
     if (localCount > 0 && selectedSize) {
-      addToCart(id, selectedSize, localCount);
+      sendCartData(); // Send cart data after adding to the cart
       setLocalCount(0);
       setSelectedSize("");
-      toast.success(name+" add to cart successfully")// Reset size after adding to cart
+      toast.success(name + " added to cart successfully!");
     } else if (localCount === 0 && selectedSize === "") {
       toast.error("Please select a size and quantity before adding to cart");
     } else if (localCount === 0) {
@@ -32,6 +56,7 @@ const FoodItemPopup = ({
       toast.error("Please select a size before adding to cart");
     }
   };
+
   return (
     <div className="food_item_container">
       <img
@@ -80,7 +105,7 @@ const FoodItemPopup = ({
           </select>
         </div>
         <div className="food_item_counter_container">
-          <div className="quantity-conatiner">
+          <div className="quantity-container">
             <span className="quantity">Select quantity</span>
           </div>
 
@@ -88,34 +113,21 @@ const FoodItemPopup = ({
             <img
               onClick={() => setLocalCount((prev) => (prev > 0 ? prev - 1 : 0))}
               src={assets.remove_icon_red}
-              alt=""
+              alt="Remove"
             />
             <span>{localCount}</span>
             <img
               onClick={() => setLocalCount((prev) => prev + 1)}
               src={assets.add_icon_green}
-              alt=""
+              alt="Add"
             />
           </div>
         </div>
         <div className="add_to_cart">
-          <button
-            src={image}
-            targetTop={"5%"}
-            targetLeft={"75%"}
-            animationDuration={"1.5"}
-          >
-            <div
-              onClick={() => {
-                handleBuy();
-              }}
-            >
-              Add to Cart
-            </div>
-          </button>
+          <button onClick={handleBuy}>Add to Cart</button>
         </div>
       </div>
-      <i class="bi bi-x close_icon" onClick={() => setShowItem(false)} />
+      <i className="bi bi-x close_icon" onClick={() => setShowItem(false)} />
     </div>
   );
 };

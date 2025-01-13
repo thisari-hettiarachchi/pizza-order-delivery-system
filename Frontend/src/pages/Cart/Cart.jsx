@@ -48,7 +48,7 @@ export default function Cart() {
               <div key={compositeKey}>
                 <div className="cart-items-title cart-items-item">
                   <img
-                    src={url + "/api/food/image/" + item.image}
+                    src={`${url}/api/food/image/${item.image}`}
                     alt={item.name}
                   />
                   <p>{item.name}</p>
@@ -56,11 +56,12 @@ export default function Cart() {
                   <p>RS.{sizePrice}</p>
                   <p>{quantity}</p>
                   <p>RS.{sizePrice * quantity}</p>
-                  <p
-                    onClick={() => removeFromCart(itemId, size)}
-                    className="cross"
-                  >
-                    <button type="button" className="btn btn-outline-warning">
+                  <p>
+                    <button
+                      type="button"
+                      className="btn btn-outline-warning"
+                      onClick={() => removeFromCart(itemId, size)}
+                    >
                       Remove
                     </button>
                   </p>

@@ -51,7 +51,7 @@ public class UserService {
 
             if (passwordEncoder.matches(password, user.get().getPassword())){
                 // Generate JWT token using email
-                String token = jwtUtil.generateToken(user.get().getEmail());
+                String token = jwtUtil.generateToken(user.get().getEmail(), user.get().getId());
 
                 // Return a successful login response with the token
                 return new AuthResponse(token, user.get().getUserName(), "Login successful", true);
