@@ -4,22 +4,20 @@ import "./cart.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
 export default function Cart() {
-
   const {
     foodList,
     cartItems,
     removeFromCart,
     getTotalPrice,
     lastTotalPrice,
-    url
+    url,
   } = useContext(StoreContext);
 
   const navigate = useNavigate();
 
   const totalItems = Object.values(cartItems).reduce(
-    (acc, quantity) => acc + quantity,
+    (acc, item) => acc + item.quantity, // Ensure quantity is used here
     0
   );
 
@@ -38,11 +36,11 @@ export default function Cart() {
         <br />
         <hr />
 
-        {Object.entries(cartItems).map(([compositeKey, quantity]) => {
+        {Object.entries(cartItems).map(([compositeKey, itemData]) => {
           const [itemId, size] = compositeKey.split("|");
           const item = foodList.find((food) => food.id === itemId);
 
-          if (item && quantity > 0) {
+          if (item && itemData.quantity > 0) {
             const sizePrice = item.price[size] || 0;
             return (
               <div key={compositeKey}>
@@ -54,8 +52,8 @@ export default function Cart() {
                   <p>{item.name}</p>
                   <p>{size}</p>
                   <p>RS.{sizePrice}</p>
-                  <p>{quantity}</p>
-                  <p>RS.{sizePrice * quantity}</p>
+                  <p>{itemData.quantity}</p>
+                  <p>RS.{sizePrice * itemData.quantity}</p>
                   <p>
                     <button
                       type="button"
@@ -73,6 +71,7 @@ export default function Cart() {
           return null;
         })}
       </div>
+
       <div className="cart-bottom">
         <div className="cart-total">
           <h2>Cart Total</h2>
@@ -105,6 +104,7 @@ export default function Cart() {
             Proceed To Checkout
           </button>
         </div>
+
         <div className="cart-promocode">
           <div>
             <p>If you have a promo code, enter it here:</p>
