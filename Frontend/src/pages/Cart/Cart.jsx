@@ -8,6 +8,7 @@ export default function Cart() {
   const {
     foodList,
     cartItems,
+    updateCartQuantity,
     removeFromCart,
     getTotalPrice,
     lastTotalPrice,
@@ -20,6 +21,23 @@ export default function Cart() {
     (acc, item) => acc + item.quantity, // Ensure quantity is used here
     0
   );
+
+  const handleRemove = (itemId, size) => {
+    const compositeKey = `${itemId}|${size}`;
+
+    if (cartItems[compositeKey]) {
+      const quantity = cartItems[compositeKey].quantity;
+
+      if (quantity > 1) {
+        updateCartQuantity(itemId, size);
+      } else {
+        removeFromCart(itemId, size);
+      }
+    } else {
+      toast.error("Item not found in cart.");
+    }
+  };
+
 
   return (
     <div className="Cart">
@@ -58,7 +76,7 @@ export default function Cart() {
                     <button
                       type="button"
                       className="btn btn-outline-warning"
-                      onClick={() => removeFromCart(itemId, size)}
+                      onClick={() => handleRemove(itemId, size)}
                     >
                       Remove
                     </button>
