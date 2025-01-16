@@ -10,7 +10,6 @@ export default function Cart() {
     cartItems,
     updateCartQuantity,
     removeFromCart,
-    fetchCartItems,
     getTotalPrice,
     lastTotalPrice,
     url,
