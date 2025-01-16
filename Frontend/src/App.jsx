@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
+import Profile from "./pages/Profile/Profile";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 import { ToastContainer, cssTransition } from "react-toastify";
@@ -58,6 +59,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
+          <Route path="/profile" element={<Profile />} />
+          
+
         </Routes>
       </div>
       <ToastContainer
