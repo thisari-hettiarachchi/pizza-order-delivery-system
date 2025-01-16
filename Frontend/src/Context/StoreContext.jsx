@@ -77,59 +77,72 @@ const StoreContextProvider = (props) => {
     console.log("Mapped Cart Items with Cart ID:", cartDetails);
   }, [cartItems, foodList]);
 
-  // Remove item from the cart
-const removeFromCart = async (itemId, size) => {
-  const compositeKey = `${itemId}|${size}`;
+  const updateCartQuantity = async (itemId, size) => {
+    const compositeKey = `${itemId}|${size}`;
 
-  if (cartItems[compositeKey]) {
-    const item = foodList.find((food) => food.id === itemId);
-    const quantity = cartItems[compositeKey].quantity;
-    const sizePrice = item.price[size] || 0;
-    const cartId = cartItems[compositeKey].cartId;
+    if (cartItems[compositeKey]) {
+      const item = foodList.find((food) => food.id === itemId);
+      const quantity = cartItems[compositeKey].quantity;
+      const sizePrice = item.price[size] || 0;
 
-    if (quantity > 1) {
-      // Update quantity locally before API call
-      const updatedQuantity = quantity - 1;
-      const updatedCart = { ...cartItems };
-      updatedCart[compositeKey].quantity = updatedQuantity;
-      setCartItem(updatedCart);
+      if (quantity > 1) {
+        const updatedQuantity = quantity - 1;
+        const updatedCart = { ...cartItems };
+        updatedCart[compositeKey].quantity = updatedQuantity;
+        setCartItem(updatedCart);
 
-      const updatedCartItem = {
-        userName,
-        itemId,
-        itemName: item.name,
-        quantity: updatedQuantity,
-        size,
-        price: sizePrice,
-      };
+        const updatedCartItem = {
+          userName,
+          itemId,
+          itemName: item.name,
+          quantity: updatedQuantity,
+          size,
+          price: sizePrice,
+        };
 
-      try {
-        const response = await axios.put(
-          `${url}/api/cart/updatecart/${userName}`,
-          updatedCartItem
-        );
+        try {
+          const response = await axios.put(
+            `${url}/api/cart/updatecart/${userName}`,
+            updatedCartItem
+          );
 
-        if (response.status === 200) {
-          toast.success("Item quantity updated in cart!");
-        } else {
+          if (response.status === 200) {
+            toast.success("Item quantity updated in cart!");
+            fetchCartItems();
+          } else {
+            toast.error("Failed to update item in cart.");
+          }
+        } catch (error) {
+          console.error("Error updating item in cart:", error);
           toast.error("Failed to update item in cart.");
         }
-      } catch (error) {
-        console.error("Error updating item in cart:", error);
-        toast.error("Failed to update item in cart.");
       }
     } else {
-      // If quantity is 1, remove item from the cart
-      const updatedCart = { ...cartItems };
-      delete updatedCart[compositeKey];
-      setCartItem(updatedCart); // Immediately update the local state
+      toast.error("Item not found in cart.");
+    }
+  };
+
+  const removeFromCart = async (itemId, size) => {
+    const compositeKey = `${itemId}|${size}`;
+    const currentCartItems = { ...cartItems }; // Clone the state to avoid timing issues
+
+    if (currentCartItems[compositeKey]) {
+      const cartId = currentCartItems[compositeKey].cartId;
+
+      console.log("cartItems before deletion:", currentCartItems);
+      console.log("Composite Key:", compositeKey);
+      console.log("Cart ID for delete:", cartId);
 
       try {
+        // Attempt to delete the item from the backend first
         const response = await axios.delete(
           `${url}/api/cart/deletecart/${cartId}`
         );
 
         if (response.status === 200) {
+          // Remove item from the cloned object
+          delete currentCartItems[compositeKey];
+          setCartItem(currentCartItems); // Update state with the modified object
           toast.success("Item removed from cart!");
         } else {
           toast.error("Failed to delete cart item.");
@@ -138,14 +151,11 @@ const removeFromCart = async (itemId, size) => {
         console.error("Error removing item from cart:", error);
         toast.error("Failed to remove item from cart.");
       }
+    } else {
+      console.log("Item not found in cart for removal:", compositeKey);
+      toast.error("Item not found in cart.");
     }
-  } else {
-    toast.error("Item not found in cart.");
-  }
-};
-
-
-
+  };
 
   // Fetch food list from the API
   const fetchFoodList = async () => {
@@ -216,6 +226,7 @@ const removeFromCart = async (itemId, size) => {
   const contextValue = {
     foodList,
     cartItems,
+    updateCartQuantity,
     removeFromCart,
     getTotalItems,
     getTotalPrice,
