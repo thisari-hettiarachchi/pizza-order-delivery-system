@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import "./ProfileSlideBar.css";
 import {
   BiHome,
   BiBookAlt,
@@ -9,7 +10,7 @@ import {
   BiHelpCircle,
 } from "react-icons/bi";
 
-const Sidebar = () => {
+const ProfileSlideBar = () => {
   return (
     <div className="menu">
       <div className="logo">
@@ -39,4 +40,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default ProfileSlideBar;
