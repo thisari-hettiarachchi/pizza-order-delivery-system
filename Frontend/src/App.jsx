@@ -11,6 +11,7 @@ import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "animate.css";
 
+
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [formType, setFormType] = useState("Login");

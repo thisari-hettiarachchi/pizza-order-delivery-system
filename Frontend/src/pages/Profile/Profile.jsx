@@ -1,9 +1,14 @@
 import React from 'react'
 import './Profile.css'
+import Sidebar from '../../components/ProfileSlideBar/slidebar'
 
 const Profile = () => {
   return (
-    <div>Profile</div>
+    <div className='profile'>
+      <Sidebar/>
+
+    </div>
+    
   )
 }
 
