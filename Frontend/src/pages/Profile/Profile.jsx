@@ -1,11 +1,11 @@
 import React from "react";
 import "./Profile.css";
-import ProfileSlideBar from "../../components/ProfileSlideBar/ProfileSlideBar";
+import ProfileSideBar from "../../components/ProfileSideBar/ProfileSideBar";
 
 const Profile = () => {
   return (
     <div className="profile">
-      <ProfileSlideBar />
+      <ProfileSideBar />
     </div>
   );
 };
