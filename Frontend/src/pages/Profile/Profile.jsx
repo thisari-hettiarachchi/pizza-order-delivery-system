@@ -1,15 +1,13 @@
-import React from 'react'
-import './Profile.css'
-import Sidebar from '../../components/ProfileSlideBar/slidebar'
+import React from "react";
+import "./Profile.css";
+import ProfileSlideBar from "../../components/ProfileSlideBar/ProfileSlideBar";
 
 const Profile = () => {
   return (
-    <div className='profile'>
-      <Sidebar/>
-
+    <div className="profile">
+      <ProfileSlideBar />
     </div>
-    
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
