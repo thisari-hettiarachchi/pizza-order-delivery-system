@@ -207,6 +207,9 @@ header .sticky .cart:hover .cart-count {
   gap: 20px;
   cursor: pointer;
 }
+.nav-profile-dropdown a{
+  padding: 0 !important;
+}
 .nav-profile-dropdown a li span {
   color: black;
   font-size: 16px;
