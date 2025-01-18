@@ -1,29 +1,19 @@
-.menu{
+.profile-menu{
     display: flex;
     flex-direction: column;
     gap: 2.3rem;
     height: 94vh;
-}
-.logo {
-    text-align: center;
-    padding: 20px;
-    color: black;
-    align-items: center;
-    display: flex;
-    gap: 20px;
+    margin-left: 50px;
 }
 
-.logo .icon{
-    font-size: 2.4rem;
-}
-
-.menu-list{
+.profile-menu-list{
+    margin-top: 150px;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.menu-list .item{
+.profile-menu-list .profile-item{
     display: flex;
     align-items: center;
     gap: 20px;
@@ -33,10 +23,10 @@
     padding: 10px;
     border-radius: 10px;
     transition: 0.3s ease-in-out;
-    color: red;
+    color: black;
 }
 
-.menu-list .item:hover{
+.profile-menu-list .profile-item:hover{
     background: red;
     color: white;
 }
