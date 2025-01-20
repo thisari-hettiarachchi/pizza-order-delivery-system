@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Cart() {
-  const [message, setMessage] = useState("");
 
   const {
     foodList,
@@ -16,6 +15,7 @@ export default function Cart() {
     lastTotalPrice,
     setPromoCode,
     promoCode,
+    discount,
     validatePromoCode,
     url,
   } = useContext(StoreContext);
@@ -47,14 +47,10 @@ export default function Cart() {
     setPromoCode(e.target.value); // Update promo code as the user types
   };
 
-  const handlePromoCodeSubmit = () => {
-    if (!promoCode) {
-      setMessage("Please enter a promo code.");
-      return;
-    }
+const handlePromoCodeSubmit = () => {
+  validatePromoCode(promoCode);
+};
 
-    validatePromoCode(promoCode); // Call the validation function from context
-  };
 
   return (
     <div className="Cart">
@@ -121,6 +117,18 @@ export default function Cart() {
               <p>RS.{getTotalPrice() === 0 ? 0 : 200}</p>
             </div>
             <hr />
+            {discount ? (
+              <>
+                <div className="cart-total-details">
+                  {" "}
+                  <p>Discount</p>
+                  <p>{discount}%</p>
+                </div>
+                <hr/>
+              </>
+            ) : (
+              ""
+            )}
             <div className="cart-total-details">
               <b>Total</b>
               <b>
@@ -155,7 +163,6 @@ export default function Cart() {
                 Submit
               </button>
             </div>
-            {message && <p className="promo-message">{message}</p>}
           </div>
         </div>
       </div>

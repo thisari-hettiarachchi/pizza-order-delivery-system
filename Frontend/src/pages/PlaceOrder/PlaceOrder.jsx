@@ -3,7 +3,7 @@ import { StoreContext } from "../../Context/StoreContext";
 import "./PlaceOrder.css";
 
 const PlaceOrder = () => {
-  const { getTotalPrice, lastTotalPrice } = useContext(StoreContext);
+  const { getTotalPrice, lastTotalPrice, discount } = useContext(StoreContext);
   return (
     <form className="place-order">
       <div className="place-order-left">
@@ -38,6 +38,18 @@ const PlaceOrder = () => {
               <p>Rs{getTotalPrice() === 0 ? 0 : 200}</p>
             </div>
             <hr />
+            {discount ? (
+              <>
+                <div className="cart-total-details">
+                  {" "}
+                  <p>Discount</p>
+                  <p>{discount}%</p>
+                </div>
+                <hr />
+              </>
+            ) : (
+              ""
+            )}
             <div className="cart-total-details">
               <b>Total</b>
               <b>Rs{getTotalPrice() === 0 ? 0 : lastTotalPrice()} </b>

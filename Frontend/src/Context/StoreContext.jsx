@@ -251,6 +251,7 @@ const StoreContextProvider = (props) => {
     validatePromoCode,
     setPromoCode,
     promoCode,
+    discount,
     fetchCartItems,
     setCartItem,
     url,
