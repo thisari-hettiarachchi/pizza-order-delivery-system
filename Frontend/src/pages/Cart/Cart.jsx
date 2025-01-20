@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import "./cart.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Cart() {
+  const [message, setMessage] = useState("");
+
   const {
     foodList,
     cartItems,
@@ -12,13 +14,16 @@ export default function Cart() {
     removeFromCart,
     getTotalPrice,
     lastTotalPrice,
+    setPromoCode,
+    promoCode,
+    validatePromoCode,
     url,
   } = useContext(StoreContext);
 
   const navigate = useNavigate();
 
   const totalItems = Object.values(cartItems).reduce(
-    (acc, item) => acc + item.quantity, // Ensure quantity is used here
+    (acc, item) => acc + item.quantity,
     0
   );
 
@@ -38,6 +43,18 @@ export default function Cart() {
     }
   };
 
+  const handlePromoCodeChange = (e) => {
+    setPromoCode(e.target.value); // Update promo code as the user types
+  };
+
+  const handlePromoCodeSubmit = () => {
+    if (!promoCode) {
+      setMessage("Please enter a promo code.");
+      return;
+    }
+
+    validatePromoCode(promoCode); // Call the validation function from context
+  };
 
   return (
     <div className="Cart">
@@ -101,14 +118,15 @@ export default function Cart() {
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-              <p>
-                <p>RS.{getTotalPrice() === 0 ? 0 : 200}</p>
-              </p>
+              <p>RS.{getTotalPrice() === 0 ? 0 : 200}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>RS.{lastTotalPrice()}</b>
+              <b>
+                RS.
+                {getTotalPrice() === 0 ? 0 : lastTotalPrice()}{" "}
+              </b>
             </div>
           </div>
           <button
@@ -127,9 +145,17 @@ export default function Cart() {
           <div>
             <p>If you have a promo code, enter it here:</p>
             <div className="cart-promocode-input">
-              <input type="text" placeholder="promo_code" />
-              <button className="submit.btn">Submit</button>
+              <input
+                type="text"
+                placeholder="promo_code"
+                value={promoCode}
+                onChange={handlePromoCodeChange}
+              />
+              <button className="submit-btn" onClick={handlePromoCodeSubmit}>
+                Submit
+              </button>
             </div>
+            {message && <p className="promo-message">{message}</p>}
           </div>
         </div>
       </div>

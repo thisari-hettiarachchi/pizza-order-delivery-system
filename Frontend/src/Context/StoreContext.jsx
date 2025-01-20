@@ -7,6 +7,8 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItem] = useState({});
   const [foodList, setFoodList] = useState([]);
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
   const userName = localStorage.getItem("userName");
   const url = "http://localhost:8080";
 
@@ -207,9 +209,24 @@ const StoreContextProvider = (props) => {
 
   // Calculate the final total price including delivery fee
   const lastTotalPrice = () => {
-    const deliveryFee = 200; // Fixed delivery fee
-    const subtotal = getTotalPrice(); // Subtotal from cart items
-    return subtotal > 0 ? subtotal + deliveryFee : 0; // Add delivery fee only if subtotal is greater than 0
+    const deliveryFee = 200;
+    const subtotal = getTotalPrice();
+    const discountAmount = (subtotal * discount) / 100; // Calculate discount
+    return subtotal > 0 ? subtotal - discountAmount + deliveryFee : 0;
+  };
+
+  const validatePromoCode = (code) => {
+    const validPromoCodes = {
+      DISCOUNT10: 10,
+      DISCOUNT20: 20,
+    };
+    if (validPromoCodes[code]) {
+      setDiscount(validPromoCodes[code]);
+      toast.success(`Promo code applied! ${validPromoCodes[code]}% discount.`);
+    } else {
+      setDiscount(0);
+      toast.error("Invalid promo code. Please try again.");
+    }
   };
 
   // Get the total number of items in the cart
@@ -231,6 +248,9 @@ const StoreContextProvider = (props) => {
     getTotalItems,
     getTotalPrice,
     lastTotalPrice,
+    validatePromoCode,
+    setPromoCode,
+    promoCode,
     fetchCartItems,
     setCartItem,
     url,
