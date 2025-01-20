@@ -5,9 +5,10 @@ import com.pizzadelivery.pizza_backend.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -15,47 +16,104 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    // Add item to cart
-    public Cart addToCart(Cart cartItem) {
-        // Check if the cart item with the same userId, itemId, and size already exists
-        Optional<Cart> existingCartItem = cartRepository.findByUserNameAndItemIdAndSize(
-                cartItem.getUserName(), cartItem.getItemId(), cartItem.getSize());
+    // Add an item to the cart
+    public Cart addToCart(String userName, Cart.CartItem newItem) {
+        // Retrieve the cart for the given user
+        Optional<Cart> existingCartOptional = cartRepository.findByUserName(userName);
 
-        if (existingCartItem.isPresent()) {
-            // Update the quantity if the item already exists in the cart
-            Cart existingItem = existingCartItem.get();
-            int updatedQuantity = Integer.parseInt(existingItem.getQuantity()) + Integer.parseInt(cartItem.getQuantity());
-            existingItem.setQuantity(String.valueOf(updatedQuantity));
-            return cartRepository.save(existingItem);
+        Cart cart;
+        if (existingCartOptional.isPresent()) {
+            // If cart exists, update or add the item
+            cart = existingCartOptional.get();
+            boolean itemExists = false;
+
+            // Check if the item already exists in the cart
+            for (Cart.CartItem item : cart.getItems()) {
+                if (item.getItemId().equals(newItem.getItemId()) && item.getSize().equals(newItem.getSize())) {
+                    // Update the quantity if the item exists
+                    int updatedQuantity = Integer.parseInt(item.getQuantity()) + Integer.parseInt(newItem.getQuantity());
+                    item.setQuantity(String.valueOf(updatedQuantity));
+                    itemExists = true;
+                    break;
+                }
+            }
+
+            // Add the item if it doesn't exist
+            if (!itemExists) {
+                cart.getItems().add(newItem);
+            }
         } else {
-            // If item does not exist, add it to the cart
-            return cartRepository.save(cartItem);
+            // Create a new cart if none exists for the user
+            cart = new Cart();
+            cart.setUserName(userName);
+            cart.getItems().add(newItem);
         }
-    }
 
-    // Get cart by userId (you can adjust this logic as per your requirement)
-
-    public List<Cart> getCartByUserName(String userName) {
-        // Get the list of carts from the repository, ensuring it's not wrapped in Optional
-        return cartRepository.findByUserName(userName).orElse(Collections.emptyList());
-    }
-
-
-
-    public Optional<Cart> getCartByUserNameAndItemIdAndSize(String userName, String itemId, String size) {
-        return cartRepository.findByUserNameAndItemIdAndSize(userName, itemId, size);
-    }
-
-
-
-
-    // Update cart (in case of updating quantity, size, or price)
-    public Cart updateCart(Cart cart) {
+        // Save and return the updated cart
         return cartRepository.save(cart);
     }
 
-    // Remove item from cart
-    public void removeItemFromCart(String cartId) {
-        cartRepository.deleteById(cartId);
+    // Get cart by userName
+    public Cart getCartByUserName(String userName) {
+        // Fetch the cart for the given user or create a new one if not found
+        return cartRepository.findByUserName(userName).orElseGet(() -> {
+            Cart newCart = new Cart();
+            newCart.setUserName(userName);
+            newCart.setItems(new ArrayList<>()); // Initialize an empty list for items
+            return newCart;
+        });
     }
+
+
+    // Update an item in the cart
+    public Cart updateCart(String userName, Cart.CartItem updatedItem) {
+        // Retrieve the cart for the given user
+        Optional<Cart> existingCartOptional = cartRepository.findByUserName(userName);
+
+        if (existingCartOptional.isPresent()) {
+            Cart cart = existingCartOptional.get();
+
+            // Update the specific item's details
+            for (Cart.CartItem item : cart.getItems()) {
+                if (item.getItemId().equals(updatedItem.getItemId()) && item.getSize().equals(updatedItem.getSize())) {
+                    item.setQuantity(updatedItem.getQuantity());
+                    item.setPrice(updatedItem.getPrice());
+                    item.setItemName(updatedItem.getItemName());
+                    break;
+                }
+            }
+
+            // Save and return the updated cart
+            return cartRepository.save(cart);
+        }
+
+        // If no cart exists for the user, return a new cart
+        Cart newCart = new Cart();
+        newCart.setUserName(userName);
+        return cartRepository.save(newCart);
+    }
+
+    // Remove an item from the cart
+    public void deleteItemFromCart(String userName, String itemId, String size) {
+        try {
+            // Find the cart and the item to be removed
+            Cart cart = cartRepository.findByUserName(userName).orElseThrow(() -> new RuntimeException("Cart not found"));
+
+            // Remove the item from the cart's items list
+            List<Cart.CartItem> updatedItems = cart.getItems().stream()
+                    .filter(item -> !(item.getItemId().equals(itemId) && item.getSize().equals(size)))
+                    .collect(Collectors.toList());
+
+            // Update the cart with the new list of items
+            cart.setItems(updatedItems);
+            cartRepository.save(cart);  // Save the updated cart
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting item from cart", e);
+        }
+    }
+
+    public void deleteCart(String username) {
+        cartRepository.deleteByUserName(username);
+    }
+
 }

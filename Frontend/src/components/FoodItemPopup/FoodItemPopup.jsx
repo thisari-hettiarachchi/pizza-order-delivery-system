@@ -33,9 +33,11 @@ const FoodItemPopup = ({
          price: selectedPrice,
        };
 
+       console.log("cart items: " + cartItem);
+
        // Send the cart item to the backend
        const response = await axios.post(
-         "http://localhost:8080/api/cart/addtocart",
+         `http://localhost:8080/api/cart/addtocart/${userName}`, // Pass the userName in the URL
          cartItem
        );
 
@@ -60,7 +62,7 @@ const FoodItemPopup = ({
                ...prevCartItems,
                [compositeKey]: {
                  quantity: localCount,
-                 cartId: response.data.cartId, // Assuming response contains cartId
+                 cartId: response.data.id, // Assuming the backend returns an 'id' for the cart
                },
              };
            }
@@ -80,6 +82,7 @@ const FoodItemPopup = ({
      );
    }
  };
+
 
 
   const handleBuy = () => {

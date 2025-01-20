@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Cart() {
-
   const {
     foodList,
     cartItems,
     updateCartQuantity,
     removeFromCart,
+    deleteCart,
     getTotalPrice,
     lastTotalPrice,
     setPromoCode,
@@ -33,24 +33,31 @@ export default function Cart() {
     if (cartItems[compositeKey]) {
       const quantity = cartItems[compositeKey].quantity;
 
-      if (quantity > 1) {
-        updateCartQuantity(itemId, size);
+      if (Object.keys(cartItems).length > 1) {
+        if (quantity > 1) {
+          
+          updateCartQuantity(itemId, size);
+        } else {
+          
+          removeFromCart(itemId, size);
+        }
       } else {
-        removeFromCart(itemId, size);
+        
+        deleteCart();
       }
     } else {
       toast.error("Item not found in cart.");
     }
   };
 
+
   const handlePromoCodeChange = (e) => {
     setPromoCode(e.target.value); // Update promo code as the user types
   };
 
-const handlePromoCodeSubmit = () => {
-  validatePromoCode(promoCode);
-};
-
+  const handlePromoCodeSubmit = () => {
+    validatePromoCode(promoCode);
+  };
 
   return (
     <div className="Cart">
@@ -124,7 +131,7 @@ const handlePromoCodeSubmit = () => {
                   <p>Discount</p>
                   <p>{discount}%</p>
                 </div>
-                <hr/>
+                <hr />
               </>
             ) : (
               ""
