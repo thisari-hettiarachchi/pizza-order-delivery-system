@@ -27,7 +27,12 @@
 }
 
 .profile-menu-list .profile-item:hover{
-    background: red;
+    background:#d20a2e;
     color: white;
 }
 
+.profile-menu-list .profile-item.active {
+    background: #d20a2e;
+    color: white;
+  }
+  

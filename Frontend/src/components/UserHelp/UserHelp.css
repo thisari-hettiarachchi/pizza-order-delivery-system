@@ -1,0 +1,35 @@
+.help-section{
+    justify-content: space-between;
+    gap: 10px;
+    margin: 150px 100px 100px 150px;
+}
+
+.help-title{
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.faq-list{
+    margin-top: 15px;
+}
+
+.faq-item{
+    margin-top: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.faq-item:last-child{
+    border-bottom: none;
+}
+
+.faq-item h4{
+    font-size: 16px;
+    color: black;
+    margin-bottom: 5px;
+}
+
+.faq-item p{
+    font-size: 14px;
+    color: #555;
+}

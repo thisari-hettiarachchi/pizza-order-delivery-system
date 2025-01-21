@@ -1,0 +1,12 @@
+.message-section{
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    margin: 150px 100px 100px 150px;
+}
+
+.message-title{
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

@@ -35,6 +35,10 @@ export const Content = () => {
             <BiCamera />
             </button>
         </div>
+        <div className="profile-buttons">
+          <button className="img-svbutton">Save Image</button>
+          <button className="img-dltbutton">Delete Image</button>
+        </div>
       </div>
 
     </form>
