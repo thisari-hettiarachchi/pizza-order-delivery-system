@@ -26,6 +26,11 @@
     list-style-type: none;
 }
 
+.profile-menu-list ul li .profile-item.active {
+    border-color: #d20a2e;
+    color: #d20a2e;
+}
+
 .profile-menu-list ul li::before{
     position: absolute;
     content: '';
