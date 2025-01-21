@@ -129,9 +129,11 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
                         <span className="profile-username">{userName}</span>
                       </li>
                     </ul>
+
+                    
                     <ul className="nav-profile-dropdown">
                       <Link to={"/profile"}>
-                        <li>
+                        <li onClick={()=>navigate('/userorder')}>
                           <i class="bi bi-person-vcard"></i>
                           <span>Profile</span>
                         </li>
