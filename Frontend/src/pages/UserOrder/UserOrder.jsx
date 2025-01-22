@@ -21,7 +21,7 @@ const UserOrder = () => {
 
   return (
     <div className="user-order">
-      <h2>My Order</h2>
+      <h2>My Orders</h2>
       <div className="container">
         {data.map((UserOrder,index)=>{
           return(
