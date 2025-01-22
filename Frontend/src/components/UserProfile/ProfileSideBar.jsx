@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { BiUser, BiMessage, BiHistory, BiHelpCircle } from "react-icons/bi";
 import "./ProfileSideBar.css";
 
@@ -10,10 +11,10 @@ const ProfileSideBar = () => {
           <BiUser className="profile-icon" />
           My Profile
         </a>
-        <a href="#" className="profile-item">
+        <Link to={"/userorder"} className="profile-item">
           <BiHistory className="profile-icon" />
           Order History
-        </a>
+        </Link>
         <a href="#" className="profile-item">
           <BiMessage className="profile-icon" />
           Message
