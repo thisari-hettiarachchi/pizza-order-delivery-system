@@ -1,10 +1,10 @@
 package com.pizzadelivery.pizza_backend.repository;
 
+import com.pizzadelivery.pizza_backend.model.Order;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-    import org.springframework.data.mongodb.repository.MongoRepository;
-
-    public interface OrderRepository extends MongoRepository<Order, String> {
-        // Custom queries can be added if needed
-    }
-
-
+@Repository
+public interface OrderRepository extends MongoRepository<Order, String> {
+    // Custom queries can be added if needed
+}
