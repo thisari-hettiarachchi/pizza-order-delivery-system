@@ -1,55 +1,51 @@
 package com.pizzadelivery.pizza_backend.controller;
 
 import com.pizzadelivery.pizza_backend.model.Order;
-import com.pizzadelivery.pizza_backend.repository.OrderRepository;
+import com.pizzadelivery.pizza_backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/order")
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository; // Fixed naming
+    private OrderService orderService; // Use service instead of repository
 
     // Create Order
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderRepository.save(order);
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        Order savedOrder = orderService.createOrder(order);
+        return ResponseEntity.ok(savedOrder);
     }
 
     // Get All Orders
     @GetMapping
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 
     // Get Order by ID
     @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable String id) {
-        Optional<Order> order = orderRepository.findById(id);
-        return order.orElse(null);
+    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
+        Order order = orderService.getOrderById(id);
+        return (order != null) ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
     }
 
     // Update Order Status
     @PutMapping("/{id}/status")
-    public Order updateOrderStatus(@PathVariable String id, @RequestParam String status) {
-        Optional<Order> orderOptional = orderRepository.findById(id);
-        if (orderOptional.isPresent()) {
-            Order order = orderOptional.get();
-            order.setStatus(status);
-            return orderRepository.save(order);
-        }
-        return null;
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable String id, @RequestParam String status) {
+        boolean updated = orderService.updateOrderStatus(id, status);
+        return updated ? ResponseEntity.ok(orderService.getOrderById(id)) : ResponseEntity.notFound().build();
     }
 
     // Delete Order
     @DeleteMapping("/{id}")
-    public String deleteOrder(@PathVariable String id) {
-        orderRepository.deleteById(id);
-        return "Order deleted successfully!";
+    public ResponseEntity<String> deleteOrder(@PathVariable String id) {
+        boolean deleted = orderService.deleteOrder(id);
+        return deleted ? ResponseEntity.ok("Order deleted successfully!") : ResponseEntity.notFound().build();
     }
 }
