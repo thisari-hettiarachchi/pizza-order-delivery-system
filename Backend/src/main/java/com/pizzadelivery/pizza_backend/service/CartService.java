@@ -1,6 +1,7 @@
 package com.pizzadelivery.pizza_backend.service;
 
 import com.pizzadelivery.pizza_backend.model.Cart;
+import com.pizzadelivery.pizza_backend.model.Item;
 import com.pizzadelivery.pizza_backend.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class CartService {
     private CartRepository cartRepository;
 
     // Add an item to the cart
-    public Cart addToCart(String userName, Cart.CartItem newItem) {
+    public Cart addToCart(String userName, Item newItem) {
         // Retrieve the cart for the given user
         Optional<Cart> existingCartOptional = cartRepository.findByUserName(userName);
 
@@ -28,7 +29,7 @@ public class CartService {
             boolean itemExists = false;
 
             // Check if the item already exists in the cart
-            for (Cart.CartItem item : cart.getItems()) {
+            for (Item item : cart.getItems()) {
                 if (item.getItemId().equals(newItem.getItemId()) && item.getSize().equals(newItem.getSize())) {
                     // Update the quantity if the item exists
                     int updatedQuantity = Integer.parseInt(item.getQuantity()) + Integer.parseInt(newItem.getQuantity());
@@ -66,7 +67,7 @@ public class CartService {
 
 
     // Update an item in the cart
-    public Cart updateCart(String userName, Cart.CartItem updatedItem) {
+    public Cart updateCart(String userName, Item updatedItem) {
         // Retrieve the cart for the given user
         Optional<Cart> existingCartOptional = cartRepository.findByUserName(userName);
 
@@ -74,7 +75,7 @@ public class CartService {
             Cart cart = existingCartOptional.get();
 
             // Update the specific item's details
-            for (Cart.CartItem item : cart.getItems()) {
+            for (Item item : cart.getItems()) {
                 if (item.getItemId().equals(updatedItem.getItemId()) && item.getSize().equals(updatedItem.getSize())) {
                     item.setQuantity(updatedItem.getQuantity());
                     item.setPrice(updatedItem.getPrice());
@@ -100,7 +101,7 @@ public class CartService {
             Cart cart = cartRepository.findByUserName(userName).orElseThrow(() -> new RuntimeException("Cart not found"));
 
             // Remove the item from the cart's items list
-            List<Cart.CartItem> updatedItems = cart.getItems().stream()
+            List<Item> updatedItems = cart.getItems().stream()
                     .filter(item -> !(item.getItemId().equals(itemId) && item.getSize().equals(size)))
                     .collect(Collectors.toList());
 

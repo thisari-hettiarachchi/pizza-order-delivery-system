@@ -1,6 +1,7 @@
 package com.pizzadelivery.pizza_backend.controller;
 
 import com.pizzadelivery.pizza_backend.model.Cart;
+import com.pizzadelivery.pizza_backend.model.Item;
 import com.pizzadelivery.pizza_backend.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class CartController {
 
     // Add an item to the cart
     @PostMapping("/addtocart/{userName}")
-    public ResponseEntity<Cart> addToCart(@PathVariable String userName, @RequestBody Cart.CartItem cartItem) {
+    public ResponseEntity<Cart> addToCart(@PathVariable String userName, @RequestBody Item cartItem) {
         try {
             Cart updatedCart = cartService.addToCart(userName, cartItem);
             return ResponseEntity.ok(updatedCart);
@@ -46,7 +47,7 @@ public class CartController {
 
     // Update an item in the cart
     @PutMapping("/updatecart/{userName}")
-    public ResponseEntity<Cart> updateCart(@PathVariable String userName, @RequestBody Cart.CartItem cartItem) {
+    public ResponseEntity<Cart> updateCart(@PathVariable String userName, @RequestBody Item cartItem) {
         Cart updatedCart = cartService.updateCart(userName, cartItem);
         return ResponseEntity.ok(updatedCart);
     }
