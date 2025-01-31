@@ -1,6 +1,7 @@
 package com.pizzadelivery.pizza_backend.service;
 
 import com.pizzadelivery.pizza_backend.model.Order;
+import com.pizzadelivery.pizza_backend.model.Order.OrderStatus;  // Import OrderStatus enum
 import com.pizzadelivery.pizza_backend.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +36,12 @@ public class OrderService {
     }
 
     // Update order status
-    public boolean updateOrderStatus(String id, String newStatus) {
+    public boolean updateOrderStatus(String id, OrderStatus newStatus) {  // Keep the parameter as OrderStatus enum
         Optional<Order> orderOpt = orderRepository.findById(id);
         if (orderOpt.isPresent()) {
             Order order = orderOpt.get();
-            order.setStatus(newStatus);
-            orderRepository.save(order); // Update order in MongoDB
+            order.setStatus(newStatus);  // Directly set the enum without converting to string
+            orderRepository.save(order);  // Update order in MongoDB
             return true;
         }
         return false;
