@@ -1,6 +1,7 @@
 package com.pizzadelivery.pizza_backend.controller;
 
 import com.pizzadelivery.pizza_backend.model.Order;
+import com.pizzadelivery.pizza_backend.model.Order.OrderStatus;  // Import OrderStatus enum
 import com.pizzadelivery.pizza_backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +14,17 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService; // Use service instead of repository
+    private OrderService orderService;
 
     // Create Order
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         Order savedOrder = orderService.createOrder(order);
         return ResponseEntity.ok(savedOrder);
     }
 
     // Get All Orders
-    @GetMapping
+    @GetMapping("/getall")
     public ResponseEntity<List<Order>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
@@ -37,7 +38,7 @@ public class OrderController {
 
     // Update Order Status
     @PutMapping("/{id}/status")
-    public ResponseEntity<Order> updateOrderStatus(@PathVariable String id, @RequestParam String status) {
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable String id, @RequestParam OrderStatus status) {  // Change to enum
         boolean updated = orderService.updateOrderStatus(id, status);
         return updated ? ResponseEntity.ok(orderService.getOrderById(id)) : ResponseEntity.notFound().build();
     }

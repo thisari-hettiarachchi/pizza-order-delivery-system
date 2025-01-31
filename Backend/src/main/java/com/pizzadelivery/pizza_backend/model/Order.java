@@ -14,10 +14,11 @@ public class Order {
     @Id
     private String id;
     private String userName;
-    private String status = "Food Processing";
+    private OrderStatus status = OrderStatus.FOOD_PROCESSING;  // Using enum for status
     private List<Item> items = new ArrayList<>();
-    private String amount;
+    private String amount;  // Keeping amount as String, although using BigDecimal would be better for monetary values
     private Address address;
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;  // Enum for payment status
 
     @CreatedDate
     private LocalDateTime date;
@@ -34,6 +35,8 @@ public class Order {
         this.amount = amount;
         this.address = address;
         this.date = LocalDateTime.now();
+        this.status = OrderStatus.FOOD_PROCESSING;
+        this.paymentStatus = PaymentStatus.PENDING;
     }
 
     // Getters and Setters
@@ -53,11 +56,11 @@ public class Order {
         this.userName = userName;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -89,7 +92,17 @@ public class Order {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    // Removed setter for date to prevent modification after creation
+    // Date should only be set once when the order is created
+
+    public enum PaymentStatus {
+        PENDING,
+        COMPLETED
+    }
+
+    public enum OrderStatus {
+        FOOD_PROCESSING,
+        DISPATCHED,
+        DELIVERED
     }
 }
