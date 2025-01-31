@@ -21,69 +21,67 @@ const FoodItemPopup = ({
   const token = localStorage.getItem("token");
   const userName = localStorage.getItem("userName");
 
- const addToCart = async () => {
-   if (localCount > 0 && selectedSize) {
-     try {
-       const cartItem = {
-         userName,
-         itemId: id,
-         itemName: name,
-         quantity: localCount,
-         size: selectedSize,
-         price: selectedPrice,
-       };
+  const addToCart = async () => {
+    if (localCount > 0 && selectedSize) {
+      try {
+        const cartItem = {
+          userName,
+          itemId: id,
+          itemName: name,
+          quantity: localCount,
+          size: selectedSize,
+          price: selectedPrice,
+        };
 
-       console.log("cart items: " + cartItem);
+        console.log("cart items: " + cartItem);
 
-       // Send the cart item to the backend
-       const response = await axios.post(
-         `http://localhost:8080/api/cart/addtocart/${userName}`, // Pass the userName in the URL
-         cartItem
-       );
+        // Send the cart item to the backend
+        const response = await axios.post(
+          `${url}/api/cart/addtocart/${userName}`, // Pass the userName in the URL
+          cartItem
+        );
 
-       if (response.status === 200) {
-         // If the response is successful, update the cartItems state
-         setCartItem((prevCartItems) => {
-           const compositeKey = `${id}|${selectedSize}`;
-           const existingItem = prevCartItems[compositeKey];
+        if (response.status === 200) {
+          // If the response is successful, update the cartItems state
+          setCartItem((prevCartItems) => {
+            const compositeKey = `${id}|${selectedSize}`;
+            const existingItem = prevCartItems[compositeKey];
 
-           // If the item already exists in the cart, increase the quantity
-           if (existingItem) {
-             return {
-               ...prevCartItems,
-               [compositeKey]: {
-                 quantity: existingItem.quantity + localCount,
-                 cartId: existingItem.cartId, // Preserve the cartId
-               },
-             };
-           } else {
-             // If the item doesn't exist, add it to the cart
-             return {
-               ...prevCartItems,
-               [compositeKey]: {
-                 quantity: localCount,
-                 cartId: response.data.id, // Assuming the backend returns an 'id' for the cart
-               },
-             };
-           }
-         });
+            // If the item already exists in the cart, increase the quantity
+            if (existingItem) {
+              return {
+                ...prevCartItems,
+                [compositeKey]: {
+                  quantity: existingItem.quantity + localCount,
+                  cartId: existingItem.cartId, // Preserve the cartId
+                },
+              };
+            } else {
+              // If the item doesn't exist, add it to the cart
+              return {
+                ...prevCartItems,
+                [compositeKey]: {
+                  quantity: localCount,
+                  cartId: response.data.id, // Assuming the backend returns an 'id' for the cart
+                },
+              };
+            }
+          });
 
-         toast.success(`${name} added to cart!`);
-       } else {
-         toast.error("Failed to add item to cart.");
-       }
-     } catch (error) {
-       console.error("Error adding item to cart:", error);
-       toast.error("Failed to add item to cart.");
-     }
-   } else {
-     toast.error(
-       "Please select a size and ensure the quantity is greater than 0."
-     );
-   }
- };
-
-
+          toast.success(`${name} added to cart!`);
+        } else {
+          toast.error("Failed to add item to cart.");
+        }
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+        toast.error("Failed to add item to cart.");
+      }
+    } else {
+      toast.error(
+        "Please select a size and ensure the quantity is greater than 0."
+      );
+    }
+  };
 
   const handleBuy = () => {
     if (token) {
@@ -91,6 +89,7 @@ const FoodItemPopup = ({
         addToCart(); // Send cart data after adding to the cart
         setLocalCount(0);
         setSelectedSize("");
+        handleClosePopup();
       } else if (localCount === 0 && selectedSize === "") {
         toast.error("Please select a size and quantity before adding to cart");
       } else if (localCount === 0) {
@@ -101,6 +100,17 @@ const FoodItemPopup = ({
     } else {
       toast.error("You need Sign in to add item to cart");
     }
+  };
+
+  const handleClosePopup = () => {
+    // Add the zoomOut class to trigger the closing animation
+    const popupElement = document.querySelector(".food_item_container");
+    popupElement.classList.add("zoomOut");
+
+    // Wait for the animation to complete before hiding the popup
+    setTimeout(() => {
+      setShowItem(false); // Close the popup after animation
+    }, 500); // Match the animation duration
   };
 
   return (
@@ -173,7 +183,7 @@ const FoodItemPopup = ({
           <button onClick={handleBuy}>Add to Cart</button>
         </div>
       </div>
-      <i className="bi bi-x close_icon" onClick={() => setShowItem(false)} />
+      <i className="bi bi-x close_icon" onClick={ handleClosePopup } />
     </div>
   );
 };
