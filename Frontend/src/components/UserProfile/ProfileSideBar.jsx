@@ -1,28 +1,80 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { BiUser, BiMessage, BiHistory, BiHelpCircle } from "react-icons/bi";
+import { BiUser, BiMessage, BiHistory, BiHelpCircle, BiLogOut } from "react-icons/bi";
 import "./ProfileSideBar.css";
 
-const ProfileSideBar = () => {
+const ProfileSideBar = ({ setActiveSection, activeSection }) => {
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    fetch('/path/to/api/profile')
+      .then((response) => response.json())
+      .then((data) => setProfile(data))
+      .catch((error) => console.log('Error fetching profile:', error));
+  }, []);
+
   return (
     <div className="profile-menu">
+      <div className="profile-header">
+        {profile ? (
+          <div className="profile-info">
+            <img src={`/uploaded_files/${profile.image}`} alt="Profile" className="profile-image" />
+            <p className="profile-name">{profile.name}</p>
+          </div>
+        ) : (
+          <p>Profile Not Found...</p>
+        )}
+      </div>
+
       <div className="profile-menu-list">
-        <a href="#" className="profile-item">
-          <BiUser className="profile-icon" />
-          My Profile
-        </a>
-        <Link to={"/userorder"} className="profile-item">
-          <BiHistory className="profile-icon" />
-          Order History
-        </Link>
-        <a href="#" className="profile-item">
-          <BiMessage className="profile-icon" />
-          Message
-        </a>
-        <a href="#" className="profile-item">
-          <BiHelpCircle className="profile-icon" />
-          Help
-        </a>
+        <ul>
+          <li>
+            <a
+              href="#"
+              className={`profile-item ${activeSection === "profile" ? "active" : ""}`}
+              onClick={() => setActiveSection("profile")}
+            >
+              <BiUser className="profile-icon" />
+              My Profile
+            </a>
+          </li>
+          <li>
+            <Link to="/userorder" className={`profile-item ${activeSection === "orderhistory" ? "active" : ""}`}>
+              <BiHistory className="profile-icon" />
+              Order History
+            </Link>
+          </li>
+          <li>
+            <a
+              href="#"
+              className={`profile-item ${activeSection === "usermessage" ? "active" : ""}`}
+              onClick={() => setActiveSection("usermessage")}
+            >
+              <BiMessage className="profile-icon" />
+              Message
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className={`profile-item ${activeSection === "userhelp" ? "active" : ""}`}
+              onClick={() => setActiveSection("userhelp")}
+            >
+              <BiHelpCircle className="profile-icon" />
+              Help
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className={`profile-item ${activeSection === "logout" ? "active" : ""}`}
+              onClick={() => setActiveSection("logout")}
+            >
+              <BiLogOut className="profile-icon" />
+              Logout
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );
