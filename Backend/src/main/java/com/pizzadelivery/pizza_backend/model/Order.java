@@ -92,6 +92,14 @@ public class Order {
         return date;
     }
 
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+
     // Removed setter for date to prevent modification after creation
     // Date should only be set once when the order is created
 
