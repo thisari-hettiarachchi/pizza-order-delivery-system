@@ -10,6 +10,7 @@ import LoginPopup from "./components/LoginPopup/LoginPopup";
 import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "animate.css";
+import UserOrder from "./pages/UserOrder/UserOrder";
 
 
 const App = () => {
@@ -61,7 +62,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/profile" element={<Profile />} />
-          
+          <Route path="/userorder" element={<UserOrder />} />
 
         </Routes>
       </div>

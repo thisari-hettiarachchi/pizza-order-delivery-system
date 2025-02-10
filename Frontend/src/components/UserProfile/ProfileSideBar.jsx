@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { BiUser, BiMessage, BiHistory, BiHelpCircle, BiLogOut } from "react-icons/bi";
 import "./ProfileSideBar.css";
 
@@ -38,14 +39,10 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              className={`profile-item ${activeSection === "orderhistory" ? "active" : ""}`}
-              onClick={() => setActiveSection("orderhistory")}
-            >
+            <Link to="/userorder" className={`profile-item ${activeSection === "orderhistory" ? "active" : ""}`}>
               <BiHistory className="profile-icon" />
               Order History
-            </a>
+            </Link>
           </li>
           <li>
             <a

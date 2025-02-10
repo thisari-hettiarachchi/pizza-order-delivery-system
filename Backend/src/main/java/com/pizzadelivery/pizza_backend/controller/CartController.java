@@ -1,13 +1,13 @@
 package com.pizzadelivery.pizza_backend.controller;
 
 import com.pizzadelivery.pizza_backend.model.Cart;
+import com.pizzadelivery.pizza_backend.model.Item;
 import com.pizzadelivery.pizza_backend.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -16,60 +16,64 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    // Add item to the cart
-    @PostMapping("/addtocart")
-    public ResponseEntity<Cart> addToCart(@RequestBody Cart cartItem) {
-        Cart addedItem = cartService.addToCart(cartItem);
-        return ResponseEntity.ok(addedItem);
+    // Add an item to the cart
+    @PostMapping("/addtocart/{userName}")
+    public ResponseEntity<Cart> addToCart(@PathVariable String userName, @RequestBody Item cartItem) {
+        try {
+            Cart updatedCart = cartService.addToCart(userName, cartItem);
+            return ResponseEntity.ok(updatedCart);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception stack trace
+            return ResponseEntity.badRequest().build();
+        }
     }
 
-    // Get cart by userName (this could return a list of cart items)
-    @GetMapping("/getcart/{userName}")
-    public ResponseEntity<List<Cart>> getCart(@PathVariable String userName) {
-        // Fetch the list of carts associated with the given userName
-        List<Cart> cart = cartService.getCartByUserName(userName);
 
-        if (cart.isEmpty()) {
-            // Return 404 Not Found if there are no carts for the given user
-            return ResponseEntity.notFound().build();
+
+    // Get cart by userName
+    @GetMapping("/getcart/{userName}")
+    public ResponseEntity<Object> getCart(@PathVariable String userName) {
+        Cart cart = cartService.getCartByUserName(userName);
+
+        if (cart.getItems() == null || cart.getItems().isEmpty()) {
+            // If the cart has no items, return a custom message
+            return ResponseEntity.status(404).body("No cart found for username: " + userName);
         }
 
-        // Return 200 OK with the list of carts
+        // If the cart has items, return the cart as normal
         return ResponseEntity.ok(cart);
     }
 
 
-
-    // Update cart (for updating quantity, size, price, etc.)
+    // Update an item in the cart
     @PutMapping("/updatecart/{userName}")
-    public ResponseEntity<Cart> updateCart(@PathVariable String userName, @RequestBody Cart cart) {
-        // Ensure the cart exists before updating, find the specific cart by userName, itemId, and size
-        Optional<Cart> existingCart = cartService.getCartByUserNameAndItemIdAndSize(userName, cart.getItemId(), cart.getSize());
+    public ResponseEntity<Cart> updateCart(@PathVariable String userName, @RequestBody Item cartItem) {
+        Cart updatedCart = cartService.updateCart(userName, cartItem);
+        return ResponseEntity.ok(updatedCart);
+    }
 
-        if (existingCart.isPresent()) {
-            // If cart exists, get the existing cart object to update
-            Cart cartToUpdate = existingCart.get();
-
-            // Only update fields that need to be changed
-            cartToUpdate.setItemName(cart.getItemName());
-            cartToUpdate.setQuantity(cart.getQuantity());
-            cartToUpdate.setPrice(cart.getPrice());
-
-            // Save the updated cart using the service
-            Cart updatedCart = cartService.updateCart(cartToUpdate);
-
-            // Return the updated cart
-            return ResponseEntity.ok(updatedCart);
+    @DeleteMapping("/deletecart/{userName}/{itemId}/{size}")
+    public ResponseEntity<String> deleteItemFromCart(@PathVariable String userName, @PathVariable String itemId, @PathVariable String size) {
+        try {
+            cartService.deleteItemFromCart(userName, itemId, size);
+            return ResponseEntity.ok("Item removed from cart successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error removing item from cart: " + e.getMessage());
         }
+    }
+    @DeleteMapping("/deletecart/{username}")
+    public ResponseEntity<String> deleteCart(@PathVariable String username) {
+        try {
+            // Attempt to delete the cart for the given username
+            cartService.deleteCart(username);
 
-        // Return not found if the cart does not exist
-        return ResponseEntity.notFound().build();
+            // Return a success response with status 200 OK
+            return ResponseEntity.ok("Cart deleted successfully!");
+        } catch (Exception e) {
+            // Handle any errors that might occur and return an error response
+            return ResponseEntity.status(500).body("Failed to delete cart: " + e.getMessage());
+        }
     }
 
-    // Remove item from cart
-    @DeleteMapping("/deletecart/{id}")
-    public ResponseEntity<Void> removeFromCart(@PathVariable String id) {
-        cartService.removeItemFromCart(id);
-        return ResponseEntity.ok().build();
-    }
+
 }

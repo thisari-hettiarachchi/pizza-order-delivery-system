@@ -129,6 +129,8 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
                         <span className="profile-username">{userName}</span>
                       </li>
                     </ul>
+
+                    
                     <ul className="nav-profile-dropdown">
                       <Link to={"/profile"}>
                         <li>

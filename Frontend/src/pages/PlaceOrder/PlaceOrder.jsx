@@ -1,28 +1,189 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { StoreContext } from "../../Context/StoreContext";
+import axios from "axios";
 import "./PlaceOrder.css";
+import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
-  const { getTotalPrice, lastTotalprice } = useContext(StoreContext);
+  const {
+    getTotalPrice,
+    lastTotalPrice,
+    discount,
+    cartItems,
+    foodList,
+    url,
+    deleteCart,
+  } = useContext(StoreContext);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "",
+    phone: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Check if cart is empty
+    if (Object.keys(cartItems).length === 0) {
+      alert("Your cart is empty. Please add items to proceed.");
+      return;
+    }
+
+    // Create an array of items with details
+    const orderItems = Object.entries(cartItems).map(
+      ([compositeKey, itemData]) => {
+        const [itemId, size] = compositeKey.split("|");
+        const item = foodList.find((food) => food.id === itemId);
+        const sizePrice = item ? item.price[size] : 0;
+        return {
+          itemId,
+          itemName: item ? item.name : "Unknown Item",
+          size,
+          price: sizePrice,
+          quantity: itemData.quantity,
+          totalPrice: sizePrice * itemData.quantity,
+        };
+      }
+    );
+
+    const orderData = {
+      userName: `${formData.firstName} ${formData.lastName}`,
+      items: orderItems, // Include cart items
+      amount: getTotalPrice() === 0 ? "0" : lastTotalPrice().toString(),
+      address: {
+        street: formData.street,
+        city: formData.city,
+        state: formData.state,
+        zipCode: formData.zipCode,
+        country: formData.country,
+        phone: formData.phone,
+      },
+      paymentStatus: "PENDING", // Can update based on actual payment status
+    };
+
+    try {
+      // Send the order data to the backend API
+      const response = await axios.post(url + "/api/order/create", orderData);
+
+      // Show success message
+      toast.success("Order placed successfully!");
+      deleteCart();
+
+      // Clear form data and cart items
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        street: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        country: "",
+        phone: "",
+      });
+
+    } catch (error) {
+      // Handle error (e.g., show error message)
+      toast.error("Error placing order: " + error);
+    }
+  };
+
   return (
-    <form className="place-order">
+    <form className="place-order" onSubmit={handleSubmit}>
       <div className="place-order-left">
         <p className="title">Delivery Information</p>
         <div className="multi-fields">
-          <input type="text" placeholder="First Name" />
-          <input type="text" placeholder="Last Name" />
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <input type="email" placeholder="Email address" />
-        <input type="text" placeholder="Street" />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email address"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="street"
+          placeholder="Street"
+          value={formData.street}
+          onChange={handleChange}
+          required
+        />
         <div className="multi-fields">
-          <input type="text" placeholder="City" />
-          <input type="text" placeholder="State" />
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            value={formData.city}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="state"
+            placeholder="State"
+            value={formData.state}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div className="multi-fields">
-          <input type="text" placeholder="Zip code" />
-          <input type="text" placeholder="Country" />
+          <input
+            type="text"
+            name="zipCode"
+            placeholder="Zip code"
+            value={formData.zipCode}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="country"
+            placeholder="Country"
+            value={formData.country}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <input type="text" placeholder="Phone" />
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+        />
       </div>
       <div className="place-order-right">
         <div className="cart-total">
@@ -38,12 +199,24 @@ const PlaceOrder = () => {
               <p>Rs{getTotalPrice() === 0 ? 0 : 200}</p>
             </div>
             <hr />
+            {discount ? (
+              <>
+                <div className="cart-total-details">
+                  {" "}
+                  <p>Discount</p>
+                  <p>{discount}%</p>
+                </div>
+                <hr />
+              </>
+            ) : (
+              ""
+            )}
             <div className="cart-total-details">
               <b>Total</b>
-              <b>Rs{getTotalPrice() === 0 ? 0 : getTotalPrice() + 200}</b>
+              <b>Rs{getTotalPrice() === 0 ? 0 : lastTotalPrice()} </b>
             </div>
           </div>
-          <button>PROCEED TO PAYMENT</button>
+          <button type="submit">PROCEED TO PAYMENT</button>
         </div>
       </div>
     </form>

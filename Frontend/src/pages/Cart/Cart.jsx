@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import "./cart.css";
 import { useNavigate } from "react-router-dom";
@@ -10,15 +10,20 @@ export default function Cart() {
     cartItems,
     updateCartQuantity,
     removeFromCart,
+    deleteCart,
     getTotalPrice,
     lastTotalPrice,
+    setPromoCode,
+    promoCode,
+    discount,
+    validatePromoCode,
     url,
   } = useContext(StoreContext);
 
   const navigate = useNavigate();
 
   const totalItems = Object.values(cartItems).reduce(
-    (acc, item) => acc + item.quantity, // Ensure quantity is used here
+    (acc, item) => acc + item.quantity,
     0
   );
 
@@ -28,16 +33,31 @@ export default function Cart() {
     if (cartItems[compositeKey]) {
       const quantity = cartItems[compositeKey].quantity;
 
-      if (quantity > 1) {
-        updateCartQuantity(itemId, size);
+      if (Object.keys(cartItems).length > 1) {
+        if (quantity > 1) {
+          
+          updateCartQuantity(itemId, size);
+        } else {
+          
+          removeFromCart(itemId, size);
+        }
       } else {
-        removeFromCart(itemId, size);
+        
+        deleteCart();
       }
     } else {
       toast.error("Item not found in cart.");
     }
   };
 
+
+  const handlePromoCodeChange = (e) => {
+    setPromoCode(e.target.value); // Update promo code as the user types
+  };
+
+  const handlePromoCodeSubmit = () => {
+    validatePromoCode(promoCode);
+  };
 
   return (
     <div className="Cart">
@@ -101,14 +121,27 @@ export default function Cart() {
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-              <p>
-                <p>RS.{getTotalPrice() === 0 ? 0 : 200}</p>
-              </p>
+              <p>RS.{getTotalPrice() === 0 ? 0 : 200}</p>
             </div>
             <hr />
+            {discount ? (
+              <>
+                <div className="cart-total-details">
+                  {" "}
+                  <p>Discount</p>
+                  <p>{discount}%</p>
+                </div>
+                <hr />
+              </>
+            ) : (
+              ""
+            )}
             <div className="cart-total-details">
               <b>Total</b>
-              <b>RS.{lastTotalPrice()}</b>
+              <b>
+                RS.
+                {getTotalPrice() === 0 ? 0 : lastTotalPrice()}{" "}
+              </b>
             </div>
           </div>
           <button
@@ -127,8 +160,15 @@ export default function Cart() {
           <div>
             <p>If you have a promo code, enter it here:</p>
             <div className="cart-promocode-input">
-              <input type="text" placeholder="promo_code" />
-              <button className="submit.btn">Submit</button>
+              <input
+                type="text"
+                placeholder="promo_code"
+                value={promoCode}
+                onChange={handlePromoCodeChange}
+              />
+              <button className="submit-btn" onClick={handlePromoCodeSubmit}>
+                Submit
+              </button>
             </div>
           </div>
         </div>

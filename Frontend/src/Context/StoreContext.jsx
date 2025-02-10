@@ -7,6 +7,8 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItem] = useState({});
   const [foodList, setFoodList] = useState([]);
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
   const userName = localStorage.getItem("userName");
   const url = "http://localhost:8080";
 
@@ -21,13 +23,15 @@ const StoreContextProvider = (props) => {
       }
       const cartData = await response.json();
 
-      // Convert fetched cart data into the expected structure
+      // Assuming cartData is the entire response, and items are inside the "items" array
       const formattedCartData = {};
-      cartData.forEach((item) => {
+
+      // Iterate over the items array
+      cartData.items.forEach((item) => {
         const compositeKey = `${item.itemId}|${item.size}`;
         formattedCartData[compositeKey] = {
           quantity: item.quantity,
-          cartId: item.id, // Include cartId
+          cartId: cartData.id, // Use cartData.id as the cartId
         };
       });
 
@@ -43,6 +47,7 @@ const StoreContextProvider = (props) => {
       setCartItem({}); // Clear cart items on error
     }
   };
+
 
   useEffect(() => {
     if (!userName) {
@@ -124,28 +129,20 @@ const StoreContextProvider = (props) => {
 
   const removeFromCart = async (itemId, size) => {
     const compositeKey = `${itemId}|${size}`;
-    const currentCartItems = { ...cartItems }; // Clone the state to avoid timing issues
+    const currentCartItems = { ...cartItems };
 
     if (currentCartItems[compositeKey]) {
-      const cartId = currentCartItems[compositeKey].cartId;
-
-      console.log("cartItems before deletion:", currentCartItems);
-      console.log("Composite Key:", compositeKey);
-      console.log("Cart ID for delete:", cartId);
-
       try {
-        // Attempt to delete the item from the backend first
         const response = await axios.delete(
-          `${url}/api/cart/deletecart/${cartId}`
+          `${url}/api/cart/deletecart/${userName}/${itemId}/${size}`
         );
-
         if (response.status === 200) {
           // Remove item from the cloned object
           delete currentCartItems[compositeKey];
-          setCartItem(currentCartItems); // Update state with the modified object
+          setCartItem(currentCartItems);
           toast.success("Item removed from cart!");
         } else {
-          toast.error("Failed to delete cart item.");
+          toast.error("Failed to remove item from cart.");
         }
       } catch (error) {
         console.error("Error removing item from cart:", error);
@@ -156,6 +153,24 @@ const StoreContextProvider = (props) => {
       toast.error("Item not found in cart.");
     }
   };
+
+  const deleteCart = async () => {
+   try {
+     const response = await axios.delete(
+       `${url}/api/cart/deletecart/${userName}`
+     );
+     if (response.status === 200) {
+       setCartItem({});
+       toast.success("Item removed from cart!");
+     } else {
+       toast.error("Failed to remove item from cart.");
+     }
+   } catch (error) {
+     console.error("Error removing item from cart:", error);
+     toast.error("Failed to remove item from cart.");
+   }
+  }
+
 
   // Fetch food list from the API
   const fetchFoodList = async () => {
@@ -207,9 +222,24 @@ const StoreContextProvider = (props) => {
 
   // Calculate the final total price including delivery fee
   const lastTotalPrice = () => {
-    const deliveryFee = 200; // Fixed delivery fee
-    const subtotal = getTotalPrice(); // Subtotal from cart items
-    return subtotal > 0 ? subtotal + deliveryFee : 0; // Add delivery fee only if subtotal is greater than 0
+    const deliveryFee = 200;
+    const subtotal = getTotalPrice();
+    const discountAmount = (subtotal * discount) / 100; // Calculate discount
+    return subtotal > 0 ? subtotal - discountAmount + deliveryFee : 0;
+  };
+
+  const validatePromoCode = (code) => {
+    const validPromoCodes = {
+      DISCOUNT10: 10,
+      DISCOUNT20: 20,
+    };
+    if (validPromoCodes[code]) {
+      setDiscount(validPromoCodes[code]);
+      toast.success(`Promo code applied! ${validPromoCodes[code]}% discount.`);
+    } else {
+      setDiscount(0);
+      toast.error("Invalid promo code. Please try again.");
+    }
   };
 
   // Get the total number of items in the cart
@@ -228,9 +258,14 @@ const StoreContextProvider = (props) => {
     cartItems,
     updateCartQuantity,
     removeFromCart,
+    deleteCart,
     getTotalItems,
     getTotalPrice,
     lastTotalPrice,
+    validatePromoCode,
+    setPromoCode,
+    promoCode,
+    discount,
     fetchCartItems,
     setCartItem,
     url,
