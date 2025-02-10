@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import axios from "axios";
 import "./PlaceOrder.css";
@@ -79,6 +79,11 @@ const PlaceOrder = () => {
       // Send the order data to the backend API
       const response = await axios.post(url + "/api/order/create", orderData);
 
+      // Redirect to Stripe checkout page
+      if (response.data) {
+        window.location.href = response.data;
+      }
+
       // Show success message
       toast.success("Order placed successfully!");
       deleteCart();
@@ -95,7 +100,6 @@ const PlaceOrder = () => {
         country: "",
         phone: "",
       });
-
     } catch (error) {
       // Handle error (e.g., show error message)
       toast.error("Error placing order: " + error);
