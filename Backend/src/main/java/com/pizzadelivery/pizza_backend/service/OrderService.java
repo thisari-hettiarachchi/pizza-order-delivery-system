@@ -32,12 +32,17 @@ public class OrderService {
         try {
             Stripe.apiKey = stripeSecretKey;
 
-            List<SessionCreateParams.LineItem> lineItems = order.getItems().stream().map(item -> {
-                // Ensure the item quantity is parsed as a long correctly
-                long quantity = Long.parseLong(item.getQuantity()); // Assuming it's a long or integer
+            //  Save order first to generate a valid ID
+            order.setPaymentStatus(Order.PaymentStatus.PENDING);
+            orderRepository.save(order);  // Ensure order ID exists
 
-                // Calculate unit price based on the item's price
-                long unitAmount = (long) (Double.parseDouble(item.getPrice()) * 100); // Convert to cents
+            //  Now, order.getId() should not be null
+            String orderId = order.getId();
+            System.out.println("Generated Order ID: " + orderId); // Debugging
+
+            List<SessionCreateParams.LineItem> lineItems = order.getItems().stream().map(item -> {
+                long quantity = Long.parseLong(item.getQuantity());
+                long unitAmount = (long) (Double.parseDouble(item.getPrice()) * 100);
 
                 return SessionCreateParams.LineItem.builder()
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
@@ -47,34 +52,31 @@ public class OrderService {
                                         .setName(item.getItemName())
                                         .build())
                                 .build())
-                        .setQuantity(quantity) // Set item quantity
+                        .setQuantity(quantity)
                         .build();
             }).collect(Collectors.toList());
 
-            // Create session with 'mode' parameter for payment
             SessionCreateParams params = SessionCreateParams.builder()
-                    .setMode(SessionCreateParams.Mode.PAYMENT)  // Specify the mode (payment)
+                    .setMode(SessionCreateParams.Mode.PAYMENT)
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .addAllLineItem(lineItems)
                     .setSuccessUrl("http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}")
                     .setCancelUrl("http://localhost:5173/cancel")
+                    .putMetadata("order_id", orderId) //  Ensure valid order ID is set
                     .build();
 
             Session session = Session.create(params);
-
-            // Save order only if session is successfully created
-            orderRepository.save(order);
 
             return session.getUrl();
 
         } catch (StripeException e) {
             logger.severe("StripeException: " + e.getMessage());
             e.printStackTrace();
-            return "Error: " + e.getMessage(); // Return an error message to the frontend
+            return "Error: " + e.getMessage();
         } catch (Exception e) {
             logger.severe("Exception: " + e.getMessage());
             e.printStackTrace();
-            return "Error: " + e.getMessage(); // Return an error message to the frontend
+            return "Error: " + e.getMessage();
         }
     }
 
@@ -85,6 +87,17 @@ public class OrderService {
 
     public Order getOrderById(String id) {
         return orderRepository.findById(id).orElse(null);
+    }
+
+    public boolean updatePaymentStatus(String id, Order.PaymentStatus newStatus) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            order.setPaymentStatus(newStatus);
+            orderRepository.save(order);
+            return true;
+        }
+        return false;
     }
 
     public boolean updateOrderStatus(String id, OrderStatus newStatus) {
