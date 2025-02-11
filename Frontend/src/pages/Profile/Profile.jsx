@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Profile.css";
 import ProfileSideBar from "../../components/UserProfile/ProfileSideBar";
 import ProfileContent from "../../components/ProfileContent/ProfileContent";
-import OrderHistory from "../../components/OrderHistory/OrderHistory";
 import UserMessage from "../../components/UserMessage/UserMessage";
 import UserHelp from "../../components/UserHelp/UserHelp";
 import UserOrder from "../UserOrder/UserOrder";
