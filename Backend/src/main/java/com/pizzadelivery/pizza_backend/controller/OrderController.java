@@ -58,38 +58,6 @@ public class OrderController {
         return deleted ? ResponseEntity.ok("Order deleted successfully!") : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/success")
-    public ResponseEntity<String> handlePaymentSuccess(@RequestParam("session_id") String sessionId) {
-        try {
-            Stripe.apiKey = stripeSecretKey;
-
-            Session session = Session.retrieve(sessionId);
-
-            if (session != null && "paid".equals(session.getPaymentStatus())) {
-                Map<String, String> metadata = session.getMetadata();
-                if (metadata == null || !metadata.containsKey("order_id")) {
-                    return ResponseEntity.status(400).body("Missing order ID in payment metadata.");
-                }
-
-                String orderId = metadata.get("order_id");
-                Order order = orderService.getOrderById(orderId);
-
-                if (order != null) {
-                    order.setPaymentStatus(Order.PaymentStatus.COMPLETED);
-                    orderService.updatePaymentStatus(orderId, order.getPaymentStatus());
-                    return ResponseEntity.ok("Payment successful! Status updated.");
-                } else {
-                   return ResponseEntity.status(404).body("Order not found for session ID: " + sessionId + " and order ID: " + orderId);
-                }
-            } else {
-                return ResponseEntity.status(400).body("Payment not completed or session invalid.");
-            }
-        } catch (StripeException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Stripe API error: " + e.getMessage());
-        }
-    }
-
     @PostMapping("/verify")
     public ResponseEntity<?> verifyPayment(@RequestBody Map<String, String> request) {
         String sessionId = request.get("sessionId");

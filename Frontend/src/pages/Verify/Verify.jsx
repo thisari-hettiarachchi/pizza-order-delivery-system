@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./Success.css"; // Import CSS
-import { FaCheckCircle } from "react-icons/fa"; // Import check icon
+import "./Verify.css";
+import { FaCheckCircle } from "react-icons/fa";
+import { StoreContext } from "../../Context/StoreContext";
 
-const Success = () => {
+const Verify = () => {
+  const { url } = useContext(StoreContext);
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
 
@@ -17,10 +19,9 @@ const Success = () => {
 
   const verifyPayment = async (sessionId) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/order/verify",
-        { sessionId }
-      );
+      const response = await axios.post(url + "/api/order/verify", {
+        sessionId,
+      });
 
       if (response.data.success) {
         toast.success("Payment Verified! Your order is confirmed.");
@@ -43,4 +44,4 @@ const Success = () => {
   );
 };
 
-export default Success;
+export default Verify;

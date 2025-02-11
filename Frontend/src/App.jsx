@@ -11,7 +11,7 @@ import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "animate.css";
 import UserOrder from "./pages/UserOrder/UserOrder";
-import Success from "./pages/Success/Success";
+import Verify from "./pages/Verify/Verify";
 
 
 const App = () => {
@@ -64,7 +64,7 @@ const App = () => {
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/userorder" element={<UserOrder />} />
-          <Route path="/success" element={<Success/>} />
+          <Route path="/verify" element={<Verify/>} />
 
         </Routes>
       </div>
