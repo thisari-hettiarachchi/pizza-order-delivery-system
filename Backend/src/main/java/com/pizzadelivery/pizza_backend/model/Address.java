@@ -6,14 +6,16 @@ public class Address {
         private String city;
         private String state;
         private String zipCode;
+        private String country;
 
         public Address() {}
 
-        public Address(String street, String city, String state, String zipCode) {
+        public Address(String street, String city, String state, String zipCode, String country) {
             this.street = street;
             this.city = city;
             this.state = state;
             this.zipCode = zipCode;
+            this.country = country;
         }
 
         // Getters and Setters
@@ -28,6 +30,9 @@ public class Address {
 
         public String getZipCode() { return zipCode; }
         public void setZipCode(String zipCode) { this.zipCode = zipCode; }
+
+        public String getCountry() { return country; }
+        public void setCountry(String country) { this.country = country; }
 
 
 }
