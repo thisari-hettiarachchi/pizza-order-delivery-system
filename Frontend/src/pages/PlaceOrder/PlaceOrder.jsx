@@ -199,12 +199,12 @@ const PlaceOrder = () => {
           <div>
             <div className="cart-total-details">
               <p>Subtotal</p>
-              <p>Rs{getTotalPrice()}</p>
+              <p>Rs.{getTotalPrice()}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-              <p>Rs{getTotalPrice() === 0 ? 0 : 200}</p>
+              <p>Rs.{getTotalPrice() === 0 ? 0 : 200}</p>
             </div>
             <hr />
             {discount ? (
@@ -221,7 +221,7 @@ const PlaceOrder = () => {
             )}
             <div className="cart-total-details">
               <b>Total</b>
-              <b>Rs{getTotalPrice() === 0 ? 0 : lastTotalPrice()} </b>
+              <b>Rs.{getTotalPrice() === 0 ? 0 : lastTotalPrice()} </b>
             </div>
           </div>
           <button type="submit">PROCEED TO PAYMENT</button>
