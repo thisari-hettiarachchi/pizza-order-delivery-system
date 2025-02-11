@@ -1,8 +1,8 @@
 import React from "react";
 import { BiCamera } from "react-icons/bi";
-import "./Content.css";
+import "./ProfileContent.css";
 
-export const Content = () => {
+export const ProfileContent = () => {
   return (
     <form className="myaccount">
       <div className="myaccount-left">
@@ -23,26 +23,30 @@ export const Content = () => {
         </div>
         <input type="text" placeholder="Phone" />
         <div className="myaccount-button">
-            <button className="myaccount-upbutton">Update</button>
-            <button className="myaccount-cancelbutton">Cancel</button>
+          <button className="myaccount-upbutton">Update</button>
+          <button className="myaccount-cancelbutton">Cancel</button>
         </div>
       </div>
-      
+
       <div className="myaccount-right">
         <div className="profile-img-container">
-            <img src="/src/assets/user.png" alt="User Profile" className="profile-img"/>
-            <button className="camera-icon">
+          <img
+            src="/src/assets/user.png"
+            alt="User Profile"
+            className="profile-img"
+          />
+          <label className="camera-icon">
             <BiCamera />
-            </button>
+            <input type="file" accept="image/*" style={{ display: "none" }} />
+          </label>
         </div>
         <div className="profile-buttons">
           <button className="img-svbutton">Save Image</button>
           <button className="img-dltbutton">Delete Image</button>
         </div>
       </div>
-
     </form>
   );
 };
 
-export default Content;
+export default ProfileContent;

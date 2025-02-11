@@ -37,8 +37,8 @@ public class OrderService {
             // Save order first to generate a valid ID
             order.setPaymentStatus(Order.PaymentStatus.PENDING);
             orderRepository.save(order);
-
             String orderId = order.getId();
+
             List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
 
             // Add order items
@@ -64,66 +64,47 @@ public class OrderService {
                 }
             }
 
-            // Add delivery fee (ensure it's positive)
+            // Configure shipping fee as a shipping rate
+            List<SessionCreateParams.ShippingOption> shippingOptions = new ArrayList<>();
             if (order.getDeliveryFee() != null && order.getDeliveryFee().compareTo(BigDecimal.ZERO) > 0) {
-                lineItems.add(SessionCreateParams.LineItem.builder()
-                        .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
-                                .setCurrency("lkr")
-                                .setUnitAmount(order.getDeliveryFee().multiply(BigDecimal.valueOf(100)).longValue())
-                                .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                        .setName("Delivery Fee")
+                shippingOptions.add(SessionCreateParams.ShippingOption.builder()
+                        .setShippingRateData(SessionCreateParams.ShippingOption.ShippingRateData.builder()
+                                .setType(SessionCreateParams.ShippingOption.ShippingRateData.Type.FIXED_AMOUNT) // Set type
+                                .setDisplayName("Delivery Fee")
+                                .setFixedAmount(SessionCreateParams.ShippingOption.ShippingRateData.FixedAmount.builder()
+                                        .setAmount(order.getDeliveryFee().multiply(BigDecimal.valueOf(100)).longValue())
+                                        .setCurrency("lkr")
                                         .build())
                                 .build())
-                                .setQuantity(1L)
                         .build());
             }
-            // Add discount as a separate line item if valid
-            if (order.getDiscount() != null && !order.getDiscount().isEmpty()) {
-                try {
-                    BigDecimal discountAmount = new BigDecimal(order.getDiscount());
-                    if (discountAmount.compareTo(BigDecimal.ZERO) > 0) {
-                        lineItems.add(SessionCreateParams.LineItem.builder()
-                                .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
-                                        .setCurrency("lkr")
-                                        .setUnitAmount(discountAmount.multiply(BigDecimal.valueOf(100)).longValue())  // Negative charge for discount
-                                        .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                .setName("Discount")
-                                                .build())
-                                        .build())
-                                .setQuantity(1L)
-                                .build());
-                    }
-                } catch (NumberFormatException e) {
-                    logger.warning("Invalid discount value: " + order.getDiscount());
-                }
-            }
 
-
-            // Add discount as a separate metadata (instead of negative charge)
-
-
-            SessionCreateParams params = SessionCreateParams.builder()
+            SessionCreateParams.Builder sessionBuilder = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .addAllLineItem(lineItems)
                     .setSuccessUrl("http://localhost:5173/verify?session_id={CHECKOUT_SESSION_ID}")
                     .setCancelUrl("http://localhost:5173/cancel")
-                    .putMetadata("order_id", orderId)
-                    .build();
+                    .putMetadata("order_id", orderId);
 
-            Session session = Session.create(params);
+            // Add shipping options if available
+            if (!shippingOptions.isEmpty()) {
+                sessionBuilder.addAllShippingOption(shippingOptions);
+            }
+
+            Session session = Session.create(sessionBuilder.build());
             return session.getUrl();
 
         } catch (StripeException e) {
             logger.severe("StripeException: " + e.getMessage());
-            e.printStackTrace();
             return "Error: " + e.getMessage();
         } catch (Exception e) {
             logger.severe("Exception: " + e.getMessage());
-            e.printStackTrace();
             return "Error: " + e.getMessage();
         }
     }
+
+
 
 
 
