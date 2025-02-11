@@ -9,6 +9,7 @@ const StoreContextProvider = (props) => {
   const [foodList, setFoodList] = useState([]);
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
+  const deliveryFee = 200;
   const userName = localStorage.getItem("userName");
   const url = "http://localhost:8080";
 
@@ -47,7 +48,6 @@ const StoreContextProvider = (props) => {
       setCartItem({}); // Clear cart items on error
     }
   };
-
 
   useEffect(() => {
     if (!userName) {
@@ -155,22 +155,21 @@ const StoreContextProvider = (props) => {
   };
 
   const deleteCart = async () => {
-   try {
-     const response = await axios.delete(
-       `${url}/api/cart/deletecart/${userName}`
-     );
-     if (response.status === 200) {
-       setCartItem({});
-       toast.success("Item removed from cart!");
-     } else {
-       toast.error("Failed to remove item from cart.");
-     }
-   } catch (error) {
-     console.error("Error removing item from cart:", error);
-     toast.error("Failed to remove item from cart.");
-   }
-  }
-
+    try {
+      const response = await axios.delete(
+        `${url}/api/cart/deletecart/${userName}`
+      );
+      if (response.status === 200) {
+        setCartItem({});
+        toast.success("Item removed from cart!");
+      } else {
+        toast.error("Failed to remove item from cart.");
+      }
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+      toast.error("Failed to remove item from cart.");
+    }
+  };
 
   // Fetch food list from the API
   const fetchFoodList = async () => {
@@ -222,7 +221,6 @@ const StoreContextProvider = (props) => {
 
   // Calculate the final total price including delivery fee
   const lastTotalPrice = () => {
-    const deliveryFee = 200;
     const subtotal = getTotalPrice();
     const discountAmount = (subtotal * discount) / 100; // Calculate discount
     return subtotal > 0 ? subtotal - discountAmount + deliveryFee : 0;
@@ -260,6 +258,7 @@ const StoreContextProvider = (props) => {
     removeFromCart,
     deleteCart,
     getTotalItems,
+    deliveryFee,
     getTotalPrice,
     lastTotalPrice,
     validatePromoCode,
