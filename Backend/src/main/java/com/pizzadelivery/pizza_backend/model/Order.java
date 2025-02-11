@@ -4,6 +4,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,32 +15,35 @@ public class Order {
     @Id
     private String id;
     private String userName;
-    private OrderStatus status = OrderStatus.FOOD_PROCESSING;  // Using enum for status
+    private OrderStatus status = OrderStatus.FOOD_PROCESSING;
     private List<Item> items = new ArrayList<>();
-    private String amount;  // Keeping amount as String, although using BigDecimal would be better for monetary values
+    private BigDecimal totalPrice;
+    private String discount;
+    private BigDecimal deliveryFee;
+    private BigDecimal lastTotalPrice;
     private Address address;
-    private PaymentStatus paymentStatus = PaymentStatus.PENDING;  // Enum for payment status
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
     @CreatedDate
     private LocalDateTime date;
 
-    // Default constructor
     public Order() {
-        this.date = LocalDateTime.now(); // Set the date when the order is created
+        this.date = LocalDateTime.now();
     }
 
-    // Constructor with fields
-    public Order(String userName, List<Item> items, String amount, Address address) {
+    public Order(String userName, List<Item> items, BigDecimal totalPrice, String discount, BigDecimal deliveryFee, BigDecimal lastTotalPrice, Address address) {
         this.userName = userName;
         this.items = items;
-        this.amount = amount;
+        this.totalPrice = totalPrice;
+        this.discount = discount;
+        this.deliveryFee = deliveryFee;
+        this.lastTotalPrice = lastTotalPrice;
         this.address = address;
         this.date = LocalDateTime.now();
         this.status = OrderStatus.FOOD_PROCESSING;
         this.paymentStatus = PaymentStatus.PENDING;
     }
 
-    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -65,20 +69,45 @@ public class Order {
     }
 
     public List<Item> getItems() {
-        return items;
+        return new ArrayList<>(items);
     }
 
     public void setItems(List<Item> items) {
-        this.items = items;
+        this.items = new ArrayList<>(items);
     }
 
-    public String getAmount() {
-        return amount;
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public BigDecimal getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public void setDeliveryFee(BigDecimal deliveryFee) {
+        this.deliveryFee = deliveryFee;
+    }
+
+    public BigDecimal getLastTotalPrice() {
+        return lastTotalPrice;
+    }
+
+    public void setLastTotalPrice(BigDecimal lastTotalPrice) {
+        this.lastTotalPrice = lastTotalPrice;
+    }
+
 
     public Address getAddress() {
         return address;
@@ -95,13 +124,10 @@ public class Order {
     public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
+
     public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
-
-
-    // Removed setter for date to prevent modification after creation
-    // Date should only be set once when the order is created
 
     public enum PaymentStatus {
         PENDING,

@@ -9,6 +9,7 @@ const PlaceOrder = () => {
     getTotalPrice,
     lastTotalPrice,
     discount,
+    deliveryFee,
     cartItems,
     foodList,
     url,
@@ -39,7 +40,7 @@ const PlaceOrder = () => {
 
     // Check if cart is empty
     if (Object.keys(cartItems).length === 0) {
-      alert("Your cart is empty. Please add items to proceed.");
+      toast.warn("Your cart is empty. Please add items to proceed.");
       return;
     }
 
@@ -62,8 +63,11 @@ const PlaceOrder = () => {
 
     const orderData = {
       userName: `${formData.firstName} ${formData.lastName}`,
-      items: orderItems, // Include cart items
-      amount: getTotalPrice() === 0 ? "0" : lastTotalPrice().toString(),
+      items: orderItems,
+      totalPrice: getTotalPrice() === 0 ? "0" : getTotalPrice().toString(),
+      discount: discount.toString(),
+      deliveryFee: deliveryFee, 
+      lastTotalPrice: lastTotalPrice().toString(),
       address: {
         street: formData.street,
         city: formData.city,
@@ -72,7 +76,7 @@ const PlaceOrder = () => {
         country: formData.country,
         phone: formData.phone,
       },
-      paymentStatus: "PENDING", // Can update based on actual payment status
+      paymentStatus: "PENDING",
     };
 
     try {

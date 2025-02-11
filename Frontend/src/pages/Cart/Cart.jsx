@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 export default function Cart() {
   const {
+    scrollTop,
     foodList,
     cartItems,
     updateCartQuantity,
@@ -35,21 +36,17 @@ export default function Cart() {
 
       if (Object.keys(cartItems).length > 1) {
         if (quantity > 1) {
-          
           updateCartQuantity(itemId, size);
         } else {
-          
           removeFromCart(itemId, size);
         }
       } else {
-        
         deleteCart();
       }
     } else {
       toast.error("Item not found in cart.");
     }
   };
-
 
   const handlePromoCodeChange = (e) => {
     setPromoCode(e.target.value); // Update promo code as the user types
@@ -145,11 +142,14 @@ export default function Cart() {
             </div>
           </div>
           <button
-            onClick={() =>
-              totalItems === 0
-                ? toast.warn("Your cart is empty. Add items to proceed!")
-                : navigate("/order")
-            }
+            onClick={() => {
+              if (totalItems === 0) {
+                toast.warn("Your cart is empty. Add items to proceed!");
+              } else {
+                navigate("/order");
+                scrollTop();
+              }
+            }}
             className={`proceed-btn ${totalItems === 0 ? "disabled" : ""}`}
           >
             Proceed To Checkout
