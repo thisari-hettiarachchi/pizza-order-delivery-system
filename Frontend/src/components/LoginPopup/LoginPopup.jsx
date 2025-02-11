@@ -4,9 +4,10 @@ import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
 import { StoreContext } from "../../Context/StoreContext";
 
-const LoginPopup = ({ setShowLogin, formType, setFormType, setIsLoggedIn }) => {
+const LoginPopup = ({ setShowLogin }) => {
   const [loading, setLoading] = useState(false);
-  const { fetchCartItems } = useContext(StoreContext);
+  const { fetchCartItems, formType, setFormType, setIsLoggedIn } =
+    useContext(StoreContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -10,18 +10,39 @@ const StoreContextProvider = (props) => {
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const deliveryFee = 200;
-  const userName = localStorage.getItem("userName");
   const url = "http://localhost:8080";
+  const [userName, setUserName] = useState(localStorage.getItem("userName"));
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [formType, setFormType] = useState("Login");
 
-
-
-   const scrollTop = () => {
+  const scrollTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
 
+  const handleLogout = () => {
+    // Confirm the action before logging out
+    const userConfirmed = window.confirm("Are you sure you want to log out?");
+    if (!userConfirmed) return;
+
+    // Clear user-related data
+    localStorage.clear(); // Clears all localStorage data related to the user
+    sessionStorage.clear(); // Optional: Clears sessionStorage if used
+
+    localStorage.removeItem("userName");
+    setCartItem([]); // Clear cart state
+    console.log("User logged out and cart cleared");
+
+    // Update the application state
+    setUserName("");
+    setIsLoggedIn(false);
+
+    // Redirect to the home page
+    toast.success("Logged out successfully!");
+    navigate("/", { replace: true }); // Prevents navigating back to the protected page
+  };
 
   // Fetch Cart Item
   const fetchCartItems = async () => {
@@ -262,6 +283,13 @@ const StoreContextProvider = (props) => {
   };
 
   const contextValue = {
+    formType,
+    setFormType,
+    isLoggedIn,
+    setIsLoggedIn,
+    userName,
+    setUserName,
+    handleLogout,
     scrollTop,
     foodList,
     cartItems,

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useContext, useEffect } from "react";
 import { BiUser, BiMessage, BiHistory, BiHelpCircle, BiLogOut } from "react-icons/bi";
+import { StoreContext } from "../../Context/StoreContext";
 import "./ProfileSideBar.css";
 
 const ProfileSideBar = ({ setActiveSection, activeSection }) => {
   const [profile, setProfile] = useState(null);
+  const { userName, handleLogout } = useContext(StoreContext);
 
   useEffect(() => {
     fetch('/path/to/api/profile')
@@ -22,7 +24,7 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
         {profile ? (
           <div className="profile-info">
             <img src={`/uploaded_files/${profile.image}`} alt="Profile" className="profile-image" />
-            <p className="profile-name">{profile.name}</p>
+            <p className="profile-name">{userName}</p>
           </div>
         ) : (
           <p>Profile Not Found...</p>
@@ -75,7 +77,7 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
             <a
               href="#"
               className={`profile-item ${activeSection === "logout" ? "active" : ""}`}
-              onClick={(e) => { e.stopPropagation(); handleBackgroundClick("logout"); }}
+              onClick={(e) => { e.stopPropagation(); handleLogout(); }}
             >
               <BiLogOut className="profile-icon" />
               Logout
