@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { StoreContext } from '../../Context/StoreContext';
 import { 
   BiCard, BiCoinStack, BiLockAlt, BiSolidBookAdd, BiSupport, 
   BiTargetLock, BiTransferAlt, BiUserCircle, BiXCircle, 
@@ -8,6 +9,7 @@ import './UserHelp.css';
 
 const UserHelp = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const { userName } = useContext(StoreContext);
 
   const faqs = [
     { question: "How can I track my order?", answer: "You can track your order in the 'Order History' section." },
@@ -23,7 +25,7 @@ const UserHelp = () => {
   return (
     <div className="help-container">
       <header className="help-header">
-        <p>Hi Thisari Hettiarachchi, How can we help?</p>
+        <p>Hi..! {userName}, How can we help?</p>
         <input type="text" placeholder="Search for topics, questions..." className="help-search" />
       </header>
 
