@@ -13,6 +13,16 @@ const StoreContextProvider = (props) => {
   const userName = localStorage.getItem("userName");
   const url = "http://localhost:8080";
 
+
+
+   const scrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+
   // Fetch Cart Item
   const fetchCartItems = async () => {
     try {
@@ -252,6 +262,7 @@ const StoreContextProvider = (props) => {
   };
 
   const contextValue = {
+    scrollTop,
     foodList,
     cartItems,
     updateCartQuantity,

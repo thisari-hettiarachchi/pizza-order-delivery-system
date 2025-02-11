@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "./Navbar.css";
 
 const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
-  const { getTotalItems, getTotalPrice, setCartItem } =
+  const { getTotalItems, getTotalPrice, setCartItem, scrollTop } =
     useContext(StoreContext);
   const [nav, setNav] = useState(false);
   const [userName, setUserName] = useState("");
@@ -35,13 +35,7 @@ const Navbars = ({ setShowLogin, setFormType, isLoggedIn, setIsLoggedIn }) => {
     }
   }, [isLoggedIn]);
 
-  const scrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
+ 
   const handleLogout = () => {
     // Confirm the action before logging out
     const userConfirmed = window.confirm("Are you sure you want to log out?");
