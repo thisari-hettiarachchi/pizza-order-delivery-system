@@ -13,17 +13,12 @@ import "animate.css";
 import UserOrder from "./pages/UserOrder/UserOrder";
 import Verify from "./pages/Verify/Verify";
 
-
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const [formType, setFormType] = useState("Login");
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-
   const bounce = cssTransition({
     enter: "animate__animated animate__bounceIn",
     exit: "animate__animated animate__bounceOut",
   });
-
 
   function ScrollToHash() {
     const { hash } = useLocation();
@@ -42,29 +37,16 @@ const App = () => {
 
   return (
     <>
-      {showLogin && (
-        <LoginPopup
-          setShowLogin={setShowLogin}
-          setFormType={setFormType}
-          formType={formType}
-          setIsLoggedIn={setIsLoggedIn}
-        />
-      )}
+      {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
       <div className="app">
-        <Navbar
-          setShowLogin={setShowLogin}
-          setFormType={setFormType}
-          setIsLoggedIn={setIsLoggedIn}
-          isLoggedIn={isLoggedIn}
-        />
+        <Navbar setShowLogin={setShowLogin} />
         <ScrollToHash />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/verify" element={<Verify/>} />
-
+          <Route path="/verify" element={<Verify />} />
         </Routes>
       </div>
       <ToastContainer
