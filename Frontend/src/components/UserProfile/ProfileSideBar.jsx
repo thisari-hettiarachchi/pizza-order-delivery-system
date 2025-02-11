@@ -39,10 +39,14 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
             </a>
           </li>
           <li>
-            <Link to="/userorder" className={`profile-item ${activeSection === "orderhistory" ? "active" : ""}`}>
+            <a
+              href="#"
+              className={`profile-item ${activeSection === "orderhistory" ? "active" : ""}`}
+              onClick={() => setActiveSection("orderhistory")}
+            >
               <BiHistory className="profile-icon" />
               Order History
-            </Link>
+            </a>
           </li>
           <li>
             <a
