@@ -60,7 +60,7 @@ public class OrderService {
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .addAllLineItem(lineItems)
-                    .setSuccessUrl("http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}")
+                    .setSuccessUrl("http://localhost:5173/verify?session_id={CHECKOUT_SESSION_ID}")
                     .setCancelUrl("http://localhost:5173/cancel")
                     .putMetadata("order_id", orderId) //  Ensure valid order ID is set
                     .build();
