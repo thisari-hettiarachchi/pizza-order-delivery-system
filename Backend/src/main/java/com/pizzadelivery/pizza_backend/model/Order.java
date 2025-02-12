@@ -22,6 +22,7 @@ public class Order {
     private BigDecimal deliveryFee;
     private BigDecimal lastTotalPrice;
     private Address address;
+    private String contactNumber;
     private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
     @CreatedDate
@@ -31,7 +32,7 @@ public class Order {
         this.date = LocalDateTime.now();
     }
 
-    public Order(String userName, List<Item> items, BigDecimal totalPrice, String discount, BigDecimal deliveryFee, BigDecimal lastTotalPrice, Address address) {
+    public Order(String userName, List<Item> items, BigDecimal totalPrice, String discount, BigDecimal deliveryFee, BigDecimal lastTotalPrice, Address address, String contactNumber) {
         this.userName = userName;
         this.items = items;
         this.totalPrice = totalPrice;
@@ -39,6 +40,7 @@ public class Order {
         this.deliveryFee = deliveryFee;
         this.lastTotalPrice = lastTotalPrice;
         this.address = address;
+        this.contactNumber = contactNumber;
         this.date = LocalDateTime.now();
         this.status = OrderStatus.FOOD_PROCESSING;
         this.paymentStatus = PaymentStatus.PENDING;
@@ -115,6 +117,14 @@ public class Order {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public LocalDateTime getDate() {

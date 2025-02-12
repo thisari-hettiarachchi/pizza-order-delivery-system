@@ -24,7 +24,7 @@ const PlaceOrder = () => {
     state: "",
     zipCode: "",
     country: "",
-    phone: "",
+    contactNumber: "",
   });
 
   const handleChange = (e) => {
@@ -66,7 +66,7 @@ const PlaceOrder = () => {
       items: orderItems,
       totalPrice: getTotalPrice() === 0 ? "0" : getTotalPrice().toString(),
       discount: discount.toString(),
-      deliveryFee: deliveryFee, 
+      deliveryFee: deliveryFee,
       lastTotalPrice: lastTotalPrice().toString(),
       address: {
         street: formData.street,
@@ -74,8 +74,8 @@ const PlaceOrder = () => {
         state: formData.state,
         zipCode: formData.zipCode,
         country: formData.country,
-        phone: formData.phone,
       },
+      contactNumber: formData.contactNumber,
       paymentStatus: "PENDING",
     };
 
@@ -102,7 +102,7 @@ const PlaceOrder = () => {
         state: "",
         zipCode: "",
         country: "",
-        phone: "",
+        contactNumber: "",
       });
     } catch (error) {
       // Handle error (e.g., show error message)
@@ -186,9 +186,9 @@ const PlaceOrder = () => {
         </div>
         <input
           type="text"
-          name="phone"
-          placeholder="Phone"
-          value={formData.phone}
+          name="contactNumber"
+          placeholder="Contact number"
+          value={formData.contactNumber}
           onChange={handleChange}
           required
         />
