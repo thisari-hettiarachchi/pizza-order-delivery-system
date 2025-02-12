@@ -6,7 +6,9 @@ import com.pizzadelivery.pizza_backend.model.Order.OrderStatus;
 import com.pizzadelivery.pizza_backend.repository.OrderRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Coupon;
 import com.stripe.model.checkout.Session;
+import com.stripe.param.CouponCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,7 @@ public class OrderService {
             String orderId = order.getId();
 
             List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
+            BigDecimal totalAmount = BigDecimal.ZERO;
 
             // Add order items
             for (Item item : order.getItems()) {
@@ -48,10 +51,13 @@ public class OrderService {
                     BigDecimal unitAmount = new BigDecimal(item.getPrice()).multiply(BigDecimal.valueOf(100));
 
                     if (quantity > 0 && unitAmount.compareTo(BigDecimal.ZERO) > 0) {
+                        BigDecimal totalItemPrice = unitAmount.multiply(BigDecimal.valueOf(quantity));
+                        totalAmount = totalAmount.add(totalItemPrice); // Accumulate total before discount
+
                         lineItems.add(SessionCreateParams.LineItem.builder()
                                 .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
                                         .setCurrency("lkr")
-                                        .setUnitAmount(unitAmount.longValue())
+                                        .setUnitAmount(unitAmount.longValue()) // Price per unit
                                         .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                 .setName(item.getItemName())
                                                 .build())
@@ -64,12 +70,37 @@ public class OrderService {
                 }
             }
 
-            // Configure shipping fee as a shipping rate
+            // Calculate discount
+            BigDecimal discountAmount = BigDecimal.ZERO;
+            if (order.getDiscount() != null) {
+                try {
+                    BigDecimal discountPercentage = new BigDecimal(order.getDiscount()).divide(BigDecimal.valueOf(100));
+                    if (discountPercentage.compareTo(BigDecimal.ZERO) > 0) {
+                        discountAmount = totalAmount.multiply(discountPercentage).divide(BigDecimal.valueOf(100));
+                    }
+                } catch (NumberFormatException e) {
+                    logger.warning("Invalid discount percentage: " + order.getDiscount());
+                }
+            }
+
+            // Convert discount to cents
+            long discountAmountInCents = discountAmount.multiply(BigDecimal.valueOf(100)).longValue();
+
+            // Create discount coupon if applicable
+            List<SessionCreateParams.Discount> discounts = new ArrayList<>();
+            if (discountAmountInCents > 0) {
+                String couponId = createDiscountCoupon(discountAmountInCents);
+                if (couponId != null) {
+                    discounts.add(SessionCreateParams.Discount.builder().setCoupon(couponId).build());
+                }
+            }
+
+            // Add shipping options if applicable
             List<SessionCreateParams.ShippingOption> shippingOptions = new ArrayList<>();
             if (order.getDeliveryFee() != null && order.getDeliveryFee().compareTo(BigDecimal.ZERO) > 0) {
                 shippingOptions.add(SessionCreateParams.ShippingOption.builder()
                         .setShippingRateData(SessionCreateParams.ShippingOption.ShippingRateData.builder()
-                                .setType(SessionCreateParams.ShippingOption.ShippingRateData.Type.FIXED_AMOUNT) // Set type
+                                .setType(SessionCreateParams.ShippingOption.ShippingRateData.Type.FIXED_AMOUNT)
                                 .setDisplayName("Delivery Fee")
                                 .setFixedAmount(SessionCreateParams.ShippingOption.ShippingRateData.FixedAmount.builder()
                                         .setAmount(order.getDeliveryFee().multiply(BigDecimal.valueOf(100)).longValue())
@@ -79,6 +110,7 @@ public class OrderService {
                         .build());
             }
 
+            // Initialize the session builder
             SessionCreateParams.Builder sessionBuilder = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
@@ -87,11 +119,18 @@ public class OrderService {
                     .setCancelUrl("http://localhost:5173/cancel")
                     .putMetadata("order_id", orderId);
 
+            // Apply discount only if it exists
+            if (!discounts.isEmpty()) {
+                sessionBuilder.addAllDiscount(discounts);
+            }
+
             // Add shipping options if available
             if (!shippingOptions.isEmpty()) {
                 sessionBuilder.addAllShippingOption(shippingOptions);
             }
 
+
+            // Create Stripe session
             Session session = Session.create(sessionBuilder.build());
             return session.getUrl();
 
@@ -104,9 +143,23 @@ public class OrderService {
         }
     }
 
+    /**
+     * Creates a discount coupon in Stripe.
+     */
+    private String createDiscountCoupon(long discountInCents) {
+        try {
+            CouponCreateParams couponParams = CouponCreateParams.builder()
+                    .setAmountOff(discountInCents) // Discount in cents
+                    .setCurrency("lkr") // Currency should match checkout
+                    .build();
 
-
-
+            Coupon coupon = Coupon.create(couponParams);
+            return coupon.getId(); // Return coupon ID for checkout session
+        } catch (StripeException e) {
+            logger.severe("Error creating discount coupon: " + e.getMessage());
+            return null;
+        }
+    }
 
 
     public List<Order> getAllOrders() {
