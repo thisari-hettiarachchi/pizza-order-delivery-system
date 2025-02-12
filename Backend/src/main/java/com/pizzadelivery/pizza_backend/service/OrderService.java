@@ -115,8 +115,8 @@ public class OrderService {
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .addAllLineItem(lineItems)
-                    .setSuccessUrl("http://localhost:5173/verify?session_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl("http://localhost:5173/cancel")
+                    .setSuccessUrl("http://localhost:5173/verify?success=true&session_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl("http://localhost:5173/verify?success=false&session_id={CHECKOUT_SESSION_ID}")
                     .putMetadata("order_id", orderId);
 
             // Apply discount only if it exists
@@ -143,9 +143,6 @@ public class OrderService {
         }
     }
 
-    /**
-     * Creates a discount coupon in Stripe.
-     */
     private String createDiscountCoupon(long discountInCents) {
         try {
             CouponCreateParams couponParams = CouponCreateParams.builder()
