@@ -1,21 +1,22 @@
 import { useContext, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./Verify.css";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { StoreContext } from "../../Context/StoreContext";
 
 const Verify = () => {
   const { url } = useContext(StoreContext);
   const [searchParams] = useSearchParams();
+  const success = searchParams.get("success");
   const sessionId = searchParams.get("session_id");
 
   useEffect(() => {
-    if (sessionId) {
+    if (sessionId && success === "true") {
       verifyPayment(sessionId);
     }
-  }, [sessionId]);
+  }, [sessionId, success]);
 
   const verifyPayment = async (sessionId) => {
     try {
@@ -34,12 +35,20 @@ const Verify = () => {
   };
 
   return (
-    <div className="success-container">
-      <div className="success-box">
-        <FaCheckCircle className="success-icon" />
-        <h1>Payment Successful!</h1>
-        <p>Your order has been placed successfully.</p>
-      </div>
+    <div className="status-container">
+      {success === "true" ? (
+        <div className="success-box">
+          <FaCheckCircle className="success-icon" />
+          <h1>Payment Successful!</h1>
+          <p>Your order has been placed successfully.</p>
+        </div>
+      ) : (
+        <div className="cancel-box">
+          <FaTimesCircle className="cancel-icon" />
+          <h1>Payment Canceled</h1>
+          <p>Your payment was not completed. Please try again.</p>
+        </div>
+      )}
     </div>
   );
 };
