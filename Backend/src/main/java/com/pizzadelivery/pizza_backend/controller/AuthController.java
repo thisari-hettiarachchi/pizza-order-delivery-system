@@ -3,7 +3,7 @@ package com.pizzadelivery.pizza_backend.controller;
 import com.pizzadelivery.pizza_backend.dto.request.LoginRequest;
 import com.pizzadelivery.pizza_backend.model.User;
 import com.pizzadelivery.pizza_backend.dto.response.AuthResponse;
-import com.pizzadelivery.pizza_backend.service.UserService;
+import com.pizzadelivery.pizza_backend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody User user) {
-        AuthResponse response = userService.userRegister(user);
+        AuthResponse response = authService.userRegister(user);
 
         if (response.isSuccess()) {
             // User successfully registered, return CREATED status
@@ -42,7 +42,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest loginRequest) {
-        AuthResponse response = userService.userLogin(loginRequest.getEmail(), loginRequest.getPassword());
+        AuthResponse response = authService.userLogin(loginRequest.getEmail(), loginRequest.getPassword());
 
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
