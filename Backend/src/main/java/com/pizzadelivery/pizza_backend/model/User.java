@@ -8,8 +8,13 @@ public class User {
     @Id
     private String id;
     private String userName;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
+    private Address address;
+    private String profilePicture;
+    private String contactNumber;
 
 
     public String getId() {
@@ -45,5 +50,44 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public String getContactNumber() { return contactNumber;}
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
