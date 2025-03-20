@@ -1,52 +1,58 @@
 package com.pizzadelivery.pizza_backend.controller;
 
 import com.pizzadelivery.pizza_backend.model.User;
-import com.pizzadelivery.pizza_backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/User")
+@RequestMapping("/api/users")
+@CrossOrigin("*")
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
 
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser (@RequestBody User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().build();
+    private final com.pizzadelivery.pizza_backend.service.UserService userService;
+
+    public UserController(com.pizzadelivery.pizza_backend.service.UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/{userName}")
+    public ResponseEntity<User> getUserByUserName(@PathVariable String userName) {
+        Optional<User> user = userService.getUserByUserName(userName);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/api/users/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        Optional<User> user = userService.getUserByUserName(email);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        User saveduser = userRepository.save(user);
-        return ResponseEntity.ok(saveduser);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User userDetails) {
-        return userRepository.findById(id).map(user -> {
-            user.setFirstName(userDetails.getFirstName());
-            user.setLastName(userDetails.getLastName());
-            user.setEmail(userDetails.getEmail());
-            user.setContactNumber(userDetails.getContactNumber());
-            User updatedUser = userRepository.save(user);
-            return ResponseEntity.ok(updatedUser);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+    @PutMapping("/update/{userName}")
+    public ResponseEntity<User> updateUser(@PathVariable String userName, @RequestBody User updatedUser) {
+        try {
+            User user = userService.updateUser(userName, updatedUser);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{userName}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
+        try {
+            userService.deleteUser(userName);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

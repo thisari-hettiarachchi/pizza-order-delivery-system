@@ -1,129 +1,67 @@
-.myaccount {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin: 150px 100px 100px 150px;
+.myAccount {
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: auto;
+  max-width: 600px;
+  padding: 20px;
+  height: 100vh; 
+  margin-top: 50px;
+  margin-left: 50px;
 }
 
-.myaccount-left {
-  width: 100%;
-  max-width: max(30%, 500px);
-}
 
-.myaccount-title {
+.myAccount-title {
   font-size: 30px;
   font-weight: 600;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.myaccount-left input {
-  margin-bottom: 15px;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #c5c5c5;
-  border-radius: 4px;
-  outline-color: #d20a2e;
-}
-
-.myaccount-left .myaccount-mutli-fields {
-  display: flex;
-  gap: 10px;
-}
-
-.myaccount-left .myaccount-button {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.myaccount-left .myaccount-upbutton {
-  border: none;
-  color: white;
-  background-color: #d20a2e;
-  width: max(15vw, 200px);
-  padding: 12px 0px;
-  border-radius: 4px;
-}
-
-.myaccount-left .myaccount-cancelbutton {
-  border: 1px solid black;
-  border-radius: 5px;
-  color: black;
-  background-color: white;
-  width: max(15vw, 200px);
-  padding: 12px 0px;
-  border-radius: 4px;
-  margin-left: 85px;
-}
-
-.myaccount-right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 75px;
-}
-
-.myaccount-right .profile-img-container {
+.profile-img-container {
   position: relative;
-  display: inline-block;
-  width: 170px;
-  height: 170px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   overflow: hidden;
+  border: 2px solid #d20a2e;
+  margin-left: 250px;
+  margin-bottom: 20px;
 }
 
-.myaccount-right .profile-img {
-  display: flex;
+.profile-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.myaccount-right .camera-icon {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background-color: #fff;
-  color: #000;
-  border: 2px solid #ccc;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+.myAccount-details p{
+  background-color: rgba(255, 255, 255, 0.25);
+  border: 2px solid  rgba(255, 255, 255, 0.40);
+  backdrop-filter: blur(5px);
+  box-shadow:  2px 2px 5px rgba(0, 0, 0, 0.40);
+  border-radius: .5rem;
+  padding: 1rem;
+  width: 50rem;
 }
 
-.myaccount-right .camera-icon:hover {
-  background-color: #f0f0f0;
-}
-
-.profile-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
+.myAccount-button {
   margin-top: 20px;
+  text-align: center;
 }
 
-.img-svbutton,
-.img-dltbutton {
+.myAccount-upbutton {
   border: none;
-  width: 150px;
-  padding: 10px 0;
-  border-radius: 4px;
-  margin: 10px 0; /* Adds spacing between buttons */
-  cursor: pointer;
-}
-
-.img-svbutton {
   color: white;
+  width: 50rem;
   background-color: #d20a2e;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 50px;
 }
 
-.img-dltbutton {
-  border: 1px solid black;
-  color: black;
-  background-color: white;
+.myAccount-upbutton:hover {
+  background-color: #b20825;
 }
