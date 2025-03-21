@@ -1,87 +1,108 @@
 package com.pizzadelivery.pizza_backend.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pizzadelivery.pizza_backend.model.User;
 import com.pizzadelivery.pizza_backend.service.UserService;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin("*")
 public class UserController {
 
-    private final UserService userService;
-    private static final String UPLOAD_DIR = "uploads/";
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    // Using File.separator for platform independence
+    private final String userImageFolder = System.getProperty("user.dir") + "/src/main/resources/uploads/User profile pictures";
 
-    @PostMapping("/uploadProfilePicture/{userName}")
-    public ResponseEntity<String> uploadProfilePicture(@PathVariable String userName, @RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("File is empty");
-        }
-
-        try {
-            // Ensure upload directory exists
-            File uploadDir = new File(UPLOAD_DIR);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-
-            // Save file with original filename
-            String filePath = UPLOAD_DIR + file.getOriginalFilename();
-            File destFile = new File(filePath);
-            file.transferTo(destFile);
-
-            // Update user's profile picture path in database
-            Optional<User> userOptional = userService.getUserByUserName(userName);
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                user.setProfilePicture(file.getOriginalFilename());
-                userService.updateUser(userName, user);
-                return ResponseEntity.ok(file.getOriginalFilename()); // Send the filename to frontend
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-            }
-
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
-        }
-    }
-
+    // Get user by username
     @GetMapping("/getuser/{userName}")
     public ResponseEntity<User> getUserByUserName(@PathVariable String userName) {
-        Optional<User> user = userService.getUserByUserName(userName);
-        return user.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-
-    @PutMapping("/update/{userName}")
-    public ResponseEntity<User> updateUser(@PathVariable String userName, @RequestBody User updatedUser) {
         try {
-            User user = userService.updateUser(userName, updatedUser);
-            return ResponseEntity.ok(user); // Return the updated user in the response
+            User user = userService.getUserByUserName(userName)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build(); // If user not found, return 404
+            return ResponseEntity.notFound().build(); // User not found
         }
     }
 
+    // Get user profile image
+    @GetMapping("/image/{filename}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename) {
+        try {
+            Path filePath = Paths.get(userImageFolder).resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists()) {
+                String contentType = Files.probeContentType(filePath);
+                if (contentType == null) {
+                    contentType = "application/octet-stream"; // Default to binary stream
+                }
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(contentType))
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build(); // Image not found
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build(); // Internal server error
+        }
+    }
+
+    // Update user information
+    @PutMapping("/update/{userName}")
+    public ResponseEntity<User> updateUser(@PathVariable String userName,
+                                           @RequestParam(value = "updatedUser") String updatedUserJson,
+                                           @RequestParam(value = "image", required = false) MultipartFile image) {
+        try {
+            // Parse the updatedUser JSON string into a User object
+            ObjectMapper objectMapper = new ObjectMapper();
+            User updatedUser = objectMapper.readValue(updatedUserJson, User.class);
+
+            // Handle the image if it's provided
+            if (image != null) {
+                // You can implement your logic here to save the image (e.g., to a directory or cloud storage)
+                // For example: save the image or update user profile with the image path
+
+                // Save the image and get the image name
+                String imageName = userService.saveImage(image);
+                updatedUser.setProfilePicture(imageName); // Set the image name in the User object
+
+
+            }
+
+            // Proceed with updating the user in your service
+            User updated = userService.updateUser(userName, updatedUser, image);
+            return ResponseEntity.ok(updated); // Return updated user
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build(); // User not found
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build(); // Internal server error
+        }
+    }
+
+
+
+    // Delete user by username
     @DeleteMapping("/{userName}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
         try {
             userService.deleteUser(userName);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build(); // No content if deletion is successful
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); // User not found
         }
     }
 }

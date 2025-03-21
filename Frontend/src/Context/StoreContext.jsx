@@ -14,6 +14,7 @@ const StoreContextProvider = (props) => {
   const [userName, setUserName] = useState(localStorage.getItem("userName"));
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [formType, setFormType] = useState("Login");
+  const [user, setUser] = useState(null);
 
   const scrollTop = () => {
     window.scrollTo({
@@ -307,6 +308,8 @@ const StoreContextProvider = (props) => {
     fetchCartItems,
     setCartItem,
     url,
+    user,
+    setUser,
   };
 
   return (
