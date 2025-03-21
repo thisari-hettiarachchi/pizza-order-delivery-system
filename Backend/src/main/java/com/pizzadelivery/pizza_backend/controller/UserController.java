@@ -18,14 +18,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{userName}")
+    @GetMapping("/getuserbyname/{userName}")
     public ResponseEntity<User> getUserByUserName(@PathVariable String userName) {
         Optional<User> user = userService.getUserByUserName(userName);
         return user.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/api/users/{email}")
+    @GetMapping("/getuserbyemail/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         Optional<User> user = userService.getUserByUserName(email);
         if (user.isPresent()) {
