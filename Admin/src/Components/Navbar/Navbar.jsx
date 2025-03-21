@@ -1,16 +1,45 @@
-import React from 'react'
-import Navbar from './components/Navbar/Navbar'
-import {assets} from '../../assets/assets'
-import './Navbar.css'
+import React, { useState, useContext, useEffect } from "react";
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
+import { assets } from "../../assets/assets";
+import "./Navbar.css";
 
-const Navbar = () => {
+const Navbars = () => {
+  const [nav, setNav] = useState(false);
+  const location = useLocation();
+  const isNotHomePage = location.pathname !== "/";
+
+
   return (
-    <div className='navbar'>
-        <img className='logo' src={assets.logo} alt="" />
-        <img className='profile' src={assets.profile_image} alt="" />
-      
+    <div>
+      <header>
+        <Navbar
+          collapseOnSelect
+          expand="lg"
+          className={`${nav || isNotHomePage ? "sticky" : ""}`}
+        >
+          <Container>
+            <Navbar.Brand>
+              <Link to="/" className="logo">
+                <img src={assets.logo} alt="Logo" className="img-fluid" />
+              </Link>
+            </Navbar.Brand>
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="ms-auto">
+                <div className="navbar-profile">
+                  <ul className="profile-username-container">
+                    <li>
+                      <span className="profile-username">User Name</span>
+                    </li>
+                  </ul>
+                </div>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </header>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbars;
