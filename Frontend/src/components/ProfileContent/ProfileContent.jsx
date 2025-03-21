@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./ProfileContent.css";
 import ProfileEdit from "../../components/ProfileEdit/ProfileEdit";
+import { StoreContext } from "../../Context/StoreContext";
 
+const { userName } = useContext(StoreContext);
 const ProfileContent = ({ userName }) => {
   const [user, setUser] = useState({
     firstName: "",
@@ -30,6 +32,7 @@ const ProfileContent = ({ userName }) => {
   }, [userName]);
 
   const [isEditing, setIsEditing] = useState(false);
+   
 
   return (
     <div>
