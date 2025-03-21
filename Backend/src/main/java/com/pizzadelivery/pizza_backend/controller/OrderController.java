@@ -40,9 +40,16 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
-        Order order = orderService.getOrderById(id);
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
+//        Order order = orderService.getOrderById(id);
+//        return (order != null) ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
+//    }
+
+
+    @GetMapping("/{userName}")
+    public ResponseEntity<Order> getOrderByUserName(@PathVariable String userName) {
+        Order order = orderService.getOrderByUserName(userName);
         return (order != null) ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
     }
 
