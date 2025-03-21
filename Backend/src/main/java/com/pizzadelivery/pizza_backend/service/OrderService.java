@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -167,9 +168,12 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public Order getOrderByUserName(String userName) {
-        return orderRepository.findByUserName(userName).orElse(null);
+    public List<Order> getOrdersByUserName(String userName) {
+        return orderRepository.findByUserName(userName);
     }
+
+
+
 
     public void updatePaymentStatus(String id, Order.PaymentStatus newStatus) {
         Optional<Order> orderOpt = orderRepository.findById(id);
