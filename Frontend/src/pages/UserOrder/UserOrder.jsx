@@ -5,23 +5,22 @@ import { toast } from "react-toastify";
 import parcelIcon from "../../assets/parcel_icon.png"; // Fixed typo in "parcleIcon"
 
 const UserOrder = () => {
-  const { url, token, userName } = useContext(StoreContext);
+  const { url, userName } = useContext(StoreContext);
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
-    if (!userName || !token) {
-      console.error("Error: Missing userName or token.");
+    if (!userName) {
+      console.error("Error: Missing userName.");
       toast.error("User not logged in!");
       return;
     }
 
     try {
-      console.log("Fetching orders with:", { url, userName, token });
+      console.log("Fetching orders for user:", { url, userName });
 
       const response = await fetch(`${url}/api/order/getorder/${userName}`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`, // Include if required
           "Content-Type": "application/json",
         },
       });
@@ -50,18 +49,21 @@ const UserOrder = () => {
     }
   };
 
-
   useEffect(() => {
-    if (token && userName) {
+    if (userName) {
       fetchOrders();
     }
-  }, [token, userName]); // Ensures orders are fetched when userName or token changes
+  }, [userName]); // Ensures orders are fetched when userName changes
+
+  useEffect(() => {
+    console.log("Orders after fetch:", orders); // Check the value of orders after they are set
+  }, [orders]);
 
   return (
     <div className="user-order">
       <h2>My Orders</h2>
       <div className="container">
-        {orders.length > 0 ? (
+        {orders && orders.length > 0 ? (
           orders.map((order, index) => (
             <div key={index} className="user-order-order">
               <img src={parcelIcon} alt="Parcel Icon" />
@@ -69,7 +71,7 @@ const UserOrder = () => {
                 {order.items && order.items.length > 0 ? (
                   order.items.map((item, idx) => (
                     <span key={idx}>
-                      {item.name} x {item.quantity}
+                      {item.itemName} x {item.quantity}
                       {idx !== order.items.length - 1 ? ", " : ""}
                     </span>
                   ))
@@ -77,7 +79,7 @@ const UserOrder = () => {
                   <span>No items found</span>
                 )}
               </p>
-              <p>Rs. {order.amount || 0}.00</p>
+              <p>Rs. {order.lastTotalPrice || 0}.00</p>
               <p>Items: {order.items?.length || 0}</p>
               <p>
                 <span> &#x25cf;</span>
