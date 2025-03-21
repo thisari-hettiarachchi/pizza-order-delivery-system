@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Profile.css";
-import ProfileSideBar from "../../components/UserProfile/ProfileSideBar";
+import ProfileSideBar from "../../components/ProfileSideBar/ProfileSideBar";
 import ProfileContent from "../../components/ProfileContent/ProfileContent";
 import UserMessage from "../../components/UserMessage/UserMessage";
 import UserHelp from "../../components/UserHelp/UserHelp";
