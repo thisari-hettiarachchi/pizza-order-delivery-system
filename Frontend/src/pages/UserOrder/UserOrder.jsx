@@ -1,74 +1,94 @@
-import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import { StoreContext } from '../../Context/StoreContext';
-import './UserOrder.css';
+import React, { useContext, useEffect, useState } from "react";
+import { StoreContext } from "../../Context/StoreContext";
+import "./UserOrder.css";
+import { toast } from "react-toastify";
+import parcelIcon from "../../assets/parcel_icon.png"; // Fixed typo in "parcleIcon"
 
 const UserOrder = () => {
   const { url, token, userName } = useContext(StoreContext);
-  const [data, setData] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
+    if (!userName || !token) {
+      console.error("Error: Missing userName or token.");
+      toast.error("User not logged in!");
+      return;
+    }
+
     try {
-      const response = await fetch(`${url}/api/order/getorder/${userName}`);
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch order items: ${response.status} ${response.statusText}`
-        );
-      }
-      const orderData = await response.json();
+      console.log("Fetching orders with:", { url, userName, token });
 
-      // Assuming cartData is the entire response, and items are inside the "items" array
-      const formattedOrderData = {};
-
-      // Iterate over the items array
-      orderData.items.forEach((item) => {
-        const compositeKey = `${item.itemId}|${item.size}`;
-        formattedOrderData[compositeKey] = {
-          quantity: item.quantity,
-          orderId: orderData.id, // Use cartData.id as the cartId
-        };
+      const response = await fetch(`${url}/api/order/getorder/${userName}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`, // Include if required
+          "Content-Type": "application/json",
+        },
       });
 
-      // Only update state if the data has changed
-      if (JSON.stringify(cartItems) !== JSON.stringify(formattedCartData)) {
-        setCartItem(formattedCartData);
-        console.log("Fetched and formatted cart data:", formattedCartData);
+      console.log("API Response Status:", response.status); // Debugging API response status
+
+      if (!response.ok) {
+        throw new Error(
+          `API Request failed: ${response.status} ${response.statusText}`
+        );
+      }
+
+      const orderData = await response.json();
+      console.log("Fetched order data:", orderData); // Debug response data
+
+      if (Array.isArray(orderData)) {
+        setOrders(orderData);
       } else {
-        console.log("Cart items are already up-to-date.");
+        console.warn("Unexpected API response format:", orderData);
+        setOrders([]); // Fallback to empty array
       }
     } catch (error) {
-      console.error("Error fetching cart items:", error);
-      setCartItem({}); // Clear cart items on error
+      console.error("Error fetching orders:", error.message);
+      toast.error("Failed to fetch orders. Please try again.");
+      setOrders([]); // Clear orders if an error occurs
     }
   };
 
+
   useEffect(() => {
-    if (token) {
+    if (token && userName) {
       fetchOrders();
     }
-  }, [token]);
+  }, [token, userName]); // Ensures orders are fetched when userName or token changes
 
   return (
     <div className="user-order">
       <h2>My Orders</h2>
       <div className="container">
-        {data.map((UserOrder, index) => (
-          <div key={index} className="user-order-order">
-            {/* Replace 'parcel_icon' with actual import or valid asset */}
-            <img src="/path/to/parcel_icon.png" alt="Parcel Icon" />  
-            <p>
-              {UserOrder.items.map((item, idx) => (
-                idx === UserOrder.items.length - 1 
-                  ? `${item.name} x ${item.quantity}`
-                  : `${item.name} x ${item.quantity}, `
-              ))}
-            </p>
-            <p>Rs. {UserOrder.amount}.00</p>
-            <p>Items: {UserOrder.items.length}</p>
-            <p><span> &#x25cf;</span><b>{UserOrder.status}</b></p>
-            <button>Track Order</button>
-          </div>
-        ))}
+        {orders.length > 0 ? (
+          orders.map((order, index) => (
+            <div key={index} className="user-order-order">
+              <img src={parcelIcon} alt="Parcel Icon" />
+              <p>
+                {order.items && order.items.length > 0 ? (
+                  order.items.map((item, idx) => (
+                    <span key={idx}>
+                      {item.name} x {item.quantity}
+                      {idx !== order.items.length - 1 ? ", " : ""}
+                    </span>
+                  ))
+                ) : (
+                  <span>No items found</span>
+                )}
+              </p>
+              <p>Rs. {order.amount || 0}.00</p>
+              <p>Items: {order.items?.length || 0}</p>
+              <p>
+                <span> &#x25cf;</span>
+                <b>{order.status || "Unknown"}</b>
+              </p>
+              <button>Track Order</button>
+            </div>
+          ))
+        ) : (
+          <p>No orders found.</p>
+        )}
       </div>
     </div>
   );
