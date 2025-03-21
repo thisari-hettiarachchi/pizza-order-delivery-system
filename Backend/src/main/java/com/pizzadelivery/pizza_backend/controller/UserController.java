@@ -71,6 +71,19 @@ public class UserController {
             ObjectMapper objectMapper = new ObjectMapper();
             User updatedUser = objectMapper.readValue(updatedUserJson, User.class);
 
+            // Handle the image if it's provided
+            if (image != null) {
+                // You can implement your logic here to save the image (e.g., to a directory or cloud storage)
+                // For example: save the image or update user profile with the image path
+
+                // Save the image and get the image name
+                String imageName = userService.saveImage(image);
+                updatedUser.setProfilePicture(imageName); // Set the image name in the User object
+
+
+            }
+
+            // Proceed with updating the user in your service
             User updated = userService.updateUser(userName, updatedUser, image);
             return ResponseEntity.ok(updated); // Return updated user
         } catch (RuntimeException e) {
@@ -79,6 +92,7 @@ public class UserController {
             return ResponseEntity.internalServerError().build(); // Internal server error
         }
     }
+
 
 
     // Delete user by username

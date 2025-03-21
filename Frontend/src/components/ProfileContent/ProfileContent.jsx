@@ -21,24 +21,8 @@ const ProfileContent = () => {
     profilePicture: "",
   });
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
+ 
 
-    fetch(`http://localhost:8080/api/users/uploadProfilePicture/${userName}`, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser((prevUser) => ({
-          ...prevUser,
-          profilePicture: data.profilePicture || prevUser.profilePicture,
-        }));
-      })
-      .catch((error) => console.error("Error uploading image:", error));
-  };
 
   useEffect(() => {
     if (userName) {

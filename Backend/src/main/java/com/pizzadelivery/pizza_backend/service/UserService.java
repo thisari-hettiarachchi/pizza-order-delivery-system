@@ -27,7 +27,7 @@ public class UserService {
     }
 
     // Save image method with checks and exception handling
-    private String saveImage(MultipartFile image) throws IOException {
+    public String saveImage(MultipartFile image) throws IOException {
         if (image.isEmpty()) {
             throw new IOException("File is empty");
         }
@@ -61,7 +61,6 @@ public class UserService {
             // Handle profile picture if new image is uploaded
             if (image != null && !image.isEmpty()) {
                 try {
-                    // Optionally delete old profile image here
                     String imageFileName = saveImage(image);
                     user.setProfilePicture(imageFileName); // Set new profile picture filename
                 } catch (IOException e) {

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { BiCamera } from "react-icons/bi";
 import { toast } from "react-toastify";
+import { StoreContext } from "../../Context/StoreContext";
 import "./ProfileEdit.css";
 
 export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
+  const { url } = useContext(StoreContext);
   const [formData, setFormData] = useState({
     firstName: user.firstName || "",
     lastName: user.lastName || "",
@@ -20,6 +22,8 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
   });
 
   const [isUpdating, setIsUpdating] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     setFormData({
@@ -41,36 +45,38 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name in formData.address) {
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         address: {
-          ...formData.address,
+          ...prev.address,
           [name]: value,
         },
-      });
+      }));
     } else {
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         [name]: value,
-      });
+      }));
     }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      // Validate that the file is an image (you can also add other formats like .gif, .bmp, etc.)
-      const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
-      if (validImageTypes.includes(file.type)) {
-        // Set the selected image file and generate a preview URL
-        setFormData({ ...formData, profilePicture: file });
-        toast.success("Profile image selected successfully");
-      } else {
-        toast.error("Please select a valid image file (JPEG/PNG).");
-      }
-    }
-  };
+ const handleImageChange = () => {
+   const file = fileInputRef.current.files[0];
+   if (file) {
+     const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+     if (validImageTypes.includes(file.type)) {
+       const imageUrl = URL.createObjectURL(file); // Generate temporary preview
+       setSelectedImage(file);
+       setUser((prevUser) => ({
+         ...prevUser,
+         profilePicture: imageUrl, // Update UI immediately
+       }));
+       toast.success("Profile image selected successfully");
+     } else {
+       toast.error("Please select a valid image file (JPEG/PNG/JPG).");
+     }
+   }
+ };
 
 
   const handleSubmit = async (e) => {
@@ -93,25 +99,39 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
     }
 
     try {
+      const formDataToSend = new FormData();
+      const updatedUser = { ...formData };
+
+      // Remove profilePicture from JSON since it's sent separately
+      delete updatedUser.profilePicture;
+
+      formDataToSend.append("updatedUser", JSON.stringify(updatedUser));
+
+      if (selectedImage) {
+        formDataToSend.append("image", selectedImage);
+      }
+
       const response = await fetch(
         `http://localhost:8080/api/users/update/${user.userName}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: formDataToSend,
         }
       );
 
       if (!response.ok) {
-        throw new Error("Failed to update profile");
+        const errorText = await response.text();
+        toast.error(`Failed to update profile: ${errorText}`);
+        throw new Error(`Failed to update profile: ${errorText}`);
       }
 
-      const updatedUser = await response.json();
-      setUser(updatedUser);
+      const responseData = await response.json();
+      setUser(responseData);
       toast.success("Profile updated successfully");
       setIsEditing(false);
     } catch (error) {
-      toast.error(error.message);
+      console.error("Error updating profile:", error);
+      toast.error("Error updating profile");
     } finally {
       setIsUpdating(false);
     }
@@ -124,8 +144,10 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
         <div className="profile-img-container">
           <img
             src={
-              formData.profilePicture
-                ? "http://localhost:8080/api/food/image/" + user.profilePicture
+              selectedImage
+                ? URL.createObjectURL(selectedImage)
+                : user.profilePicture
+                ? `${url}/api/users/image/${user.profilePicture}`
                 : "/src/assets/user.png"
             }
             alt="User Profile"
@@ -134,6 +156,7 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
           <label className="camera-icon">
             <BiCamera />
             <input
+              ref={fileInputRef}
               type="file"
               accept="image/*"
               style={{ display: "none" }}
