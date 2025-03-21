@@ -69,9 +69,9 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable String userName, @RequestBody User updatedUser) {
         try {
             User user = userService.updateUser(userName, updatedUser);
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(user); // Return the updated user in the response
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); // If user not found, return 404
         }
     }
 

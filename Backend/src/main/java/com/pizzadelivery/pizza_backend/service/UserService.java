@@ -21,13 +21,19 @@ public class UserService {
 
     public User updateUser(String userName, User updatedUser) {
         return userRepository.findByUserName(userName).map(user -> {
-            user.setFirstName(updatedUser.getFirstName());
-            user.setLastName(updatedUser.getLastName());
-            user.setEmail(updatedUser.getEmail());
-            user.setPassword(updatedUser.getPassword());
-            user.setAddress(updatedUser.getAddress());  // Update address fields if necessary
-            user.setContactNumber(updatedUser.getContactNumber());
-            user.setProfilePicture(updatedUser.getProfilePicture());  // Update profile picture
+            // Update the fields only if they are not null
+            if (updatedUser.getFirstName() != null) user.setFirstName(updatedUser.getFirstName());
+            if (updatedUser.getLastName() != null) user.setLastName(updatedUser.getLastName());
+            if (updatedUser.getEmail() != null) user.setEmail(updatedUser.getEmail());
+            if (updatedUser.getPassword() != null) user.setPassword(updatedUser.getPassword());
+            if (updatedUser.getAddress() != null) {
+                // Update the entire address object
+                user.setAddress(updatedUser.getAddress());
+            }
+            if (updatedUser.getContactNumber() != null) user.setContactNumber(updatedUser.getContactNumber());
+            if (updatedUser.getProfilePicture() != null) user.setProfilePicture(updatedUser.getProfilePicture());
+
+            // Save the updated user data to the repository
             return userRepository.save(user);
         }).orElseThrow(() -> new RuntimeException("User not found with userName: " + userName));
     }

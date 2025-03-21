@@ -10,11 +10,13 @@ const ProfileContent = () => {
     firstName: "",
     lastName: "",
     email: "",
-    street: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    country: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      country: "",
+    },
     contactNumber: "",
     profilePicture: "",
   });
@@ -32,7 +34,7 @@ const ProfileContent = () => {
       .then((data) => {
         setUser((prevUser) => ({
           ...prevUser,
-          profilePicture: data.profilePicture,
+          profilePicture: data.profilePicture || prevUser.profilePicture,
         }));
       })
       .catch((error) => console.error("Error uploading image:", error));
@@ -44,10 +46,12 @@ const ProfileContent = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Fetched user data:", data); // Debugging
+
           setUser((prevUser) => ({
             ...prevUser,
             ...data,
-            profilePicture: data.profilePicture || prevUser.profilePicture, // Ensure profile picture updates
+            address: data.address || prevUser.address, // Ensure address exists
+            profilePicture: data.profilePicture || prevUser.profilePicture,
           }));
         })
         .catch((error) => console.error("Error fetching profile:", error));
@@ -72,6 +76,7 @@ const ProfileContent = () => {
                   : "/default-user.png"
               }
               className="profile-img"
+              alt="User Profile"
             />
           </div>
           <div className="myAccount-details">
@@ -79,12 +84,12 @@ const ProfileContent = () => {
             <p>Email: {user.email}</p>
             <p>First Name: {user.firstName}</p>
             <p>Last Name: {user.lastName}</p>
-            <p>Street: {user.street}</p>
-            <p>City: {user.city}</p>
-            <p>State: {user.state}</p>
-            <p>Zip Code: {user.zipCode}</p>
-            <p>Country: {user.country}</p>
-            <p>Phone Number: {user.phone}</p>
+            <p>Street: {user.address?.street || "N/A"}</p>
+            <p>City: {user.address?.city || "N/A"}</p>
+            <p>State: {user.address?.state || "N/A"}</p>
+            <p>Zip Code: {user.address?.zipCode || "N/A"}</p>
+            <p>Country: {user.address?.country || "N/A"}</p>
+            <p>Phone Number: {user.contactNumber || "N/A"}</p>
           </div>
 
           <div className="myAccount-button">
