@@ -1,13 +1,33 @@
-import { useState } from 'react'
+import React from 'react'
+import Navbar from './Components/Navbar/Navbar'
+import Sidebar from './Components/Sidebar/Sidebar'
+import { Routes } from 'react-router-dom'
+import Add from '.pages/Add/Add'
+import List from '.pages/List/List'
+import Order from './Pages/Order/Order'
+import { ToastContainer} from 'react-router-dom'
+import 'react-toastify/dist/ReactToastify.css'
 
 
-function App() {
-  const [count, setCount] = useState(0)
+
+const App = () => {
+
+ const url = "http://localhost:4000"
 
   return (
-    <>
-     
-    </>
+    <div>
+      <ToastContainer/>
+      <Navbar />
+      <hr/>
+      <div className='app-content'>
+         <Sidebar/>
+     <Routes>
+        <Route path="/add" element={<Add url={url}/>}/>
+        <Route path="/list" element={<List url={url} />}/>
+        <Route path="/order" element={<Order url={url}/>}/>
+     </Routes>
+      </div>
+    </div>
   )
 }
 
