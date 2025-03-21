@@ -172,9 +172,6 @@ public class OrderService {
         return orderRepository.findByUserName(userName);
     }
 
-
-
-
     public void updatePaymentStatus(String id, Order.PaymentStatus newStatus) {
         Optional<Order> orderOpt = orderRepository.findById(id);
         if (orderOpt.isPresent()) {

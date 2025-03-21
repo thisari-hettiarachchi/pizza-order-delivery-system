@@ -13,6 +13,7 @@ const PlaceOrder = () => {
     cartItems,
     foodList,
     url,
+    userName,
     deleteCart,
   } = useContext(StoreContext);
   const [formData, setFormData] = useState({
@@ -62,7 +63,7 @@ const PlaceOrder = () => {
     );
 
     const orderData = {
-      userName: `${formData.firstName} ${formData.lastName}`,
+      userName: userName,
       items: orderItems,
       totalPrice: getTotalPrice() === 0 ? "0" : getTotalPrice().toString(),
       discount: discount.toString(),

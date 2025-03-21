@@ -64,12 +64,6 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/getuserbyemail/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        Optional<User> user = userService.getUserByEmail(email); // Fixed method reference
-        return user.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
 
     @PutMapping("/update/{userName}")
     public ResponseEntity<User> updateUser(@PathVariable String userName, @RequestBody User updatedUser) {

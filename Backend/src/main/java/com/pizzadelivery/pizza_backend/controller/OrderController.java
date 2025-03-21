@@ -54,20 +54,6 @@ public class OrderController {
     }
 
 
-
-//    @GetMapping("/{userName}")
-//    public ResponseEntity<List<Order>> getOrdersByUserName(@PathVariable String userName) {
-//        List<Order> orders = orderService.getOrderByUserName(userName);
-//        return (!order.isEmpty()) ? ResponseEntity.ok(orders) : ResponseEntity.notFound().build();
-//    }
-
-
-//    @PutMapping("/{id}/status")
-//    public ResponseEntity<Order> updateOrderStatus(@PathVariable String id, @RequestParam OrderStatus status) {
-//        boolean updated = orderService.updateOrderStatus(id, status);
-//        return updated ? ResponseEntity.ok(orderService.getOrderById(id)) : ResponseEntity.notFound().build();
-//    }
-
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<String> deleteOrder(@PathVariable String id) {
 //        boolean deleted = orderService.deleteOrder(id);
