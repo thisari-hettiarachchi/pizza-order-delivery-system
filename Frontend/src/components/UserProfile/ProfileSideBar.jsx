@@ -35,12 +35,11 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
         ) : profile ? (
           <div className="profile-info">
             <img
-              src={profile.image ? `/uploads/${profile.image}` : "/default-user.png"}
+              src={profile.image ? `/uploads/${profile.image}` : ""}
               className="profile-image"
             />
-          <p className="profile-username">{userName}</p> {/* 🔹 Display username */}
+            <p className="profile-username">{userName}</p>
           </div>
-
         ) : (
           <p>Profile Not Found...</p>
         )}
@@ -52,7 +51,10 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
             <a
               href="#"
               className={`profile-item ${activeSection === "profile" ? "active" : ""}`}
-              onClick={(e) => { e.stopPropagation(); handleBackgroundClick("profile"); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBackgroundClick("profile");
+              }}
             >
               <BiUser className="profile-icon" />
               My Profile
@@ -62,7 +64,10 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
             <a
               href="#"
               className={`profile-item ${activeSection === "orderhistory" ? "active" : ""}`}
-              onClick={(e) => { e.stopPropagation(); handleBackgroundClick("orderhistory"); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBackgroundClick("orderhistory");
+              }}
             >
               <BiHistory className="profile-icon" />
               Order History
@@ -72,7 +77,10 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
             <a
               href="#"
               className={`profile-item ${activeSection === "usermessage" ? "active" : ""}`}
-              onClick={(e) => { e.stopPropagation(); handleBackgroundClick("usermessage"); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBackgroundClick("usermessage");
+              }}
             >
               <BiMessage className="profile-icon" />
               Message
@@ -82,7 +90,10 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
             <a
               href="#"
               className={`profile-item ${activeSection === "userhelp" ? "active" : ""}`}
-              onClick={(e) => { e.stopPropagation(); handleBackgroundClick("userhelp"); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBackgroundClick("userhelp");
+              }}
             >
               <BiHelpCircle className="profile-icon" />
               Help
@@ -92,7 +103,10 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
             <a
               href="#"
               className={`profile-item ${activeSection === "logout" ? "active" : ""}`}
-              onClick={(e) => { e.stopPropagation(); handleLogout(); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLogout();
+              }}
             >
               <BiLogOut className="profile-icon" />
               Logout
