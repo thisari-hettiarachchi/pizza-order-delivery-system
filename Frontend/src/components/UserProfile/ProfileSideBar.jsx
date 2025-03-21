@@ -35,11 +35,12 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
         ) : profile ? (
           <div className="profile-info">
             <img
-              src={profile.image ? `/uploads/${profile.image}` : "/default-user.png"} 
+              src={profile.image ? `/uploads/${profile.image}` : "/default-user.png"}
               className="profile-image"
             />
-            <p className="profile-name">{profile.firstName} {profile.lastName}</p> {/* 🔹 Display full name */}
+          <p className="profile-username">{userName}</p> {/* 🔹 Display username */}
           </div>
+
         ) : (
           <p>Profile Not Found...</p>
         )}
