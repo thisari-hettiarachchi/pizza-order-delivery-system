@@ -4,7 +4,7 @@ import ProfileEdit from "../../components/ProfileEdit/ProfileEdit";
 import { StoreContext } from "../../Context/StoreContext";
 
 const ProfileContent = () => {
-  const { userName } = useContext(StoreContext);
+  const { userName, url } = useContext(StoreContext);
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
@@ -72,7 +72,7 @@ const ProfileContent = () => {
             <img
               src={
                 user.profilePicture
-                  ? `http://localhost:8080/uploads/${user.profilePicture}`
+                  ? url + "/api/users/image/" + user.profilePicture
                   : "/default-user.png"
               }
               className="profile-img"

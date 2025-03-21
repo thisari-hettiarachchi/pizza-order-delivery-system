@@ -57,12 +57,21 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
   };
 
   const handleImageChange = (e) => {
-    if (e.target.files.length > 0) {
-      const newImage = e.target.files[0];
-      setFormData({ ...formData, profilePicture: newImage });
-      toast.success("Profile image selected successfully");
+    const file = e.target.files[0];
+
+    if (file) {
+      // Validate that the file is an image (you can also add other formats like .gif, .bmp, etc.)
+      const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (validImageTypes.includes(file.type)) {
+        // Set the selected image file and generate a preview URL
+        setFormData({ ...formData, profilePicture: file });
+        toast.success("Profile image selected successfully");
+      } else {
+        toast.error("Please select a valid image file (JPEG/PNG).");
+      }
     }
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,7 +125,7 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
           <img
             src={
               formData.profilePicture
-                ? URL.createObjectURL(formData.profilePicture)
+                ? "http://localhost:8080/api/food/image/" + user.profilePicture
                 : "/src/assets/user.png"
             }
             alt="User Profile"

@@ -24,7 +24,7 @@ public class FoodController {
     private FoodService foodService;
 
     // You can use a configurable property for image folder, or set an absolute path
-    private final String imageFolder = System.getProperty("user.dir") + "/src/main/resources/uploads/";
+    private final String foodImageFolder = System.getProperty("user.dir") + "/src/main/resources/uploads/Food images/";
 
     // Post method to upload food details and image
     @PostMapping("/addfood")
@@ -61,7 +61,7 @@ public class FoodController {
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
         try {
             // Resolving the file path from your image folder
-            Path filePath = Paths.get(imageFolder).resolve(filename).normalize();
+            Path filePath = Paths.get(foodImageFolder).resolve(filename).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
             // Check if the file exists

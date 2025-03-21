@@ -6,7 +6,7 @@ import "./ProfileSideBar.css";
 const ProfileSideBar = ({ setActiveSection, activeSection }) => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { userName, handleLogout } = useContext(StoreContext);
+  const { userName, handleLogout,url } = useContext(StoreContext);
 
   useEffect(() => {
     if (userName) {
@@ -28,14 +28,21 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
   };
 
   return (
-    <div className="profile-menu" onClick={() => handleBackgroundClick("profile")}>
+    <div
+      className="profile-menu"
+      onClick={() => handleBackgroundClick("profile")}
+    >
       <div className="profile-header">
         {loading ? (
           <p>Loading profile...</p>
         ) : profile ? (
           <div className="profile-info">
             <img
-              src={profile.image ? `/uploads/${profile.image}` : ""}
+              src={
+                profile.profilePicture
+                  ? url + "/api/users/image/" + profile.profilePicture
+                  : ""
+              }
               className="profile-image"
             />
             <p className="profile-username">{userName}</p>
@@ -50,7 +57,9 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
           <li>
             <a
               href="#"
-              className={`profile-item ${activeSection === "profile" ? "active" : ""}`}
+              className={`profile-item ${
+                activeSection === "profile" ? "active" : ""
+              }`}
               onClick={(e) => {
                 e.stopPropagation();
                 handleBackgroundClick("profile");
@@ -63,7 +72,9 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
           <li>
             <a
               href="#"
-              className={`profile-item ${activeSection === "orderhistory" ? "active" : ""}`}
+              className={`profile-item ${
+                activeSection === "orderhistory" ? "active" : ""
+              }`}
               onClick={(e) => {
                 e.stopPropagation();
                 handleBackgroundClick("orderhistory");
@@ -76,7 +87,9 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
           <li>
             <a
               href="#"
-              className={`profile-item ${activeSection === "usermessage" ? "active" : ""}`}
+              className={`profile-item ${
+                activeSection === "usermessage" ? "active" : ""
+              }`}
               onClick={(e) => {
                 e.stopPropagation();
                 handleBackgroundClick("usermessage");
@@ -89,7 +102,9 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
           <li>
             <a
               href="#"
-              className={`profile-item ${activeSection === "userhelp" ? "active" : ""}`}
+              className={`profile-item ${
+                activeSection === "userhelp" ? "active" : ""
+              }`}
               onClick={(e) => {
                 e.stopPropagation();
                 handleBackgroundClick("userhelp");
@@ -102,7 +117,9 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
           <li>
             <a
               href="#"
-              className={`profile-item ${activeSection === "logout" ? "active" : ""}`}
+              className={`profile-item ${
+                activeSection === "logout" ? "active" : ""
+              }`}
               onClick={(e) => {
                 e.stopPropagation();
                 handleLogout();
