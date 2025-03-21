@@ -48,10 +48,12 @@ public class OrderController {
 
 
     @GetMapping("/getorder/{userName}")
-    public ResponseEntity<Order> getOrderByUserName(@PathVariable String userName) {
-        Order order = orderService.getOrderByUserName(userName);
-        return (order != null) ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
+    public ResponseEntity<List<Order>> getOrdersByUserName(@PathVariable String userName) {
+        List<Order> orders = orderService.getOrdersByUserName(userName);
+        return orders.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(orders);
     }
+
+
 
 //    @GetMapping("/{userName}")
 //    public ResponseEntity<List<Order>> getOrdersByUserName(@PathVariable String userName) {
