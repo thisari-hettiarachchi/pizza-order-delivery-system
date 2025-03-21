@@ -167,6 +167,10 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
+    public Order getOrderByUserName(String userName) {
+        return orderRepository.findByUserName(userName).orElse(null);
+    }
+
     public void updatePaymentStatus(String id, Order.PaymentStatus newStatus) {
         Optional<Order> orderOpt = orderRepository.findById(id);
         if (orderOpt.isPresent()) {
