@@ -7,14 +7,15 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
   const [formData, setFormData] = useState({
     firstName: user.firstName || "",
     lastName: user.lastName || "",
+    email: user.email || "", // Ensure email is included
     street: user.street || "",
     city: user.city || "",
     state: user.state || "",
-    zip: user.zipCode || "",
+    zipCode: user.zipCode || "", // Use zipCode instead of zip
     country: user.country || "",
     phone: user.phone || "",
-    image: user.image || null,  // Adding the existing image if available
-  });
+    profilePicture: user.profilePicture || null, // Use correct field
+  });  
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
@@ -38,37 +39,38 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
   const handleImageChange = (e) => {
     if (e.target.files.length > 0) {
       const newImage = e.target.files[0];
-      setFormData({ ...formData, image: newImage });
+      setFormData({ ...formData, profilePicture: newImage }); // Ensure correct field
       toast.success("Profile image selected successfully");
     }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsUpdating(true);
     const { firstName, lastName, street, city, state, zip, country, phone, image } = formData;
-
+  
     // Check if all required fields are filled
     if (!firstName || !lastName || !street || !city || !state || !zip || !country || !phone) {
       toast.error("Please fill in all fields");
       setIsUpdating(false);
       return;
     }
-
+  
     // Ensure an image is selected
     if (!image) {
       toast.error("Please select a profile image");
       setIsUpdating(false);
       return;
     }
-
+  
     // Update the user profile
-    setUser({ ...user, ...formData });
+    setUser({ ...user, ...formData });  // Ensure user state is updated
     toast.success("Profile updated successfully");
     setIsUpdating(false);
     setIsEditing(false);
   };
-
+  
   const handleCancel = () => {
     toast.info("Changes canceled");
     setIsEditing(false);
@@ -134,13 +136,13 @@ export const ProfileEdit = ({ user, setUser, setIsEditing }) => {
           />
         </div>
         <div className="myaccount-mutli-fields">
-          <input 
-            type="text" 
-            name="zip" 
-            value={formData.zip} 
-            placeholder="Zip code" 
-            onChange={handleChange} 
-          />
+        <input 
+          type="text" 
+          name="zip" 
+          value={formData.zip}  // This is the zipCode field
+          placeholder="Zip code" 
+          onChange={handleChange} 
+        />
           <input 
             type="text" 
             name="country" 
