@@ -26,7 +26,7 @@ const UserOrder = () => {
         {data.map((UserOrder,index)=>{
           return(
             <div key={index} className="user-order-order">
-              <img src={AuthenticatorAssertionResponse.parcel_icon} alt=""/>
+              <img src={assets.parcel_icon} alt=""/>
               <p>{UserOrder.items.map((item,index)=>{
                 if(index=== UserOrder.items.length-1){
                   return item.name+" x "+item.quantity
@@ -37,7 +37,7 @@ const UserOrder = () => {
               })}</p>
               <p>Rs.{order.amount}.00</p>
               <p>Items: {order.items.length}</p>
-              <p><span>&#x25cf;</span><b>{order.status}</b></p>
+              <p><span> &#x25cf;</span><b>{order.status}</b></p>
               <button>Track Order</button>
 
             </div>
