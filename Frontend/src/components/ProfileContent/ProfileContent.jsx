@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./ProfileContent.css";
-import ProfileEdit from "../../components/ProfileEdit/ProfileEdit"; // Import ProfileEdit component
+import ProfileEdit from "../../components/ProfileEdit/ProfileEdit";
+import { StoreContext } from "../../Context/StoreContext";
 
-const ProfileContent = () => {
+const { userName } = useContext(StoreContext);
+const ProfileContent = ({ userName }) => {
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
+    email: "",
     street: "",
     city: "",
     state: "",
@@ -15,50 +18,46 @@ const ProfileContent = () => {
     profilePicture: "/default-user.png",
   });
 
-  const [popup, setPopup] = useState({ message: "", type: "" });
-  const [isEditing, setIsEditing] = useState(false); // State to manage edit mode
+  useEffect(() => {
+    if (userName) {
+      fetch(`http://localhost:8080/api/users/getuserbyname/${userName}`) // Fetch user profile using userName
+        .then((response) => response.json())
+        .then((data) => {
+          setUser(data); // Update user state with the fetched data
+        })
+        .catch((error) => {
+          console.error("Error fetching profile:", error);
+        });
+    }
+  }, [userName]);
 
-  // Show popup messages
-  const showPopup = (message, type) => {
-    setPopup({ message, type });
-    setTimeout(() => setPopup({ message: "", type: "" }), 3000);
-  };
-
-  // Handle Edit Button Click
-  const handleEditClick = () => {
-    setIsEditing(true); // Switch to edit mode
-  };
+  const [isEditing, setIsEditing] = useState(false);
+   
 
   return (
     <div>
-      {/* Show ProfileEdit component when in edit mode */}
       {isEditing ? (
         <ProfileEdit user={user} setUser={setUser} setIsEditing={setIsEditing} />
       ) : (
         <form className="myAccount">
-          {/* Popup Message */}
-          {popup.message && <div className={`popup ${popup.type}`}>{popup.message}</div>}
-
           <div className="myAccount">
             <div className="profile-img-container">
-              <img
-                src={user.profilePicture}
-                className="profile-img"
-              />
+              <img src={user.profilePicture} className="profile-img" />
             </div>
             <div className="myAccount-details">
-              <p> First Name : {user.firstName} </p>
-              <p> Last Name :{user.lastName}</p>
-              <p> Email :{user.email}</p>
-              <p> Street :{user.street} </p>
-              <p> City : {user.city} </p>
-              <p> State : {user.state} </p>
-              <p> Zip Code : {user.zipCode} </p>
-              <p> Country :{user.country} </p> 
-              <p>Phone Number :{user.phone}</p>
+              <p> Username: {userName}</p> {/* Display logged-in username */}
+              <p> Email: {user.email}</p> {/* Display email from fetched user data */}
+              <p> First Name: {user.firstName} </p>
+              <p> Last Name: {user.lastName}</p>
+              <p> Street: {user.street} </p>
+              <p> City: {user.city} </p>
+              <p> State: {user.state} </p>
+              <p> Zip Code: {user.zipCode} </p>
+              <p> Country: {user.country} </p>
+              <p> Phone Number: {user.phone}</p>
             </div>
             <div className="myAccount-button">
-              <button type="button" className="myAccount-upbutton" onClick={handleEditClick}>
+              <button type="button" className="myAccount-upbutton" onClick={() => setIsEditing(true)}>
                 Edit
               </button>
             </div>
