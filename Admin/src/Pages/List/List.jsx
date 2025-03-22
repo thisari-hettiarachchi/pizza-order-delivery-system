@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import FoodUpdatePopup from "../../Components/FoodUpdatePopup/FoodUpdatePopup";
+
 
 const List = ({ url }) => {
   const [foodList, setFoodList] = useState([]);
   const [showItem, setShowItem] = useState(false);
+  const [selectedFood, setSelectedFood] = useState(null); // State to store the selected food item for editing
 
   const fetchFoodList = async () => {
     try {
@@ -50,6 +53,16 @@ const List = ({ url }) => {
     }
   };
 
+  const handleEdit = (food) => {
+    setSelectedFood(food); // Set the selected food for editing
+    setShowItem(true); // Show the edit popup
+  };
+
+  const closePopup = () => {
+    setShowItem(false); // Close the popup
+    setSelectedFood(null); // Clear the selected food
+  };
+
   return (
     <div className="list-add-flex-col">
       <p>All Foods List</p>
@@ -69,12 +82,24 @@ const List = ({ url }) => {
             <p>
               {item.price.small} / {item.price.medium} / {item.price.large}
             </p>
-            <p onClick={() => removeFood(item.id)} className="cursor">
-              X
-            </p>
+            <div className="action">
+              <button onClick={() => handleEdit(item)}>Edit</button>
+              <i
+                class="bi bi-trash delete-icon"
+                onClick={() => removeFood(item.id)}
+              ></i>
+            </div>
           </div>
         ))}
       </div>
+
+      {showItem && (
+        <FoodUpdatePopup
+          food={selectedFood} 
+          closePopup={closePopup}
+          url={url}
+        />
+      )}
     </div>
   );
 };

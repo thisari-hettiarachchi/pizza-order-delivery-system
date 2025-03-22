@@ -28,9 +28,6 @@ const Navbars = () => {
               <Nav className="ms-auto">
                 <div className="navbar-profile">
                   <ul className="profile-username-container">
-                    <li>
-                      <span className="profile-username">User Name</span>
-                    </li>
                   </ul>
                 </div>
               </Nav>

@@ -1,36 +1,32 @@
-import React from 'react'
-import Navbar from './Components/Navbar/Navbar'
-import Sidebar from './Components/Sidebar/Sidebar'
-import { Routes, Route } from 'react-router-dom'
+import React from "react";
+import Navbar from "./Components/Navbar/Navbar";
+import Sidebar from "./Components/Sidebar/Sidebar";
+import { Routes, Route } from "react-router-dom";
 import Add from "./Pages/Add/Add";
-import List from './Pages/List/List'
-import Order from './Pages/Order/Order'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import List from "./Pages/List/List";
+import Order from "./Pages/Order/Order";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-
-
-
 const App = () => {
-
- const url = "http://localhost:8080"
+  const url = "http://localhost:8080";
 
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer />
       <Navbar />
-      <hr/>
-      <div className='app-content'>
-         <Sidebar/>
-     <Routes>
-          <Route path="/add" element={<Add url={ url} />}/>
-        <Route path="/list" element={<List url={url} />}/>
-        <Route path="/order" element={<Order url={url}/>}/>
-     </Routes>
+      <hr />
+      <div className="app-content">
+        <Sidebar />
+        <Routes>
+          <Route path="/add" element={<Add url={url} />} />
+          <Route path="/list" element={<List url={url} />} />
+          <Route path="/order" element={<Order url={url} />} />
+        </Routes>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
