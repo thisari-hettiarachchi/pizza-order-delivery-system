@@ -46,6 +46,25 @@ public class OrderController {
         List<Order> orders = orderService.getOrdersByUserName(userName);
         return orders.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(orders);
     }
+    @PutMapping("/{id}/status")
+    public ResponseEntity<String> updateOrderStatus(@PathVariable String id, @RequestBody Map<String, String> request) {
+        String status = request.get("status"); // Extract status from the request body
+        if (status == null) {
+            return ResponseEntity.badRequest().body("Status is required!");
+        }
+
+        try {
+            Order.OrderStatus orderStatus = Order.OrderStatus.valueOf(status); // Convert string to enum
+            boolean updated = orderService.updateOrderStatus(id, orderStatus);
+            if (updated) {
+                return ResponseEntity.ok("Order status updated successfully!");
+            } else {
+                return ResponseEntity.badRequest().body("Order not found or status update failed!");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid status value!");
+        }
+    }
 
 
     @DeleteMapping("/delete/{id}")
