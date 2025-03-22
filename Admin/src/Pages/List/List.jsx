@@ -4,30 +4,49 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const List = ({ url }) => {
-  const [list, setList] = useState([]);
+  const [foodList, setFoodList] = useState([]);
 
-  const fetchList = async () => {
-    const response = await axios.get("${url}/api/food/list");
-    if (response.data.success) {
-      setList(response.data.data);
-    } else {
-      toast.error("Error");
-    }
-  };
-
-  const removeFood = async (foodId) => {
-    const response = await axios.post("${url}/api/food/remove", { id: foodId });
-    await fetchList();
-    if (response.data.success) {
-      toast.success(response.data.message);
-    } else {
-      toast.error("Error");
+  const fetchFoodList = async () => {
+    try {
+      const response = await fetch(`${url}/api/food/getfoods`);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch data: ${response.status} ${response.statusText}`
+        );
+      }
+      const data = await response.json();
+      setFoodList(data);
+      console.log("Fetched data", data);
+    } catch (error) {
+      console.error("Error fetching food list:", error);
+      setFoodList([]); // Handle failure by setting foodList to an empty array
     }
   };
 
   useEffect(() => {
-    fetchList();
-  }, []);
+    fetchFoodList();
+  }, [url]);
+
+  const removeFood = async (id) => {
+    try {
+      // Adjusted to match the backend route
+      const response = await axios.delete(`${url}/api/food/deletefood/${id}`);
+
+      // Check if the response is successful (status 200 OK)
+      if (response.status === 200) {
+        setFoodList((prevList) => prevList.filter((item) => item.id !== id));
+        toast.success("Item removed successfully");
+      } else {
+        console.error("error", error);
+        toast.error("Failed to remove item");
+      }
+    } catch (error) {
+      toast.error("Failed to remove item");
+      console.error("Error deleting food item:", error);
+    }
+  };
+
+
   return (
     <div className="list add flex-col">
       <p>All Foods List</p>
@@ -36,24 +55,24 @@ const List = ({ url }) => {
           <b>Image</b>
           <b>Name</b>
           <b>Category</b>
-          <b>Price</b>
+          <b>Price (Small / Medium / Large)</b>
           <b>Action</b>
         </div>
-        {list.map((item, index) => {
-          return (
-            <div key={index} className="list-table-format">
-              <img src={"${url}/images/" + item.image} alt="" />
-              <p>{item.name}</p>
-              <p>{item.category}</p>
-              <p>{item.price}</p>
-              <p onClick={() => removeFood(item.id)} className="cursor">
-                X
-              </p>
-            </div>
-          );
-        })}
+        {foodList.map((item, index) => (
+          <div key={index} className="list-table-format">
+            <img src={`${url}/api/food/image/${item.image}`} alt={item.name} />
+            <p>{item.name}</p>
+            <p>{item.category}</p>
+            <p>
+              {item.price.small} / {item.price.medium} / {item.price.large}
+            </p>
+            <p onClick={() => removeFood(item.id)} className="cursor">
+              X
+            </p>
+
+          </div>
+        ))}
       </div>
-      list
     </div>
   );
 };
