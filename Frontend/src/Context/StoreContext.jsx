@@ -24,28 +24,23 @@ const StoreContextProvider = (props) => {
   };
 
   const handleLogout = () => {
-    // Confirm the action before logging out
     const userConfirmed = window.confirm("Are you sure you want to log out?");
     if (!userConfirmed) return;
 
-    // Clear user-related data
-    localStorage.clear(); // Clears all localStorage data related to the user
-    sessionStorage.clear(); // Optional: Clears sessionStorage if used
+    localStorage.clear(); 
+    sessionStorage.clear();
 
     localStorage.removeItem("userName");
-    setCartItem([]); // Clear cart state
+    setCartItem([]); 
     console.log("User logged out and cart cleared");
 
-    // Update the application state
     setUserName("");
     setIsLoggedIn(false);
 
-    // Redirect to the home page
     toast.success("Logged out successfully!");
-    navigate("/", { replace: true }); // Prevents navigating back to the protected page
+    navigate("/", { replace: true }); 
   };
 
-  // Fetch Cart Item
   const fetchCartItems = async () => {
     try {
       const response = await fetch(`${url}/api/cart/getcart/${userName}`);
@@ -56,19 +51,16 @@ const StoreContextProvider = (props) => {
       }
       const cartData = await response.json();
 
-      // Assuming cartData is the entire response, and items are inside the "items" array
       const formattedCartData = {};
 
-      // Iterate over the items array
       cartData.items.forEach((item) => {
         const compositeKey = `${item.itemId}|${item.size}`;
         formattedCartData[compositeKey] = {
           quantity: item.quantity,
-          cartId: cartData.id, // Use cartData.id as the cartId
+          cartId: cartData.id, 
         };
       });
 
-      // Only update state if the data has changed
       if (JSON.stringify(cartItems) !== JSON.stringify(formattedCartData)) {
         setCartItem(formattedCartData);
         console.log("Fetched and formatted cart data:", formattedCartData);
@@ -77,7 +69,7 @@ const StoreContextProvider = (props) => {
       }
     } catch (error) {
       console.error("Error fetching cart items:", error);
-      setCartItem({}); // Clear cart items on error
+      setCartItem({}); 
     }
   };
 
@@ -87,7 +79,7 @@ const StoreContextProvider = (props) => {
       return;
     }
     fetchCartItems();
-  }, [userName]); // Depend only on userName
+  }, [userName]); 
 
   useEffect(() => {
     if (!cartItems || !foodList) return;
@@ -109,7 +101,7 @@ const StoreContextProvider = (props) => {
           cartId,
         };
       })
-      .filter(Boolean); // Filter out null values
+      .filter(Boolean); 
 
     console.log("Mapped Cart Items with Cart ID:", cartDetails);
   }, [cartItems, foodList]);
@@ -169,7 +161,6 @@ const StoreContextProvider = (props) => {
           `${url}/api/cart/deletecart/${userName}/${itemId}/${size}`
         );
         if (response.status === 200) {
-          // Remove item from the cloned object
           delete currentCartItems[compositeKey];
           setCartItem(currentCartItems);
           toast.success("Item removed from cart!");
@@ -203,7 +194,6 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  // Fetch food list from the API
   const fetchFoodList = async () => {
     try {
       const response = await fetch(`${url}/api/food/getfoods`);
@@ -216,7 +206,7 @@ const StoreContextProvider = (props) => {
       setFoodList(data);
     } catch (error) {
       console.error("Error fetching food list:", error);
-      setFoodList([]); // Handle failure by setting foodList to an empty array
+      setFoodList([]); 
     }
   };
 
@@ -227,9 +217,8 @@ const StoreContextProvider = (props) => {
     loadData();
   }, []);
 
-  // Calculate the total price of the items in the cart
   const getTotalPrice = () => {
-    if (!cartItems || !foodList) return 0; // Ensure valid data
+    if (!cartItems || !foodList) return 0; 
 
     return Object.entries(cartItems).reduce(
       (total, [compositeKey, { quantity }]) => {
@@ -237,8 +226,8 @@ const StoreContextProvider = (props) => {
         const item = foodList.find((food) => food.id === itemId);
 
         if (item && item.price && item.price[size]) {
-          const sizePrice = item.price[size]; // Fetch the price for the specific size
-          total += sizePrice * quantity; // Add the item's total price to the total
+          const sizePrice = item.price[size]; 
+          total += sizePrice * quantity;
         } else {
           console.warn(
             `Item with ID: ${itemId} or size: ${size} not found or price missing.`
@@ -251,10 +240,9 @@ const StoreContextProvider = (props) => {
     );
   };
 
-  // Calculate the final total price including delivery fee
   const lastTotalPrice = () => {
     const subtotal = getTotalPrice();
-    const discountAmount = (subtotal * discount) / 100; // Calculate discount
+    const discountAmount = (subtotal * discount) / 100; 
     return subtotal > 0 ? subtotal - discountAmount + deliveryFee : 0;
   };
 
@@ -272,15 +260,13 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  // Get the total number of items in the cart
   const getTotalItems = () => {
-    if (!cartItems || Object.keys(cartItems).length === 0) return 0; // Ensure cartItems is valid and not empty
+    if (!cartItems || Object.keys(cartItems).length === 0) return 0;
 
     return Object.values(cartItems).reduce((total, item) => {
-      // Convert quantity to an integer (parse as integer), default to 0 if invalid
       const quantity = parseInt(item.quantity, 10) || 0;
       return total + quantity;
-    }, 0); // Sum all quantities
+    }, 0); 
   };
 
   const contextValue = {

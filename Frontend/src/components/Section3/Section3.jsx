@@ -46,7 +46,6 @@ const Section3 = () => {
           </Container>
         </section>
 
-        {/* BG Parallax Scroll */}
         <section className="bg_parallax_scroll"></section>
       </>
     </div>

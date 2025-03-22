@@ -49,7 +49,7 @@ export default function Cart() {
   };
 
   const handlePromoCodeChange = (e) => {
-    setPromoCode(e.target.value); // Update promo code as the user types
+    setPromoCode(e.target.value); 
   };
 
   const handlePromoCodeSubmit = () => {

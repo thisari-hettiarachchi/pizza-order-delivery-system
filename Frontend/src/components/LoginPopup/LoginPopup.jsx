@@ -59,7 +59,7 @@ const LoginPopup = ({ setShowLogin }) => {
       console.error("Error:", error);
       toast.error("Error connecting to the server.");
     } finally {
-      setLoading(false); // Stop processing
+      setLoading(false); 
     }
   };
 

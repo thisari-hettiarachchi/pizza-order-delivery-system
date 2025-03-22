@@ -58,18 +58,18 @@
 
 .myAccount-content .myAccount-button {
   display: flex;
-  flex-direction: row; /* Arrange buttons in a row */
-  justify-content: space-between; /* Align buttons to left & right */
+  flex-direction: row; 
+  justify-content: space-between; 
   align-items: center;
-  width: 100%; /* Ensure it aligns with .myAccount-content */
+  width: 100%; 
   margin-top: 20px;
-  gap: 50px; /* Increase gap between buttons */
+  gap: 50px; 
 }
 
 .myAccount-content .myAccount-upbutton, 
 .myAccount-content .myAccount-dltbutton {
-  width: 100%; /* Ensure both buttons take equal width while leaving some space */
-  max-width: 500px; /* Control maximum width */
+  width: 100%; 
+  max-width: 500px;
   padding: 12px 0px;
   text-align: center;
 }

@@ -35,34 +35,30 @@ const FoodItemPopup = ({
 
         console.log("cart items: " + cartItem);
 
-        // Send the cart item to the backend
         const response = await axios.post(
-          `${url}/api/cart/addtocart/${userName}`, // Pass the userName in the URL
+          `${url}/api/cart/addtocart/${userName}`, 
           cartItem
         );
 
         if (response.status === 200) {
-          // If the response is successful, update the cartItems state
           setCartItem((prevCartItems) => {
             const compositeKey = `${id}|${selectedSize}`;
             const existingItem = prevCartItems[compositeKey];
 
-            // If the item already exists in the cart, increase the quantity
             if (existingItem) {
               return {
                 ...prevCartItems,
                 [compositeKey]: {
                   quantity: existingItem.quantity + localCount,
-                  cartId: existingItem.cartId, // Preserve the cartId
+                  cartId: existingItem.cartId, 
                 },
               };
             } else {
-              // If the item doesn't exist, add it to the cart
               return {
                 ...prevCartItems,
                 [compositeKey]: {
                   quantity: localCount,
-                  cartId: response.data.id, // Assuming the backend returns an 'id' for the cart
+                  cartId: response.data.id, 
                 },
               };
             }
@@ -86,7 +82,7 @@ const FoodItemPopup = ({
   const handleBuy = () => {
     if (token) {
       if (localCount > 0 && selectedSize) {
-        addToCart(); // Send cart data after adding to the cart
+        addToCart(); 
         setLocalCount(0);
         setSelectedSize("");
         handleClosePopup();
@@ -103,14 +99,12 @@ const FoodItemPopup = ({
   };
 
   const handleClosePopup = () => {
-    // Add the zoomOut class to trigger the closing animation
     const popupElement = document.querySelector(".food_item_container");
     popupElement.classList.add("zoomOut");
 
-    // Wait for the animation to complete before hiding the popup
     setTimeout(() => {
-      setShowItem(false); // Close the popup after animation
-    }, 500); // Match the animation duration
+      setShowItem(false); 
+    }, 500); 
   };
 
   return (

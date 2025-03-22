@@ -74,12 +74,12 @@ a {
 }
 @keyframes zoomIn {
   from {
-    transform: scale(0.8); /* Slightly smaller */
-    opacity: 0; /* Invisible */
+    transform: scale(0.8); 
+    opacity: 0; 
   }
   to {
-    transform: scale(1); /* Original size */
-    opacity: 1; /* Fully visible */
+    transform: scale(1); 
+    opacity: 1; 
   }
 }
 @keyframes zoomOut {
@@ -119,14 +119,11 @@ a {
   }
 }
 
-/* Root Variables */
 :root {
-  /* Fonts Family */
   --roboto-font: "Roboto", sans-serif;
   --lilita-font: "Lilita One", cursive;
   --oswald-font: "Oswald", sans-serif;
 
-  /* Colors */
   --light-black: #333;
   --light-white: #f7f7f7;
   --light-red: #e3000e;

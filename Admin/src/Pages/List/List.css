@@ -1,3 +1,7 @@
+.list-add-flex-col{
+  margin-right: 50px;
+}
+
 .list-table-format {
   display: grid;
   grid-template-columns: 0.5fr 2.5fr 1.5fr 1fr 0.5fr;
