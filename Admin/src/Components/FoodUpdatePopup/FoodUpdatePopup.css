@@ -10,7 +10,7 @@
   height: 100%;
 }
 
-.popup-content {
+.food-update-popup .popup-content {
   background: white;
   padding: 20px;
   border-radius: 8px;
@@ -18,20 +18,20 @@
   text-align: center;
 }
 
-.popup-title {
+.food-update-popup .popup-title {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 15px;
 }
 
-.image-container {
+.food-update-popup .image-container {
   position: relative;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-.food-img {
+.food-update-popup .food-img {
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -39,7 +39,7 @@
   border: 2px solid #ddd;
 }
 
-.camera-icon {
+.food-update-popup .camera-icon {
   position: absolute;
   bottom: 5px;
   right: 10px;
@@ -49,52 +49,52 @@
   cursor: pointer;
 }
 
-.input-group {
+.food-update-popup .input-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 15px;
 }
 
-.input-field {
+.food-update-popup .input-field {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.price-inputs {
+.food-update-popup .price-inputs {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
 }
 
-.price-inputs input {
+.food-update-popup .price-inputs input {
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.button-group {
+.food-update-popup .button-group {
   display: flex;
   gap: 10px;
   justify-content: center;
 }
 
-.update-button, .cancel-button {
+.food-update-popup .update-button, .cancel-button {
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.update-button {
+.food-update-popup .update-button {
   background-color: #28a745;
   color: white;
 }
 
-.cancel-button {
+.food-update-popup .cancel-button {
   background-color: #dc3545;
   color: white;
 }
