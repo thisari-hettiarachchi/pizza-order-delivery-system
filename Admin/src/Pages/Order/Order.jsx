@@ -57,7 +57,7 @@ const Orders = ({url}) => {
                 <p className='order-item-phone'>{order.contactNumber}</p>
               </div>
               <p>Item : {order.items.length}</p>
-              <p>Rs.{order.amount}</p>
+              <p>Rs.{order.lastTotalPrice}</p>
               <select>
                 <option value="Food Processing">Food Processing</option>
                 <option value="Dispatched">Dispatched</option>
