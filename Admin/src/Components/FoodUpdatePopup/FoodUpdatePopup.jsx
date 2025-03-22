@@ -1,28 +1,88 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { BiCamera } from "react-icons/bi";
 import { toast } from "react-toastify";
 import "./FoodUpdatePopup.css";
 
 const FoodUpdatePopup = ({ food, closePopup, url }) => {
+  const [isUpdating, setIsUpdating] = useState(false);
   const [updatedFood, setUpdatedFood] = useState(food);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(
+    food?.image ? `${url}/api/food/image/${food.image}` : "/src/assets/user.png"
+  );
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
-    setUpdatedFood(food); // When the food prop changes, update the local state
-  }, [food]);
+    setUpdatedFood(food);
+    setPreviewImage(
+      food?.image
+        ? `${url}/api/food/image/${food.image}`
+        : "/src/assets/user.png"
+    );
+  }, [food, url]);
+
+  const handleCancel = () => {
+    setSelectedImage(null);
+    setPreviewImage(
+      food?.image
+        ? `${url}/api/food/image/${food.image}`
+        : "/src/assets/user.png"
+    );
+    closePopup();
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedFood((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name.startsWith("price")) {
+      setUpdatedFood((prev) => ({
+        ...prev,
+        price: {
+          ...prev.price,
+          [name.replace("price", "").toLowerCase()]: value,
+        },
+      }));
+    } else {
+      setUpdatedFood((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSave = async () => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (validImageTypes.includes(file.type)) {
+        setSelectedImage(file);
+        setPreviewImage(URL.createObjectURL(file));
+        toast.success("Image selected successfully");
+      } else {
+        toast.error("Please select a valid image file (JPEG/PNG/JPG).");
+      }
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsUpdating(true);
+
     try {
+      const formData = new FormData();
+      formData.append("name", updatedFood.name);
+      formData.append("category", updatedFood.category);
+      formData.append("priceSmall", updatedFood.price.small);
+      formData.append("priceMedium", updatedFood.price.medium);
+      formData.append("priceLarge", updatedFood.price.large);
+
+      if (selectedImage) {
+        formData.append("image", selectedImage);
+      }
+
       const response = await axios.put(
-        `/api/food/updatefood/${updatedFood.id}`,
-        updatedFood
+        `${url}/api/food/update/${updatedFood.id}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
 
       if (response.status === 200) {
@@ -34,59 +94,88 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
     } catch (error) {
       toast.error("Error updating food item");
       console.error("Error:", error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   return (
-    <div className="popup">
+    <form className="food-update-popup" onSubmit={handleSubmit}>
       <div className="popup-content">
-        <h3>Edit Food Item</h3>
-        <i className="bi bi-x close_icon" onClick={closePopup} />
-        <div className="popup-content-details">
-          <img
-            src={`${url}/api/food/image/${updatedFood.image}`}
-            alt={updatedFood.name}
-          />
-          <label>Name:</label>
+        <p className="popup-title">Update Food Item</p>
+        <div className="image-container">
+          <img src={previewImage} alt="Food" className="food-img" />
+          <label className="camera-icon">
+            <BiCamera />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={handleImageChange}
+            />
+          </label>
+        </div>
+
+        <div className="input-group">
           <input
+            className="input-field"
             type="text"
             name="name"
             value={updatedFood.name}
+            placeholder="Food Name"
             onChange={handleChange}
           />
-          <label>Category:</label>
-          <input
-            type="text"
-            name="category"
-            value={updatedFood.category}
-            onChange={handleChange}
-          />
-          <label>Price (Small):</label>
-          <input
-            type="number"
-            name="priceSmall"
-            value={updatedFood.price.small}
-            onChange={handleChange}
-          />
-          <label>Price (Medium):</label>
-          <input
-            type="number"
-            name="priceMedium"
-            value={updatedFood.price.medium}
-            onChange={handleChange}
-          />
-          <label>Price (Large):</label>
-          <input
-            type="number"
-            name="priceLarge"
-            value={updatedFood.price.large}
+          <textarea
+            className="input-field"
+            name="description"
+            value={updatedFood.description}
+            placeholder="Description"
             onChange={handleChange}
           />
         </div>
-        <button onClick={handleSave}>Save</button>
-        <button onClick={closePopup}>Cancel</button>
+
+        <div className="price-inputs">
+          <input
+            onChange={handleChange}
+            value={updatedFood.price.small}
+            type="number"
+            name="priceSmall"
+            placeholder="Small price"
+            required
+          />
+          <input
+            onChange={handleChange}
+            value={updatedFood.price.medium}
+            type="number"
+            name="priceMedium"
+            placeholder="Medium price"
+            required
+          />
+          <input
+            onChange={handleChange}
+            value={updatedFood.price.large}
+            type="number"
+            name="priceLarge"
+            placeholder="Large price"
+            required
+          />
+        </div>
+
+        <div className="button-group">
+          <button type="submit" className="update-button" disabled={isUpdating}>
+            {isUpdating ? "Updating..." : "Update"}
+          </button>
+          <button
+            type="button"
+            className="cancel-button"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
-    </div>
+    </form>
   );
 };
 
