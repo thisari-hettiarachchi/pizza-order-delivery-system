@@ -49,7 +49,7 @@ const Orders = ({url}) => {
                     })
                     }
                 </p>
-                <p className="order-item-name">{order.firstName+""+order.lastName}</p>
+                <p className="order-item-name">{order.userName}</p>
                 <div className="order-item-address">
                   <p>{order.address.street+","}</p>
                   <p>{order.address.city+","+order.address.state+","+order.address.country+","+order.address.zipcode}</p>
