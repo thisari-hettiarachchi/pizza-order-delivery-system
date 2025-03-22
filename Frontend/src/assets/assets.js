@@ -97,17 +97,17 @@ export const mockData = [
   {
     image: Pizza,
     title: "Original",
-    paragraph: `Porta semper lacus cursus, feugiat primis ultrice a ligula risus auctor an tempus feugiat dolor lacinia cubilia curae integer orci congue and metus integer primis in integer metus`,
+    paragraph: `Always fresh and authentic, our pizza is made with the finest ingredients, ensuring a rich and delightful flavor in every bite. We craft each pizza with passion and precision to give you the ultimate taste experience.`,
   },
   {
     image: Salad,
     title: "Qualty Foods",
-    paragraph: `Porta semper lacus cursus, feugiat primis ultrice a ligula risus auctor an tempus feugiat dolor lacinia cubilia curae integer orci congue and metus integer primis in integer metus`,
+    paragraph: `We prioritize quality in every dish we serve, using fresh ingredients and expert preparation techniques. Our salads, meals, and specialties are designed to offer a perfect balance of nutrition and taste.`,
   },
   {
     image: Delivery,
     title: "Fastest Delivery",
-    paragraph: `Porta semper lacus cursus, feugiat primis ultrice a ligula risus auctor an tempus feugiat dolor lacinia cubilia curae integer orci congue and metus integer primis in integer metus`,
+    paragraph: `Enjoy hot and delicious food delivered to your doorstep in record time. Our efficient delivery service ensures that you receive your order fresh and exactly when you need it.`,
   },
 ];
 
