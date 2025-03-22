@@ -28,16 +28,19 @@ const List = ({ url }) => {
   }, [url]);
 
   const removeFood = async (id) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to remove this item?"
+    );
+
+    if (!isConfirmed) return;
+
     try {
-      // Adjusted to match the backend route
       const response = await axios.delete(`${url}/api/food/deletefood/${id}`);
 
-      // Check if the response is successful (status 200 OK)
       if (response.status === 200) {
         setFoodList((prevList) => prevList.filter((item) => item.id !== id));
         toast.success("Item removed successfully");
       } else {
-        console.error("error", error);
         toast.error("Failed to remove item");
       }
     } catch (error) {
@@ -45,6 +48,7 @@ const List = ({ url }) => {
       console.error("Error deleting food item:", error);
     }
   };
+
 
 
   return (

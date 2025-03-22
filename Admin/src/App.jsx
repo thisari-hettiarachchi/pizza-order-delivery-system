@@ -7,6 +7,7 @@ import List from './Pages/List/List'
 import Order from './Pages/Order/Order'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 
 

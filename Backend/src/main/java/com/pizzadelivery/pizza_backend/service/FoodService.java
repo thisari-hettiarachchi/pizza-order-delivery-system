@@ -19,7 +19,7 @@ public class FoodService {
     @Autowired
     private FoodRepository foodRepository;
 
-    private final String uploadDir = System.getProperty("user.dir") + "/src/main/resources/uploads/";
+    private final String uploadDir = System.getProperty("user.dir") + "/src/main/resources/uploads/Food images/";
 
     // Convert food JSON string to Food object
     public Food convertJsonToFood(String foodJson) throws IOException {

@@ -1,91 +1,225 @@
-import React, { useState } from 'react'
-import './Add.css'
-import {assets} from '../../assets/assets'
-import axios from "axios"
+import React, { useState, useRef } from "react";
+import "./Add.css";
+import { BiCamera } from "react-icons/bi";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Add = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const fileInputRef = useRef(null);
 
-    const url ="http://localhost:8080";
-    const [image,setImage] =useState(false);
-    const [data,setData] =useState({
-        name:"",
-        description:"",
-        price:"",
-        category:"Salad"
-    })
+  const url = "http://localhost:8080";
 
-    const onChangeHandler = (event) =>{
-        const name = event.targrt.name;
-        const value = event.targrt.value;
-        setData(data=>({...data,[name]:value}))
+  const [data, setData] = useState({
+    name: "",
+    description: "",
+    price: { small: "", medium: "", large: "" }, // Updated to object
+    category: "Pizza",
+  });
+
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+
+    if (["small", "medium", "large"].includes(name)) {
+      setData((prevData) => ({
+        ...prevData,
+        price: { ...prevData.price, [name]: value }, // Update price object
+      }));
+    } else {
+      setData((prevData) => ({ ...prevData, [name]: value }));
+    }
+  };
+
+  const handleImageChange = () => {
+    const file = fileInputRef.current.files[0];
+    if (file) {
+      const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (validImageTypes.includes(file.type)) {
+        const imageUrl = URL.createObjectURL(file);
+        setSelectedImage(file);
+        setPreviewImage(imageUrl);
+        toast.success("Image selected successfully");
+      } else {
+        toast.error("Please select a valid image file (JPEG/PNG/JPG).");
+      }
+    }
+  };
+
+  const cancelImageSelection = () => {
+    setSelectedImage(null);
+    setPreviewImage(null);
+    fileInputRef.current.value = null;
+    toast.info("Image selection canceled.");
+  };
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    if (!selectedImage) {
+      toast.error("Please upload an image.");
+      return;
     }
 
-    const onSubmitHandler = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append("name",data.name)
-        formData.append("description",data.description)
-        formData.append("price",Number(data.price))
-        formData.append("category",data.category)
-        formData.append("image",image)
-        const response = await axios.post('${url}/api/food/add',formData);
-        if (response.data.sucess){
-            setData({
-                name:"",
-                description:"",
-                price:"",
-                category:"Salad"
-            })
-            setImage(false)
-            toast.sucess(response.data.message)
-        }
-        else{
-            toast.error(response.data.message)
-        }
-    }
+    const foodJson = JSON.stringify({
+      name: data.name,
+      description: data.description,
+      price: {
+        small: Number(data.price.small),
+        medium: Number(data.price.medium),
+        large: Number(data.price.large),
+      },
+      category: data.category,
+    });
 
-    return (
-        <div className= 'add'>
-           <form className='flex-col'onSubmit={onSubmitHandler}>
-            <div className="add-img-upload flex-col">
-                <p>Upload Image</p>
-                <lable htmlFor="image">
-                    <img src={image?URL.createObjectURL(image):assets.upload_area} alt=""/>
-                </lable>
-                <input onChange={(e)=>setImage(e.target.files[0])} id="image" hidden required/>
-            </div>
-            <div className= "add-product-name flex-col">
-                <p>Product name</p>
-                <input onChange={onChangeHandler} value={data.name}type="text" name='name' placeholder='Type here'/>
-            </div>
-            <div className="add-product-description flex-col">
-                <p>Product description</p>
-                <textarea onChange={onChangeHandler} value={data.description}name="description" rows="10" placeholder='Write content here' required></textarea>
-            </div>
-            <div className="add-category-price">
-                <div className="add-category-flex-col">
-                    <p>Product category</p>
-                    <select onChange={onChangeHandler}name="category">
-                       <option value="Salad">Salad</option> 
-                       <option value="Rolls">Rolls</option>
-                       <option value="Deserts">Deserts</option>
-                       <option value="Sandwich">Sandwich</option>
-                       <option value="Cake">Cake</option>
-                       <option value="Pure">Pure</option>
-                       <option value="Pasta">Pasta</option>
-                       <option value="Noodles">Noodles</option>
-                    </select>
-                </div>
-                <div className="add-price flex-col">
-                    <p>Product price</p>
-                    <input onChange={onChangeHandler} value={data.price}type="Number" name='price' placeholder='$20'/>
-                </div>
-            </div>
-            <button type='submit' className='add-btn'>ADD</button>
-           </form>
-            
+    const formData = new FormData();
+    formData.append("food", foodJson);
+    formData.append("image", selectedImage);
+
+    try {
+      const response = await axios.post(`${url}/api/food/addfood`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 200) {
+        setData({
+          name: "",
+          description: "",
+          price: { small: "", medium: "", large: "" },
+          category: "Pizza",
+        });
+        setSelectedImage(null);
+        setPreviewImage(null);
+        fileInputRef.current.value = null;
+        toast.success("Product added successfully!");
+      } else {
+        toast.error("Failed to add product.");
+      }
+    } catch (error) {
+      toast.error("Error adding product. Please try again.");
+    }
+  };
+
+  return (
+    <div className="_add">
+      <form className="flex-col" onSubmit={onSubmitHandler}>
+        <div className="add_product_name flex-col">
+          <p>Product name</p>
+          <input
+            onChange={onChangeHandler}
+            value={data.name}
+            type="text"
+            name="name"
+            placeholder="Type here"
+            required
+          />
         </div>
-    )
-}
 
-export default Add
+        <div className="add_product_description flex-col">
+          <p>Product description</p>
+          <textarea
+            onChange={onChangeHandler}
+            value={data.description}
+            name="description"
+            rows="10"
+            placeholder="Write content here"
+            required
+          ></textarea>
+        </div>
+
+        <div className="add_category_price">
+          <div className="add-category-flex-col">
+            <p>Product category</p>
+            <select
+              onChange={onChangeHandler}
+              name="category"
+              value={data.category}
+            >
+              <option value="Pizza">Pizza</option>
+              <option value="Salad">Salad</option>
+              <option value="Rolls">Rolls</option>
+              <option value="Deserts">Deserts</option>
+              <option value="Sandwich">Sandwich</option>
+              <option value="Cake">Cake</option>
+              <option value="Pure">Pure</option>
+              <option value="Pasta">Pasta</option>
+              <option value="Noodles">Noodles</option>
+            </select>
+          </div>
+
+          <div className="add_price flex-col">
+            <p>Product price</p>
+            <div className="price-inputs">
+              <input
+                onChange={onChangeHandler}
+                value={data.price.small}
+                type="number"
+                name="small"
+                placeholder="Small price"
+                required
+              />
+              <input
+                onChange={onChangeHandler}
+                value={data.price.medium}
+                type="number"
+                name="medium"
+                placeholder="Medium price"
+                required
+              />
+              <input
+                onChange={onChangeHandler}
+                value={data.price.large}
+                type="number"
+                name="large"
+                placeholder="Large price"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="add_img_upload flex-col">
+          <p>Upload Image</p>
+          <label className="camera-icon">
+            Add image
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                handleImageChange();
+                if (e.target.files[0]) {
+                  setSelectedImage(e.target.files[0]);
+                }
+              }}
+            />
+          </label>
+          {previewImage && (
+            <img src={previewImage} alt="Preview" className="preview-image" />
+          )}
+          {selectedImage && (
+            <div className="image-preview-container">
+              <p className="image-name">{selectedImage.name}</p>
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={cancelImageSelection}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
+
+        <button type="submit" className="add-btn">
+          ➕ Add Product
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Add;
