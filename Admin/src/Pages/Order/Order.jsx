@@ -85,17 +85,16 @@ const Orders = ({url}) => {
               <p>Rs.{order.lastTotalPrice}</p>
               
               <select
-                value={order.status} // Bind the current status
-                onChange={(e) => handleStatusChange(index, e.target.value)} // Update local state on change}
+                value={order.status} 
+                onChange={(e) => handleStatusChange(index, e.target.value)}
 
               >
                 <option value="FOOD_PROCESSING">Food Processing</option>
                 <option value="DISPATCHED">Dispatched</option>
                 <option value="DELIVERED">Delivered</option>
               </select>
-              {/*Button to udate oder state*/}
-              <button className='on-click'onClick={()=> updateOrderStatus(order.id,order.status)}>Verify</button> 
               
+              <button className='on-click'onClick={()=> updateOrderStatus(order.id,order.status)}>Verify</button> 
               
             </div>
           ))
