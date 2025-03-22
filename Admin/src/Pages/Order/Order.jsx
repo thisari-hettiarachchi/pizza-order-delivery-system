@@ -41,23 +41,23 @@ const Orders = ({url}) => {
                 <p className='order-item-food'>
                     {order.items.map((item,index)=>{
                       if (index===order.items.length-1) {
-                        return item.name + "*" +item.quantity
+                        return item.itemName + "*" +item.quantity
                       }
                       else{
-                        return item.name + "*" +item.quantity + ","
+                        return item.itemName + "*" +item.quantity + ", "
                       }
                     })
                     }
                 </p>
-                <p className="order-item-name">{order.address.firstName+""+order.address.lastName}</p>
+                <p className="order-item-name">{order.userName}</p>
                 <div className="order-item-address">
                   <p>{order.address.street+","}</p>
                   <p>{order.address.city+","+order.address.state+","+order.address.country+","+order.address.zipcode}</p>
                 </div>
-                <p className='order-item-phone'>{order.address.phone}</p>
+                <p className='order-item-phone'>{order.contactNumber}</p>
               </div>
               <p>Item : {order.items.length}</p>
-              <p>Rs.{order.amount}</p>
+              <p>Rs.{order.lastTotalPrice}</p>
               <select>
                 <option value="Food Processing">Food Processing</option>
                 <option value="Dispatched">Dispatched</option>
