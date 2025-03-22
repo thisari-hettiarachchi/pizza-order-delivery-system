@@ -6,7 +6,6 @@ import Cards from "../../assets/Cards.png"
 import { assets } from "../../assets/assets";
 
 function Footer() {
-  // Scroll State
   const [isVisible, setIsVisible] = useState(false);
   const scrollTop = () => {
     window.scrollTo({
@@ -113,7 +112,6 @@ function Footer() {
         </Container>
       </footer>
 
-      {/* Sroll To Top */}
       {isVisible && (
         <div className="scroll_top" onClick={scrollTop}>
           <i class="bi bi-arrow-up"></i>

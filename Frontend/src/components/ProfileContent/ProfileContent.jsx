@@ -8,7 +8,7 @@ const ProfileContent = () => {
   const { userName, url, user, setUser, handleLogout } =
     useContext(StoreContext);
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false); // Added state for deleting
+  const [isDeleting, setIsDeleting] = useState(false); 
 
   useEffect(() => {
     if (userName) {
@@ -33,25 +33,23 @@ const ProfileContent = () => {
 
     try {
       // Update URL to match the backend delete endpoint
-      const response = await fetch(`http://localhost:8080/api/users/delete/${userName}`, {
+      const response = await fetch(`http://localhost:8080/api/users/${userName}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
         alert("Account deleted successfully!");
-        handleLogout();
         // Optionally, redirect the user or reset the state
       } else {
-        alert("Failed to delete account. Please try again.");
+        toast.error("Failed to delete account. Please try again.");
       }
     } catch (error) {
-      console.error("Error deleting account:", error);
-      alert("An error occurred. Please try again.");
+      toast.error(`Error deleting account: ${error.message}`);
     }
 
     setIsDeleting(false);
   };
-   
+  
 
   return (
     <div>
@@ -108,7 +106,7 @@ const ProfileContent = () => {
               type="button"
               className="myAccount-dltbutton"
               disabled={isDeleting}
-              onClick={handleDelete} // Add this event
+              onClick={handleDelete} 
             >
               {isDeleting ? "Deleting..." : "Delete"}
             </button>

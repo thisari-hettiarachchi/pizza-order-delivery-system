@@ -1,8 +1,12 @@
+.order-add{
+    margin:200px 20px 0;
+}
+
 .order-item{
     display: grid;
     grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
     align-items: start;
-    gap: 30px;
+    gap: 20px;
     border: 1px solid tomato;
     padding: 20px;
     margin: 30px 0px;
@@ -19,12 +23,12 @@
 .order-item-address{
     margin-bottom: 10px;
 }
-.order-item-select{
-    background-color: bisque;
-    border: 1px solid tomato;
-    width: max(10vw,120px);
-    padding: 10px;
-    outline: none;
+.order-item select{
+    border: none;
+    color: white;
+    background-color: #da2445;
+    border-radius: 4px;
+    padding: 12px 0px;
 }
 @media (max-width:1000px) {
     .order-item{

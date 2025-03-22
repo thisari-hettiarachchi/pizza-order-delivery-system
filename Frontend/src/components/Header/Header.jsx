@@ -11,7 +11,6 @@ import "./Header.css";
 const Header = () => {
   return (
     <Carousel interval={5000} pause={false} className="custom-carousel">
-      {/* First Slide */}
       <Carousel.Item>
         <section className="main-section-1">
           <Container>
@@ -49,7 +48,6 @@ const Header = () => {
         </section>
       </Carousel.Item>
 
-      {/* Second Slide */}
       <Carousel.Item>
         <section className="main-section-2">
           <Container>
@@ -82,7 +80,6 @@ const Header = () => {
         </section>
       </Carousel.Item>
 
-      {/* Third Slide */}
       <Carousel.Item>
         <section className="main-section-3">
           <Container>

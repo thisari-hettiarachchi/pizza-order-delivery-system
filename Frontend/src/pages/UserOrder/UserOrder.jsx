@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import "./UserOrder.css";
 import { toast } from "react-toastify";
-import parcelIcon from "../../assets/parcel_icon.png"; // Fixed typo in "parcleIcon"
+import parcelIcon from "../../assets/parcel_icon.png"; 
 
 const UserOrder = () => {
   const { url, userName } = useContext(StoreContext);
@@ -25,7 +25,7 @@ const UserOrder = () => {
         },
       });
 
-      console.log("API Response Status:", response.status); // Debugging API response status
+      console.log("API Response Status:", response.status); 
 
       if (!response.ok) {
         throw new Error(
@@ -34,18 +34,18 @@ const UserOrder = () => {
       }
 
       const orderData = await response.json();
-      console.log("Fetched order data:", orderData); // Debug response data
+      console.log("Fetched order data:", orderData); 
 
       if (Array.isArray(orderData)) {
         setOrders(orderData);
       } else {
         console.warn("Unexpected API response format:", orderData);
-        setOrders([]); // Fallback to empty array
+        setOrders([]); 
       }
     } catch (error) {
       console.error("Error fetching orders:", error.message);
       toast.error("Failed to fetch orders. Please try again.");
-      setOrders([]); // Clear orders if an error occurs
+      setOrders([]); 
     }
   };
 
@@ -53,10 +53,10 @@ const UserOrder = () => {
     if (userName) {
       fetchOrders();
     }
-  }, [userName]); // Ensures orders are fetched when userName changes
+  }, [userName]); 
 
   useEffect(() => {
-    console.log("Orders after fetch:", orders); // Check the value of orders after they are set
+    console.log("Orders after fetch:", orders); 
   }, [orders]);
 
   return (

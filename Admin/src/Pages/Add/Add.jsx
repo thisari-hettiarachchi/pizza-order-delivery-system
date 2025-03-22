@@ -15,7 +15,7 @@ const Add = () => {
   const [data, setData] = useState({
     name: "",
     description: "",
-    price: { small: "", medium: "", large: "" }, // Updated to object
+    price: { small: "", medium: "", large: "" }, 
     category: "Pizza",
   });
 
@@ -25,7 +25,7 @@ const Add = () => {
     if (["small", "medium", "large"].includes(name)) {
       setData((prevData) => ({
         ...prevData,
-        price: { ...prevData.price, [name]: value }, // Update price object
+        price: { ...prevData.price, [name]: value }, 
       }));
     } else {
       setData((prevData) => ({ ...prevData, [name]: value }));
@@ -104,121 +104,122 @@ const Add = () => {
 
   return (
     <div className="_add">
-      <form className="flex-col" onSubmit={onSubmitHandler}>
-        <div className="add_product_name flex-col">
-          <p>Product name</p>
+  <form className="flex-col" onSubmit={onSubmitHandler}>
+    <div className="add_product_name_category flex-row">
+      <div className="add_product_name flex-col">
+        <p>Product name</p>
+        <input
+          onChange={onChangeHandler}
+          value={data.name}
+          type="text"
+          name="name"
+          placeholder="Type here"
+          required
+        />
+      </div>
+      <div className="add_category flex-col">
+        <p>Product category</p>
+        <select
+          onChange={onChangeHandler}
+          name="category"
+          value={data.category}
+        >
+          <option value="Pizza">Pizza</option>
+          <option value="Salad">Salad</option>
+          <option value="Rolls">Rolls</option>
+          <option value="Deserts">Deserts</option>
+          <option value="Sandwich">Sandwich</option>
+          <option value="Cake">Cake</option>
+          <option value="Pure">Pure</option>
+          <option value="Pasta">Pasta</option>
+          <option value="Noodles">Noodles</option>
+        </select>
+      </div>
+    </div>
+
+    <div className="add_product_description_price flex-row">
+      <div className="add_product_description flex-col">
+        <p>Product description</p>
+        <textarea
+          onChange={onChangeHandler}
+          value={data.description}
+          name="description"
+          rows="10"
+          placeholder="Write content here"
+          required
+        ></textarea>
+      </div>
+      <div className="add_price flex-col">
+        <p>Product price</p>
+        <div className="price-inputs">
           <input
             onChange={onChangeHandler}
-            value={data.name}
-            type="text"
-            name="name"
-            placeholder="Type here"
+            value={data.price.small}
+            type="number"
+            name="small"
+            placeholder="Small price"
+            required
+          />
+          <input
+            onChange={onChangeHandler}
+            value={data.price.medium}
+            type="number"
+            name="medium"
+            placeholder="Medium price"
+            required
+          />
+          <input
+            onChange={onChangeHandler}
+            value={data.price.large}
+            type="number"
+            name="large"
+            placeholder="Large price"
             required
           />
         </div>
-
-        <div className="add_product_description flex-col">
-          <p>Product description</p>
-          <textarea
-            onChange={onChangeHandler}
-            value={data.description}
-            name="description"
-            rows="10"
-            placeholder="Write content here"
-            required
-          ></textarea>
-        </div>
-
-        <div className="add_category_price">
-          <div className="add-category-flex-col">
-            <p>Product category</p>
-            <select
-              onChange={onChangeHandler}
-              name="category"
-              value={data.category}
-            >
-              <option value="Pizza">Pizza</option>
-              <option value="Salad">Salad</option>
-              <option value="Rolls">Rolls</option>
-              <option value="Deserts">Deserts</option>
-              <option value="Sandwich">Sandwich</option>
-              <option value="Cake">Cake</option>
-              <option value="Pure">Pure</option>
-              <option value="Pasta">Pasta</option>
-              <option value="Noodles">Noodles</option>
-            </select>
-          </div>
-
-          <div className="add_price flex-col">
-            <p>Product price</p>
-            <div className="price-inputs">
-              <input
-                onChange={onChangeHandler}
-                value={data.price.small}
-                type="number"
-                name="small"
-                placeholder="Small price"
-                required
-              />
-              <input
-                onChange={onChangeHandler}
-                value={data.price.medium}
-                type="number"
-                name="medium"
-                placeholder="Medium price"
-                required
-              />
-              <input
-                onChange={onChangeHandler}
-                value={data.price.large}
-                type="number"
-                name="large"
-                placeholder="Large price"
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="add_img_upload flex-col">
-          <p>Upload Image</p>
-          <label className="camera-icon">
-            Add image
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={(e) => {
-                handleImageChange();
-                if (e.target.files[0]) {
-                  setSelectedImage(e.target.files[0]);
-                }
-              }}
-            />
-          </label>
-          {previewImage && (
-            <img src={previewImage} alt="Preview" className="preview-image" />
-          )}
-          {selectedImage && (
-            <div className="image-preview-container">
-              <p className="image-name">{selectedImage.name}</p>
-              <button
-                type="button"
-                className="cancel-btn"
-                onClick={cancelImageSelection}
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-        </div>
-
-        <button type="submit" className="add-btn">
-          ➕ Add Product
-        </button>
-      </form>
+      </div>
     </div>
+
+    <div className="add_img_upload flex-col">
+      <p>Upload Image</p>
+      <label className="camera-icon">
+        Add image
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={(e) => {
+            handleImageChange();
+            if (e.target.files[0]) {
+              setSelectedImage(e.target.files[0]);
+            }
+          }}
+        />
+      </label>
+      {previewImage && (
+        <img src={previewImage} alt="Preview" className="preview-image" />
+      )}
+      {selectedImage && (
+        <div className="image-preview-container">
+          <p className="image-name">{selectedImage.name}</p>
+          <button
+            type="button"
+            className="cancel-btn"
+            onClick={cancelImageSelection}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
+    </div>
+
+    <button type="submit" className="add-btn">
+      ➕ Add Product
+    </button>
+  </form>
+</div>
+
   );
 };
 

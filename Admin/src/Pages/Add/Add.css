@@ -1,4 +1,3 @@
-/* General styling for full screen */
 ._add {
   margin-top: 180px;
   display: flex;
@@ -26,6 +25,12 @@
   flex-direction: column;
 }
 
+._add .flex-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
 ._add p {
   margin-bottom: 5px;
   font-size: 18px;
@@ -45,20 +50,41 @@
   resize: none;
 }
 
-._add .add_category_price {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
+._add .add_product_name_category {
+  width: 100%;
 }
-._add .add-category-flex-col select{
-    margin-top: 15px;
-}
-._add .add-category-flex-col,
-._add .add-price {
+
+._add .add_product_name,
+._add .add_category {
   width: 48%;
 }
 
-/* Image upload section */
+.add_product_name{
+  
+  outline-color: #d20a2e;
+}
+
+._add .add_product_description_price {
+  width: 100%;
+}
+
+._add .add_product_description,
+._add .add_price {
+  width: 48%;
+}
+
+._add .add_price  input{
+  margin-top: 10px;
+}
+
+._add input:focus,
+._add textarea:focus,
+._add select:focus {
+  outline-color: #d20a2e; 
+  border-color: #d20a2e;  
+}
+
+
 ._add .add_img_upload {
   text-align: center;
 }
@@ -111,7 +137,6 @@
   background: darkred;
 }
 
-/* Add button */
 ._add .add-btn {
   background: #28a745;
   color: white;

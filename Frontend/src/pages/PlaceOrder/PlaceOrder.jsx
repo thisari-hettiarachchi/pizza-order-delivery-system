@@ -39,13 +39,11 @@ const PlaceOrder = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if cart is empty
     if (Object.keys(cartItems).length === 0) {
       toast.warn("Your cart is empty. Please add items to proceed.");
       return;
     }
 
-    // Create an array of items with details
     const orderItems = Object.entries(cartItems).map(
       ([compositeKey, itemData]) => {
         const [itemId, size] = compositeKey.split("|");
@@ -81,19 +79,15 @@ const PlaceOrder = () => {
     };
 
     try {
-      // Send the order data to the backend API
       const response = await axios.post(url + "/api/order/create", orderData);
 
-      // Redirect to Stripe checkout page
       if (response.data) {
         window.location.href = response.data;
       }
 
-      // Show success message
       toast.success("Order placed successfully!");
       deleteCart();
 
-      // Clear form data and cart items
       setFormData({
         firstName: "",
         lastName: "",
@@ -106,7 +100,6 @@ const PlaceOrder = () => {
         contactNumber: "",
       });
     } catch (error) {
-      // Handle error (e.g., show error message)
       toast.error("Error placing order: " + error);
     }
   };
