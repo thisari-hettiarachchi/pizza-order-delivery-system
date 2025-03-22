@@ -22,11 +22,10 @@ export const ProfileEdit = ({ setIsEditing }) => {
   });
 
   const [isUpdating, setIsUpdating] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null); // Track the selected image file
-  const [previewImage, setPreviewImage] = useState(null); // Track the preview image URL
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null); 
   const fileInputRef = useRef(null);
 
-  // Initialize form data and preview image when the user changes
   useEffect(() => {
     if (user) {
       setFormData({
@@ -43,11 +42,10 @@ export const ProfileEdit = ({ setIsEditing }) => {
         contactNumber: user.contactNumber || "",
         profilePicture: user.profilePicture || null,
       });
-      setPreviewImage(user.profilePicture); // Set the preview image to the current profile picture
+      setPreviewImage(user.profilePicture); 
     }
   }, [user]);
 
-  // Handle changes in form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name in formData.address) {
@@ -66,15 +64,14 @@ export const ProfileEdit = ({ setIsEditing }) => {
     }
   };
 
-  // Handle image selection
   const handleImageChange = () => {
     const file = fileInputRef.current.files[0];
     if (file) {
       const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
       if (validImageTypes.includes(file.type)) {
-        const imageUrl = URL.createObjectURL(file); // Generate a temporary preview URL
-        setSelectedImage(file); // Store the selected image file
-        setPreviewImage(imageUrl); // Update the preview image
+        const imageUrl = URL.createObjectURL(file);
+        setSelectedImage(file); 
+        setPreviewImage(imageUrl); 
         toast.success("Profile image selected successfully");
       } else {
         toast.error("Please select a valid image file (JPEG/PNG/JPG).");
@@ -82,7 +79,6 @@ export const ProfileEdit = ({ setIsEditing }) => {
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
@@ -106,7 +102,6 @@ export const ProfileEdit = ({ setIsEditing }) => {
       const formDataToSend = new FormData();
       const updatedUser = { ...formData };
 
-      // Remove profilePicture from JSON since it's sent separately
       delete updatedUser.profilePicture;
 
       formDataToSend.append("updatedUser", JSON.stringify(updatedUser));
@@ -130,7 +125,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
       }
 
       const responseData = await response.json();
-      setUser(responseData); // Update the user in the context
+      setUser(responseData); 
       toast.success("Profile updated successfully");
       setIsEditing(false);
     } catch (error) {
@@ -141,11 +136,10 @@ export const ProfileEdit = ({ setIsEditing }) => {
     }
   };
 
-  // Handle cancel button click
   const handleCancel = () => {
-    setSelectedImage(null); // Clear the selected image
-    setPreviewImage(user.profilePicture); // Revert to the previous profile picture
-    setIsEditing(false); // Exit edit mode
+    setSelectedImage(null); 
+    setPreviewImage(user.profilePicture);
+    setIsEditing(false); 
   };
 
   return (
@@ -176,7 +170,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
           </label>
         </div>
         <div className="myaccount-mutli-fields">
-          <input
+          <input class="myaccount-input"
             type="text"
             name="firstName"
             value={formData.firstName}
@@ -184,6 +178,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
             onChange={handleChange}
           />
           <input
+            class="myaccount-input"
             type="text"
             name="lastName"
             value={formData.lastName}
@@ -193,6 +188,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
         </div>
 
         <input
+          class="myaccount-input"
           type="email"
           name="email"
           value={formData.email}
@@ -201,6 +197,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
         />
         <div className="myaccount-mutli-fields">
           <input
+            class="myaccount-input"
             type="text"
             name="street"
             value={formData.address.street}
@@ -208,6 +205,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
             onChange={handleChange}
           />
           <input
+            class="myaccount-input"
             type="text"
             name="city"
             value={formData.address.city}
@@ -217,6 +215,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
         </div>
         <div className="myaccount-mutli-fields">
           <input
+            class="myaccount-input"
             type="text"
             name="state"
             value={formData.address.state}
@@ -224,6 +223,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
             onChange={handleChange}
           />
           <input
+            class="myaccount-input"
             type="text"
             name="zipCode"
             value={formData.address.zipCode}
@@ -233,6 +233,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
         </div>
         <div className="myaccount-mutli-fields">
           <input
+            class="myaccount-input"
             type="text"
             name="country"
             value={formData.address.country}
@@ -241,6 +242,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
           />
         </div>
         <input
+          class="myaccount-input"
           type="text"
           name="contactNumber"
           value={formData.contactNumber}
