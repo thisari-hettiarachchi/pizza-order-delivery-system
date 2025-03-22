@@ -4,6 +4,7 @@ import shopping_bag from "./shopping_bag.png";
 import logo from "./logo.png";
 import header_img from "./header_img.png";
 import search_icon from "./search_icon.png";
+import userPic from "./user.png";
 
 import menu_1 from "./menu_1.png";
 import menu_2 from "./menu_2.png";
@@ -89,6 +90,7 @@ export const assets = {
   logout_icon,
   bag_icon,
   parcel_icon,
+  userPic,
 };
 
 export const mockData = [

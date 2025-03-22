@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./ProfileContent.css";
 import ProfileEdit from "../../components/ProfileEdit/ProfileEdit";
 import { StoreContext } from "../../Context/StoreContext";
+import { assets } from "../../assets/assets";
 
 const ProfileContent = () => {
   const { userName, url, user, setUser } = useContext(StoreContext);
@@ -33,7 +34,7 @@ const ProfileContent = () => {
               src={
                 user?.profilePicture
                   ? url + "/api/users/image/" + user.profilePicture
-                  : "/default-user.png"
+                  : assets.userPic
               }
               className="profile-img"
               alt="User Profile"
