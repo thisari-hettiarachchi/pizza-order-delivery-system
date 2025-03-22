@@ -111,6 +111,10 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
               }`}
               onClick={(e) => {
                 e.stopPropagation();
+                const userConfirmed = window.confirm(
+                  "Are you sure you want to log out?"
+                );
+                if (!userConfirmed) return;
                 handleLogout();
               }}
             >

@@ -24,10 +24,7 @@ const StoreContextProvider = (props) => {
   };
 
   const handleLogout = () => {
-    // Confirm the action before logging out
-    const userConfirmed = window.confirm("Are you sure you want to log out?");
-    if (!userConfirmed) return;
-
+    
     // Clear user-related data
     localStorage.clear(); // Clears all localStorage data related to the user
     sessionStorage.clear(); // Optional: Clears sessionStorage if used

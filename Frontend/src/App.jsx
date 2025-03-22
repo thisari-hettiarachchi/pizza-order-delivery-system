@@ -10,7 +10,6 @@ import LoginPopup from "./components/LoginPopup/LoginPopup";
 import { ToastContainer, cssTransition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "animate.css";
-import UserOrder from "./pages/UserOrder/UserOrder";
 import Verify from "./pages/Verify/Verify";
 
 const App = () => {
