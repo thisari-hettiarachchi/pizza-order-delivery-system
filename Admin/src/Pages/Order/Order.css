@@ -1,58 +1,62 @@
-.order-add{
-    margin:150px 20px 0;
+.order-add {
+  margin: 150px 20px 0;
 }
 
-.order-item{
-    display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
-    align-items: start;
-    gap: 20px;
-    border: 1px solid tomato;
-    padding: 20px;
-    margin: 30px 0px;
-    font-size: 14px;
-    color: #505050;
+.order-item {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
+  align-items: start;
+  gap: 20px;
+  border: 1px solid tomato;
+  padding: 20px;
+  margin: 30px 0px;
+  font-size: 14px;
+  color: #505050;
 }
-.order-item-food, .order-item-name{
-    font-weight: 800;
+.order-item-food,
+.order-item-name {
+  font-weight: 800;
 }
-.order-item-name{
-    margin-top: 30px;
-    margin-bottom: 5px;
+.order-item-name {
+  margin-top: 30px;
+  margin-bottom: 5px;
 }
-.order-item-address{
-    margin-bottom: 10px;
+.order-item-address {
+  margin-bottom: 10px;
 }
-.order-item select{
-    border: none;
-    color: black;
-    border-radius: 4px;
-    padding: 12px 12px;
-}
-
-@media (max-width:1000px) {
-    .order-item{
-        font-size: 12px;
-        grid-template-columns: 0.5fr 2fr 1fr;
-        padding: 15px 8px;
-    }
-    .order-item-select{
-        padding: 5px;
-        font-size: 12px;
-    }
-    .order-item img{
-        width: 40px;
-    }
+.order-item select {
+  border: none;
+  color: black;
+  border-radius: 4px;
+  padding: 12px 12px;
 }
 
-    
-    .on-click{
-        font-size: 16px;
-        padding: 16px 24px;
-        border-radius: 8px;
-    }
-    .on-click:hover{
-        background-color: red;
-        color: white;
-    }
-    
+@media (max-width: 1000px) {
+  .order-item {
+    font-size: 12px;
+    grid-template-columns: 0.5fr 2fr 1fr;
+    padding: 15px 8px;
+  }
+  .order-item-select {
+    padding: 5px;
+    font-size: 12px;
+  }
+  .order-item img {
+    width: 40px;
+  }
+}
+
+.on-click {
+  position: absolute;
+  right: 20px;
+  margin-top:110px;
+  margin-right: 18px;
+  font-size: 16px;
+  padding: 5px 80px;
+  border-radius: 4px;
+}
+.on-click:hover {
+  background-color: red;
+  color: white;
+  border: none;
+}
