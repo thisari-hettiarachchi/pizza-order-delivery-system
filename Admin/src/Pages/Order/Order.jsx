@@ -11,6 +11,8 @@ const Orders = ({url}) => {
 
   const fetchAllOrders = async () => {
     try {
+      console.log("Fetching orders from:", `${url}/api/order/getall`);
+
       const response = await axios.get(`${url}/api/order/getall`);
       if (response.status === 200) {
         setOrders(response.data);
@@ -23,10 +25,33 @@ const Orders = ({url}) => {
       toast.error("Failed to fetch orders");
     }
   };
+  const updateOrderStatus = async (Id, newStatus) => {
+    try {
+      const response = await axios.put(`${url}/api/order/${Id}/status`, {
+        status: newStatus
+      });
+
+      if (response.status === 200) {
+        toast.success("Order status updated successfully!");
+        fetchAllOrders(); // Refresh the order list
+      } else {
+        toast.error("Failed to update order status");
+      }
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      toast.error("Error updating order status");
+    }
+  };
 
   useEffect(()=>{
     fetchAllOrders();
   },[])
+
+  const handleStatusChange = (index, newStatus) => {
+    const updatedOrders = [...orders];
+    updatedOrders[index].status = newStatus; // Update the status locally
+    setOrders(updatedOrders);
+  };
 
 
   return (
@@ -58,11 +83,20 @@ const Orders = ({url}) => {
               </div>
               <p>Item : {order.items.length}</p>
               <p>Rs.{order.lastTotalPrice}</p>
-              <select>
-                <option value="Food Processing">Food Processing</option>
-                <option value="Dispatched">Dispatched</option>
-                <option value="Delivered">Delivered</option>
+              
+              <select
+                value={order.status} // Bind the current status
+                onChange={(e) => handleStatusChange(index, e.target.value)} // Update local state on change}
+
+              >
+                <option value="FOOD_PROCESSING">Food Processing</option>
+                <option value="DISPATCHED">Dispatched</option>
+                <option value="DELIVERED">Delivered</option>
               </select>
+              {/*Button to udate oder state*/}
+              <button className='on-click'onClick={()=> updateOrderStatus(order.id,order.status)}>Verify</button> 
+              
+              
             </div>
           ))
         }

@@ -40,3 +40,15 @@
         width: 40px;
     }
 }
+
+    
+    .on-click{
+        font-size: 16px;
+        padding: 16px 24px;
+        border-radius: 8px;
+    }
+    .on-click:hover{
+        background-color: red;
+        color: white;
+    }
+    
