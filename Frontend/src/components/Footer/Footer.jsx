@@ -34,9 +34,9 @@ function Footer() {
             <Col sm={6} lg={3} className="mb-4 mb-lg-0">
               <div className="text-center">
                 <h5>Location</h5>
-                <p>5505 Waterford District</p>
-                <p>Dr, Miami, FL 33126</p>
-                <p>United States</p>
+                <p>55/05 Duplication Road,</p>
+                <p>Kollupitiya</p>
+                <p>Sri Lanka</p>
               </div>
             </Col>
             <Col sm={6} lg={3} className="mb-4 mb-lg-0">
@@ -50,10 +50,10 @@ function Footer() {
             <Col sm={6} lg={3} className="mb-4 mb-lg-0">
               <div className="text-center">
                 <h5>Order Now</h5>
-                <p>Quaerat neque purus ipsum</p>
+                <p>Enjoy quick and hassle-free ordering with just a few taps.</p>
                 <p>
                   <Link to="tel:9998887777" className="calling" id = "contact-us">
-                    999-888-7777
+                    0112-123-153
                   </Link>
                 </p>
                 <img src={Cards} className="Cards" alt="" />
@@ -62,7 +62,9 @@ function Footer() {
             <Col sm={6} lg={3} className="mb-4 mb-lg-0">
               <div className="text-center">
                 <h5>Follow Us</h5>
-                <p>Quaerat neque purus ipsum</p>
+                <p>
+                  Stay connected with us for the latest updates, exclusive offers, and exciting news.
+                </p>
                 <ul className="list-unstyled text-center mt-2">
                   <li>
                     <Link to="/">

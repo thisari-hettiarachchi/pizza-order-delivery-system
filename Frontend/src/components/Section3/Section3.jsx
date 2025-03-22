@@ -20,25 +20,24 @@ const Section3 = () => {
               <Col lg={6} className="px-5">
                 <h2>Nothing brings people together like a good Pizza</h2>
                 <p>
-                  Semper lacus cursus porta primis ligula risus tempus and
-                  sagittis ipsum mauris lectus laoreet purus ipsum tempor enim
-                  ipsum porta justo integer ultrice aligula lectus aenean magna
-                  and pulvinar purus at pretium gravida
+                  Always a great place for enjoying together, the fun continues as 
+                  you savor the best moments with great pizza. With a lively atmosphere, 
+                  great ingredients, and the joy that comes with every bite, it’s 
+                  hard to resist the magic of pizza.
                 </p>
                 <ul>
                   <li>
                     <p>
-                      Fringilla risus, luctus mauris orci auctor purus euismod
-                      pretium purus pretium ligula rutrum tempor sapien
+                      Pizza is the ultimate comfort food that brings people together, 
+                      offering delicious moments and shared joy.
                     </p>
                   </li>
                   <li>
-                    <p>Quaerat sodales sapien euismod purus blandit</p>
+                    <p>Crispy crust and smooth textures make each slice a delightful experience.</p>
                   </li>
                   <li>
                     <p>
-                      Nemo ipsam egestas volute turpis dolores ut aliquam
-                      quaerat sodales sapien undo pretium a purus mauris
+                      Every bite brings a world of flavor that satisfies your cravings.
                     </p>
                   </li>
                 </ul>

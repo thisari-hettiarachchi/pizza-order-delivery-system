@@ -71,3 +71,171 @@ footer .Cards{
   font-size: 1.5rem;
   color: var(--white);
 }
+
+@media (max-width: 1200px) {
+  footer {
+    padding-top: 60px;
+  }
+
+  footer h5 {
+    margin-bottom: 20px;
+  }
+
+  footer p {
+    font-size: 0.95rem;
+  }
+
+  footer .copy_right ul li {
+    font-size: 0.95rem;
+  }
+
+  footer .copy_right {
+    margin-top: 40px;
+    padding: 15px 0;
+  }
+
+  footer .Cards {
+    width: 170px;
+  }
+
+  .scroll_top {
+    right: 20px;
+    bottom: 20px;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .scroll_top i {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 992px) {
+  footer {
+    padding-top: 40px;
+  }
+
+  footer h5 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  footer .calling {
+    font-size: 1.5rem;
+  }
+
+  footer ul li {
+    font-size: 1.2rem;
+    margin-right: 15px;
+  }
+
+  footer .copy_right {
+    margin-top: 30px;
+    padding: 15px 0;
+  }
+
+  footer .Cards {
+    width: 150px;
+  }
+
+  .scroll_top {
+    right: 15px;
+    bottom: 15px;
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .scroll_top i {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  footer {
+    padding-top: 30px;
+  }
+
+  footer h5 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+
+  footer p {
+    font-size: 0.9rem;
+  }
+
+  footer .calling {
+    font-size: 1.4rem;
+  }
+
+  footer ul li {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    margin-right: 0;
+  }
+
+  footer .copy_right {
+    margin-top: 20px;
+    padding: 10px 0;
+  }
+
+  footer .Cards {
+    width: 120px;
+  }
+
+  .scroll_top {
+    right: 10px;
+    bottom: 10px;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .scroll_top i {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  footer {
+    padding-top: 20px;
+  }
+
+  footer h5 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  footer p {
+    font-size: 0.85rem;
+  }
+
+  footer .calling {
+    font-size: 1.2rem;
+  }
+
+  footer ul li {
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+
+  footer .copy_right {
+    margin-top: 15px;
+    padding: 8px 0;
+  }
+
+  footer .Cards {
+    width: 100px;
+  }
+
+  .scroll_top {
+    right: 10px;
+    bottom: 10px;
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .scroll_top i {
+    font-size: 0.9rem;
+  }
+}

@@ -35,9 +35,9 @@ const Header = () => {
                   <h1 className="text-white">New Pizza</h1>
                   <h2 className="text-white">With Onion</h2>
                   <p className="text-white pt-2 pb-4">
-                    Feugiat primis ligula risus auctor laoreet augue egestas
-                    mauris viverra tortor in iaculis pretium at magna mauris
-                    ipsum primis rhoncus feugiat
+                  Try our new pizza with a flavorful onion topping, 
+                  freshly made to satisfy your taste buds. Perfectly paired with our signature 
+                  ingredients for an unforgettable experience.
                   </p>
                   <Link to="/">
                     <button className="btn-order-now">Order now</button>
