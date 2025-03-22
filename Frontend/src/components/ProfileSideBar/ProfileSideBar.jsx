@@ -7,6 +7,7 @@ import {
   BiLogOut,
 } from "react-icons/bi";
 import { StoreContext } from "../../Context/StoreContext";
+import { assets } from "../../assets/assets";
 import "./ProfileSideBar.css";
 
 const ProfileSideBar = ({ setActiveSection, activeSection }) => {
@@ -28,10 +29,10 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
               src={
                 user.profilePicture
                   ? url + "/api/users/image/" + user.profilePicture
-                  : "/default-user.png"
+                  : assets.userPic
               }
-              className="profile-image"
-              alt="User Profile"
+              className="profile_image"
+             
             />
             <p className="profile-username">{userName}</p>
           </div>

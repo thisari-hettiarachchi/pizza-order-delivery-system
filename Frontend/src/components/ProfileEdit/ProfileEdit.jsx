@@ -152,7 +152,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
     <form className="myaccount" onSubmit={handleSubmit}>
       <div className="myaccount-left">
         <p className="myaccount-title">My Profile</p>
-        <div className="profile-img-container">
+        <div className="profile_img_container">
           <img
             src={
               previewImage
