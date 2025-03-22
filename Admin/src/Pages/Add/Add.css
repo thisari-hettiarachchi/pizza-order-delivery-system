@@ -1,0 +1,128 @@
+/* General styling for full screen */
+._add {
+  margin-top: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #f8f9fa;
+}
+
+._add form {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+._add .flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+._add p {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+._add input,
+._add textarea,
+._add select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+}
+
+._add textarea {
+  resize: none;
+}
+
+._add .add_category_price {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+._add .add-category-flex-col select{
+    margin-top: 15px;
+}
+._add .add-category-flex-col,
+._add .add-price {
+  width: 48%;
+}
+
+/* Image upload section */
+._add .add_img_upload {
+  text-align: center;
+}
+
+._add .camera-icon {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+._add .camera-icon:hover {
+  background: #0056b3;
+}
+
+._add .preview-image {
+  margin-top: 10px;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+._add .image-preview-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+._add .image-name {
+  font-size: 14px;
+  color: #555;
+}
+
+._add .cancel-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+._add .cancel-btn:hover {
+  background: darkred;
+}
+
+/* Add button */
+._add .add-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+._add .add-btn:hover {
+  background: #218838;
+}

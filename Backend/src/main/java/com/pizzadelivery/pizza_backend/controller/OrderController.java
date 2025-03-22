@@ -40,12 +40,6 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
-//        Order order = orderService.getOrderById(id);
-//        return (order != null) ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
-//    }
-
 
     @GetMapping("/getorder/{userName}")
     public ResponseEntity<List<Order>> getOrdersByUserName(@PathVariable String userName) {
@@ -54,11 +48,11 @@ public class OrderController {
     }
 
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<String> deleteOrder(@PathVariable String id) {
-//        boolean deleted = orderService.deleteOrder(id);
-//        return deleted ? ResponseEntity.ok("Order deleted successfully!") : ResponseEntity.notFound().build();
-//    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteOrder(@PathVariable String id) {
+        boolean deleted = orderService.deleteOrder(id);
+        return deleted ? ResponseEntity.ok("Order deleted successfully!") : ResponseEntity.notFound().build();
+    }
 
     @PostMapping("/verify")
     public ResponseEntity<?> verifyPayment(@RequestBody Map<String, String> request) {

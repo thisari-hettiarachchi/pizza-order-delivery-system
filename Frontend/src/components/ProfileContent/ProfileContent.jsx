@@ -68,16 +68,25 @@ const ProfileContent = () => {
             />
           </div>
           <div className="myAccount-details">
-            <p>Username: {userName}</p>
-            <p>Email: {user?.email}</p>
-            <p>First Name: {user?.firstName}</p>
-            <p>Last Name: {user?.lastName}</p>
-            <p>Street: {user?.address?.street || "N/A"}</p>
-            <p>City: {user?.address?.city || "N/A"}</p>
-            <p>State: {user?.address?.state || "N/A"}</p>
-            <p>Zip Code: {user?.address?.zipCode || "N/A"}</p>
-            <p>Country: {user?.address?.country || "N/A"}</p>
-            <p>Phone Number: {user?.contactNumber || "N/A"}</p>
+            <span> Username: </span> <p>{userName}</p>
+            <span>Email: </span>
+            <p>{user?.email}</p>
+            <span>First Name: </span>
+            <p>{user?.firstName}</p>
+            <span>Last Name: </span>
+            <p>{user?.lastName}</p>
+            <span>Street: </span>
+            <p>{user?.address?.street || "N/A"}</p>
+            <span>City: </span>
+            <p>{user?.address?.city || "N/A"}</p>
+            <span>State: </span>
+            <p>{user?.address?.state || "N/A"}</p>
+            <span>Zip Code: </span>
+            <p>{user?.address?.zipCode || "N/A"}</p>
+            <span>Country: </span>
+            <p>{user?.address?.country || "N/A"}</p>
+            <span>Phone Number: </span>
+            <p>{user?.contactNumber || "N/A"}</p>
           </div>
 
           <div className="myAccount-button">
