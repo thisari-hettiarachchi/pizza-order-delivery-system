@@ -1,5 +1,5 @@
 .order-add{
-    margin:200px 20px 0;
+    margin:150px 20px 0;
 }
 
 .order-item{
@@ -25,11 +25,11 @@
 }
 .order-item select{
     border: none;
-    color: white;
-    background-color: #da2445;
+    color: black;
     border-radius: 4px;
-    padding: 12px 0px;
+    padding: 12px 12px;
 }
+
 @media (max-width:1000px) {
     .order-item{
         font-size: 12px;
