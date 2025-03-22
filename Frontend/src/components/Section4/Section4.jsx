@@ -13,9 +13,8 @@ const Section4 = () => {
               <h4>We Guarantee</h4>
               <h2>30 Minutes Delivery!</h2>
               <p>
-                Aliquam a augue suscipit, luctus neque purus ipsum neque undo
-                dolor primis libero tempus, blandit a cursus varius luctus neque
-                magna
+                We ensure that your order will reach you within 30 minutes, 
+                so you can enjoy your pizza at its best—hot, fresh, and ready to eat.
               </p>
                 <button className="call-now">Call: 999-888-7777</button>
             </Col>

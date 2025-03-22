@@ -349,3 +349,242 @@
   width: 20px;
   height: 20px;
 }
+
+/* Main Section 1 */
+@media (max-width: 1200px) {
+  .main-section-1 .img-pizza {
+    width: 600px;
+  }
+  .main-section-1 .img-tomato {
+    top: -120px;
+    left: -200px;
+    width: 250px;
+  }
+  .main-section-1 .img-cheese {
+    bottom: -70px;
+    left: -60px;
+    width: 250px;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-section-1 .img-pizza {
+    width: 500px;
+  }
+  .main-section-1 .img-tomato {
+    top: -100px;
+    left: -150px;
+    width: 200px;
+  }
+  .main-section-1 .img-cheese {
+    bottom: -60px;
+    left: -50px;
+    width: 200px;
+  }
+  .main-section-1 .badge-text .only,
+  .main-section-1 .badge-text .price {
+    font-size: 1.5rem;
+  }
+  .main-section-1 .main-text h1 {
+    font-size: 5rem;
+  }
+  .main-section-1 .main-text h2 {
+    font-size: 2rem;
+  }
+  .main-section-1 .btn-order-now {
+    font-size: 16px;
+    margin-left: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-section-1 {
+    padding-top: 120px;
+    padding-bottom: 60px;
+  }
+  .main-section-1 .img-pizza {
+    width: 400px;
+  }
+  .main-section-1 .badge-text .only,
+  .main-section-1 .badge-text .price {
+    font-size: 1.25rem;
+  }
+  .main-section-1 .main-text h1 {
+    font-size: 3rem;
+  }
+  .main-section-1 .main-text h2 {
+    font-size: 1.5rem;
+  }
+  .main-section-1 .btn-order-now {
+    padding: 12px 28px;
+    font-size: 14px;
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-section-1 {
+    padding-top: 80px;
+    padding-bottom: 40px;
+  }
+  .main-section-1 .img-pizza {
+    width: 300px;
+  }
+  .main-section-1 .badge-text .only,
+  .main-section-1 .badge-text .price {
+    font-size: 1rem;
+  }
+  .main-section-1 .main-text h1 {
+    font-size: 2.5rem;
+  }
+  .main-section-1 .main-text h2 {
+    font-size: 1.25rem;
+  }
+  .main-section-1 .btn-order-now {
+    padding: 10px 20px;
+    font-size: 12px;
+    margin-left: 20px;
+  }
+}
+
+/* Main Section 2 */
+@media (max-width: 1200px) {
+  .main-section-2 .img-pizza {
+    width: 600px;
+  }
+  .main-section-2 .img-italian-pizza {
+    width: 450px;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-section-2 .img-pizza {
+    width: 500px;
+  }
+  .main-section-2 .img-italian-pizza {
+    width: 400px;
+  }
+  .main-section-2 .desc,
+  .main-section-2 .call-now {
+    font-size: 18px;
+  }
+  .main-section-2 .button-container {
+    flex-direction: column;
+  }
+  .main-section-2 .menu,
+  .main-section-2 .about-us {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-section-2 .img-pizza {
+    width: 400px;
+  }
+  .main-section-2 .img-italian-pizza {
+    width: 300px;
+  }
+  .main-section-2 .desc {
+    font-size: 16px;
+  }
+  .main-section-2 .call-now {
+    font-size: 24px;
+  }
+  .main-section-2 .button-container {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-section-2 .img-pizza {
+    width: 250px;
+  }
+  .main-section-2 .img-italian-pizza {
+    width: 200px;
+  }
+  .main-section-2 .desc {
+    font-size: 14px;
+  }
+  .main-section-2 .call-now {
+    font-size: 20px;
+  }
+  .main-section-2 .menu,
+  .main-section-2 .about-us {
+    font-size: 14px;
+  }
+}
+
+/* Main Section 3 */
+@media (max-width: 1200px) {
+  .main-section-3 .img-pizza {
+    width: 600px;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-section-3 .img-pizza {
+    width: 500px;
+  }
+  .main-section-3 .main-text h2 {
+    font-size: 3rem;
+  }
+  .main-section-3 .main-text .desc {
+    font-size: 18px;
+  }
+  .main-section-3 .main-text .call-now {
+    font-size: 24px;
+  }
+  .main-section-3 .menu,
+  .main-section-3 .about-us {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-section-3 .img-pizza {
+    width: 400px;
+  }
+  .main-section-3 .main-text h2 {
+    font-size: 2.5rem;
+  }
+  .main-section-3 .main-text .desc {
+    font-size: 16px;
+  }
+  .main-section-3 .main-text .call-now {
+    font-size: 22px;
+  }
+  .main-section-3 .button-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-section-3 .img-pizza {
+    width: 250px;
+  }
+  .main-section-3 .main-text h2 {
+    font-size: 2rem;
+  }
+  .main-section-3 .main-text .desc {
+    font-size: 14px;
+  }
+  .main-section-3 .main-text .call-now {
+    font-size: 20px;
+  }
+  .main-section-3 .menu,
+  .main-section-3 .about-us {
+    font-size: 14px;
+  }
+}
+
+/* Carousel controls */
+@media (max-width: 768px) {
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    padding: 15px;
+    width: 18px;
+    height: 18px;
+  }
+}
+

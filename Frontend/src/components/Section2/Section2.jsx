@@ -16,9 +16,9 @@ const Section2 = () => {
                   The Pizza tastes better when you eat it with your family
                 </h2>
                 <p>
-                  Porta semper lacus cursus, feugiat primis ultrice a ligula
-                  risus auctor an tempus feugiat dolor lacinia cubilia curae
-                  integer orci congue and metus integer primis in integer metus
+                  Share the joy of a delicious pizza with your loved ones. 
+                  Enjoy every bite together in the comfort of your home, 
+                  making unforgettable memories with every slice.
                 </p>
                 <a href="#explore-menu" className="explore-full-menu">
                   Explore Full Menu
