@@ -24,6 +24,26 @@
 .list-table-format img {
   width: 50px;
 }
+.action {
+  display: flex;
+  justify-content: space-between;
+}
+.action button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #b20825;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.action button:hover {
+  background-color: #d20a2e;
+}
+.action .delete-icon{
+  margin-top: 4px;
+  font-size: 16px;
+  color: #000000;
+}
 
 @media (max-width: 600px) {
   .list-table-format {
