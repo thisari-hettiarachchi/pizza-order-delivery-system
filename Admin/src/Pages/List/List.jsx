@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 const List = ({ url }) => {
   const [foodList, setFoodList] = useState([]);
+  const [showItem, setShowItem] = useState(false);
 
   const fetchFoodList = async () => {
     try {
@@ -49,8 +50,6 @@ const List = ({ url }) => {
     }
   };
 
-
-
   return (
     <div className="list add flex-col">
       <p>All Foods List</p>
@@ -73,7 +72,6 @@ const List = ({ url }) => {
             <p onClick={() => removeFood(item.id)} className="cursor">
               X
             </p>
-
           </div>
         ))}
       </div>

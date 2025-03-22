@@ -5,7 +5,8 @@ import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
 
 const ProfileContent = () => {
-  const { userName, url, user, setUser } = useContext(StoreContext);
+  const { userName, url, user, setUser, handleLogout } =
+    useContext(StoreContext);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false); // Added state for deleting
 
@@ -22,17 +23,23 @@ const ProfileContent = () => {
 
   const handleDelete = async () => {
     if (!userName) return;
-  
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account? This action cannot be undone."
+    );
+    if (!confirmDelete) return;
+
     setIsDeleting(true);
-  
+
     try {
       // Update URL to match the backend delete endpoint
-      const response = await fetch(`http://localhost:8080/api/users/${userName}`, {
+      const response = await fetch(`http://localhost:8080/api/users/delete/${userName}`, {
         method: "DELETE",
       });
-  
+
       if (response.ok) {
         alert("Account deleted successfully!");
+        handleLogout();
         // Optionally, redirect the user or reset the state
       } else {
         alert("Failed to delete account. Please try again.");
@@ -41,7 +48,7 @@ const ProfileContent = () => {
       console.error("Error deleting account:", error);
       alert("An error occurred. Please try again.");
     }
-  
+
     setIsDeleting(false);
   };
    

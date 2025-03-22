@@ -101,7 +101,7 @@ const Navbars = ({ setShowLogin }) => {
                   <div className="navbar-profile">
                     <ul className="profile-username-container">
                       <li>
-                        <i class="bi bi-person"></i>
+                        <i className="bi bi-person"></i>
                         <span className="profile-username">{userName}</span>
                       </li>
                     </ul>
@@ -109,12 +109,18 @@ const Navbars = ({ setShowLogin }) => {
                     <ul className="nav-profile-dropdown">
                       <Link to={"/profile"}>
                         <li>
-                          <i class="bi bi-person-vcard"></i>
+                          <i className="bi bi-person-vcard"></i>
                           <span>Profile</span>
                         </li>
                       </Link>
-                      <li onClick={handleLogout}>
-                        <i class="bi bi-box-arrow-right"></i>
+                      <li
+                        onClick={() => {
+                          if (window.confirm("Are you sure you want to log out?")) {
+                            handleLogout();
+                          }
+                        }}
+                      >
+                        <i className="bi bi-box-arrow-right"></i>
                         <span>Log Out</span>
                       </li>
                     </ul>
