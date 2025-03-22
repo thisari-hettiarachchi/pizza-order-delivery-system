@@ -61,6 +61,13 @@ const ProfileContent = () => {
             >
               Edit
             </button>
+            <button
+              type="submit"
+              className="myAccount-dltbutton"
+              disabled={isUpdating}
+            >
+              {isUpdating ? "Dleting..." : "Delete"}
+          </button>
           </div>
         </div>
       )}
