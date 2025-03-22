@@ -1,4 +1,4 @@
-.myAccount {
+.myAccount-content {
   align-items: center;
   justify-content: center;
   gap: 20px;
@@ -11,14 +11,14 @@
 }
 
 
-.myAccount-title {
+.myAccount-content .myAccount-title {
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 20px;
   text-align: center;
 }
 
-.profile-img-container {
+.myAccount-content .profile-img-container {
   position: relative;
   width: 150px;
   height: 150px;
@@ -29,14 +29,13 @@
   margin-bottom: 50px;
 }
 
-.profile-img {
+.myAccount-content .profile-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  
 }
 
-.myAccount-details p{
+.myAccount-content .myAccount-details p{
   background-color: rgba(255, 255, 255, 0.25);
   border: 2px solid  rgba(255, 255, 255, 0.40);
   backdrop-filter: blur(5px);
@@ -47,23 +46,40 @@
 }
 
 
-.myAccount-button {
+
+
+.myAccount-content .myAccount-button {
+  display: flex;
+  flex-direction: row; /* Arrange buttons in a row */
+  justify-content: space-between; /* Align buttons to left & right */
+  align-items: center;
+  width: 100%; /* Ensure it aligns with .myAccount-content */
   margin-top: 20px;
+  gap: 50px; /* Increase gap between buttons */
+}
+
+.myAccount-content .myAccount-upbutton, 
+.myAccount-content .myAccount-dltbutton {
+  width: 100%; /* Ensure both buttons take equal width while leaving some space */
+  max-width: 500px; /* Control maximum width */
+  padding: 12px 0px;
   text-align: center;
 }
 
-.myAccount-upbutton {
+.myAccount-content .myAccount-upbutton {
   border: none;
   color: white;
-  width: 50rem;
   background-color: #d20a2e;
-  padding: 12px 20px;
   border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s;
-  margin-bottom: 50px;
 }
 
-.myAccount-upbutton:hover {
+.myAccount-content .myAccount-dltbutton {
+  border: 1px solid black;
+  border-radius: 5px;
+  color: black;
+  background-color: white;
+}
+
+.myAccount-content .myAccount-upbutton:hover {
   background-color: #b20825;
 }
