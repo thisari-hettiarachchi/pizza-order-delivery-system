@@ -40,6 +40,7 @@
   cursor: pointer;
   border-radius: 50%;
   transition: 0.2s;
+  margin-top: 15px;
 }
 
 .explore-menu-list-item p {
