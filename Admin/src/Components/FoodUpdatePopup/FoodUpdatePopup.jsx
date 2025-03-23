@@ -32,28 +32,40 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
     closePopup();
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name.startsWith("price")) {
-      setUpdatedFood((prev) => ({
-        ...prev,
-        price: {
-          ...prev.price,
-          [name.replace("price", "").toLowerCase()]: value,
-        },
-      }));
-    } else {
-      setUpdatedFood((prev) => ({ ...prev, [name]: value }));
-    }
+  const cancelImageSelection = () => {
+    setSelectedImage(null);
+    setPreviewImage(
+      food?.image
+        ? `${url}/api/food/image/${food.image}`
+        : "/src/assets/user.png"
+    );
+    fileInputRef.current.value = null;
+    toast.info("Image selection canceled.");
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+
+    if (["small", "medium", "large"].includes(name)) {
+      setUpdatedFood((prevData) => ({
+        ...prevData,
+        price: { ...prevData.price, [name]: value },
+      }));
+    } else {
+      setUpdatedFood((prevData) => ({ ...prevData, [name]: value }));
+    }
+
+    console.log("Updated Food State:", updatedFood); // Debugging log
+  };
+
+  const handleImageChange = () => {
+    const file = fileInputRef.current.files[0];
     if (file) {
       const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
       if (validImageTypes.includes(file.type)) {
+        const imageUrl = URL.createObjectURL(file);
         setSelectedImage(file);
-        setPreviewImage(URL.createObjectURL(file));
+        setPreviewImage(imageUrl);
         toast.success("Image selected successfully");
       } else {
         toast.error("Please select a valid image file (JPEG/PNG/JPG).");
@@ -65,20 +77,40 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
     e.preventDefault();
     setIsUpdating(true);
 
+    if (!food.image && !selectedImage) {
+      toast.error("Please upload an image.");
+      setIsUpdating(false);
+      return;
+    }
+
+    const foodJson = JSON.stringify({
+      name: updatedFood.name,
+      description: updatedFood.description,
+      price: {
+        small: Number(updatedFood.price.small),
+        medium: Number(updatedFood.price.medium),
+        large: Number(updatedFood.price.large),
+      },
+      category: updatedFood.category, // Ensure category is included
+    });
+
+    console.log("Food JSON Payload:", foodJson); // Debugging log
+
+    const formData = new FormData();
+    formData.append("food", foodJson);
+
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
+
+    // Log FormData entries
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
     try {
-      const formData = new FormData();
-      formData.append("name", updatedFood.name);
-      formData.append("category", updatedFood.category);
-      formData.append("priceSmall", updatedFood.price.small);
-      formData.append("priceMedium", updatedFood.price.medium);
-      formData.append("priceLarge", updatedFood.price.large);
-
-      if (selectedImage) {
-        formData.append("image", selectedImage);
-      }
-
       const response = await axios.put(
-        `${url}/api/food/update/${updatedFood.id}`,
+        `${url}/api/food/updatefood/${updatedFood.id}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -124,39 +156,57 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
             name="name"
             value={updatedFood.name}
             placeholder="Food Name"
-            onChange={handleChange}
+            onChange={onChangeHandler}
           />
           <textarea
             className="input-field"
             name="description"
             value={updatedFood.description}
             placeholder="Description"
-            onChange={handleChange}
+            onChange={onChangeHandler}
           />
+        </div>
+
+        <div className="add_category flex-col">
+          <p>Product category</p>
+          <select
+            onChange={onChangeHandler}
+            name="category"
+            value={updatedFood.category}
+          >
+            <option value="Pizza">Pizza</option>
+            <option value="Salad">Salad</option>
+            <option value="Rolls">Rolls</option>
+            <option value="Desserts">Desserts</option>
+            <option value="Sandwich">Sandwich</option>
+            <option value="Cake">Cake</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Pasta">Pasta</option>
+          </select>
         </div>
 
         <div className="price-inputs">
           <input
-            onChange={handleChange}
+            onChange={onChangeHandler}
             value={updatedFood.price.small}
             type="number"
-            name="priceSmall"
+            name="small"
             placeholder="Small price"
             required
           />
           <input
-            onChange={handleChange}
+            onChange={onChangeHandler}
             value={updatedFood.price.medium}
             type="number"
-            name="priceMedium"
+            name="medium"
             placeholder="Medium price"
             required
           />
           <input
-            onChange={handleChange}
+            onChange={onChangeHandler}
             value={updatedFood.price.large}
             type="number"
-            name="priceLarge"
+            name="large"
             placeholder="Large price"
             required
           />
