@@ -39,7 +39,6 @@ const ExploreMenu = ({ category, setCategory }) => {
         </Col>
       </Row>
 
-      {/* Menu List with Left and Right Animations */}
       <motion.div
         className="explore-menu-list"
         initial="hidden"
@@ -50,7 +49,7 @@ const ExploreMenu = ({ category, setCategory }) => {
         }}
       >
         {menu_list.map((item, index) => {
-          const isLeft = index % 2 === 0; // Alternate items (even index from left, odd index from right)
+          const isLeft = index % 2 === 0; 
           return (
             <motion.div
               key={index}
@@ -60,7 +59,7 @@ const ExploreMenu = ({ category, setCategory }) => {
                   prev === item.menu_name ? "All" : item.menu_name
                 )
               }
-              initial={{ opacity: 0, x: isLeft ? -100 : 100 }} // Left items move from left, right items from right
+              initial={{ opacity: 0, x: isLeft ? -100 : 100 }} 
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               viewport={{ once: false }}
