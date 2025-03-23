@@ -27,7 +27,9 @@
 .order-item select {
   border: none;
   color: black;
-  border-radius: 4px;
+  background-color: rgb(93, 239, 101);
+  text-align: left;
+  border-radius: 8px;
   padding: 12px 12px;
 }
 
@@ -49,7 +51,7 @@
 .on-click {
   position: absolute;
   right: 20px;
-  margin-top:110px;
+  margin-top: 110px;
   margin-right: 18px;
   font-size: 16px;
   padding: 5px 80px;
