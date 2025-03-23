@@ -46,12 +46,22 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
 
-    setUpdatedFood((prevData) => ({
-      ...prevData,
-      [name]: ["small", "medium", "large"].includes(name)
-        ? { ...prevData.price, [name]: value }
-        : value, 
-    }));
+    setUpdatedFood((prevData) => {
+      if (["small", "medium", "large"].includes(name)) {
+        return {
+          ...prevData,
+          price: {
+            ...prevData.price,
+            [name]: value,
+          },
+        };
+      } else {
+        return {
+          ...prevData,
+          [name]: value,
+        };
+      }
+    });
   };
 
   const handleImageChange = () => {
@@ -87,10 +97,10 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
         medium: Number(updatedFood.price.medium),
         large: Number(updatedFood.price.large),
       },
-      category: updatedFood.category, 
+      category: updatedFood.category,
     });
 
-    console.log("Food JSON Payload:", foodJson); 
+    console.log("Food JSON Payload:", foodJson);
 
     const formData = new FormData();
     formData.append("food", foodJson);
@@ -153,7 +163,7 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
             placeholder="Food Name"
             onChange={onChangeHandler}
           />
-          
+
           <select
             onChange={onChangeHandler}
             name="category"
