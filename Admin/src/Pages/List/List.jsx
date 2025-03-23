@@ -20,7 +20,6 @@ const List = ({ url }) => {
       }
       const data = await response.json();
       setFoodList(data);
-      console.log("Fetched data", data);
     } catch (error) {
       console.error("Error fetching food list:", error);
       setFoodList([]); 
