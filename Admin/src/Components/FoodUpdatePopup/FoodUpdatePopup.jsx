@@ -46,16 +46,12 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
 
-    if (["small", "medium", "large"].includes(name)) {
-      setUpdatedFood((prevData) => ({
-        ...prevData,
-        price: { ...prevData.price, [name]: value },
-      }));
-    } else {
-      setUpdatedFood((prevData) => ({ ...prevData, [name]: value }));
-    }
-
-    console.log("Updated Food State:", updatedFood); // Debugging log
+    setUpdatedFood((prevData) => ({
+      ...prevData,
+      [name]: ["small", "medium", "large"].includes(name)
+        ? { ...prevData.price, [name]: value }
+        : value, // Ensure category and other fields are updated
+    }));
   };
 
   const handleImageChange = () => {
@@ -173,6 +169,7 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
             onChange={onChangeHandler}
             name="category"
             value={updatedFood.category}
+            required
           >
             <option value="Pizza">Pizza</option>
             <option value="Salad">Salad</option>
