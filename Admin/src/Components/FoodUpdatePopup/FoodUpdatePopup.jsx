@@ -50,7 +50,7 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
       ...prevData,
       [name]: ["small", "medium", "large"].includes(name)
         ? { ...prevData.price, [name]: value }
-        : value, // Ensure category and other fields are updated
+        : value, 
     }));
   };
 
@@ -87,10 +87,10 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
         medium: Number(updatedFood.price.medium),
         large: Number(updatedFood.price.large),
       },
-      category: updatedFood.category, // Ensure category is included
+      category: updatedFood.category, 
     });
 
-    console.log("Food JSON Payload:", foodJson); // Debugging log
+    console.log("Food JSON Payload:", foodJson); 
 
     const formData = new FormData();
     formData.append("food", foodJson);
@@ -99,7 +99,6 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
       formData.append("image", selectedImage);
     }
 
-    // Log FormData entries
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
     }
@@ -145,7 +144,7 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
           </label>
         </div>
 
-        <div className="input-group">
+        <div className="input-group-inline">
           <input
             className="input-field"
             type="text"
@@ -154,17 +153,7 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
             placeholder="Food Name"
             onChange={onChangeHandler}
           />
-          <textarea
-            className="input-field"
-            name="description"
-            value={updatedFood.description}
-            placeholder="Description"
-            onChange={onChangeHandler}
-          />
-        </div>
-
-        <div className="add_category flex-col">
-          <p>Product category</p>
+          
           <select
             onChange={onChangeHandler}
             name="category"
@@ -182,7 +171,18 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
           </select>
         </div>
 
+        <div className="input-group">
+          <textarea
+            className="input-field"
+            name="description"
+            value={updatedFood.description}
+            placeholder="Description"
+            onChange={onChangeHandler}
+          />
+        </div>
+
         <div className="price-inputs">
+          <p>Small Price</p>
           <input
             onChange={onChangeHandler}
             value={updatedFood.price.small}
@@ -191,6 +191,9 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
             placeholder="Small price"
             required
           />
+        </div>
+        <div className="price-inputs">
+          <p>Medium Price</p>
           <input
             onChange={onChangeHandler}
             value={updatedFood.price.medium}
@@ -199,6 +202,9 @@ const FoodUpdatePopup = ({ food, closePopup, url }) => {
             placeholder="Medium price"
             required
           />
+        </div>
+        <div className="price-inputs">
+          <p>Large Price</p>
           <input
             onChange={onChangeHandler}
             value={updatedFood.price.large}
