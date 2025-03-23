@@ -8,6 +8,8 @@
   left: 0;
   width: 100%;
   height: 100%;
+  margin-top: 70px;
+  margin-bottom: 70px;
 }
 
 .food-update-popup .popup-content {
@@ -16,6 +18,7 @@
   border-radius: 8px;
   width: 400px;
   text-align: center;
+  margin-bottom: 40px; 
 }
 
 .food-update-popup .popup-title {
@@ -41,19 +44,28 @@
 
 .food-update-popup .camera-icon {
   position: absolute;
-  bottom: 5px;
-  right: 10px;
+  bottom: 5px; 
+  right: 15px;   
   background: white;
   border-radius: 50%;
   padding: 5px;
   cursor: pointer;
+  margin-right: 110px;
 }
 
-.food-update-popup .input-group {
+.food-update-popup .input-group-inline {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 20px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+}
+
+.food-update-popup .input-group-inline .input-field,
+.food-update-popup .input-group-inline select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
 .food-update-popup .input-field {
@@ -65,8 +77,14 @@
 
 .food-update-popup .price-inputs {
   display: flex;
-  gap: 10px;
+  justify-content: space-between; 
+  align-items: center;
   margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.food-update-popup .price-inputs p {
+  margin-right: 10px; 
 }
 
 .food-update-popup .price-inputs input {
@@ -74,6 +92,7 @@
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  text-align: center;
 }
 
 .food-update-popup .button-group {
@@ -83,7 +102,7 @@
 }
 
 .food-update-popup .update-button, .cancel-button {
-  padding: 10px 15px;
+  padding: 10px 70px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
