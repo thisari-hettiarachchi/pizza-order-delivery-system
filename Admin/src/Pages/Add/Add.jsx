@@ -127,12 +127,12 @@ const Add = () => {
           <option value="Pizza">Pizza</option>
           <option value="Salad">Salad</option>
           <option value="Rolls">Rolls</option>
-          <option value="Deserts">Deserts</option>
+          <option value="Desserts">Deserts</option>
           <option value="Sandwich">Sandwich</option>
           <option value="Cake">Cake</option>
-          <option value="Pure">Pure</option>
+          <option value="Beverages">Beverages</option>
           <option value="Pasta">Pasta</option>
-          <option value="Noodles">Noodles</option>
+          {/* <option value="Noodles">Noodles</option> */}
         </select>
       </div>
     </div>

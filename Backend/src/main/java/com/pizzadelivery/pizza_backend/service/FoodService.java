@@ -58,6 +58,7 @@ public class FoodService {
             existingFood.setName(newFoodData.getName());
             existingFood.setPrice(newFoodData.getPrice());
             existingFood.setDescription(newFoodData.getDescription());
+            existingFood.setCategory(newFoodData.getCategory());
 
             try {
                 // If an image is provided, save it and update the image field

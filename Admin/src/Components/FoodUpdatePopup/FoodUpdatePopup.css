@@ -1,144 +1,100 @@
-/* Popup Overlay */
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+.food-update-popup {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* Popup Content */
-.popup-content {
-  background-color: #fff;
-  width: 90%;
-  max-width: 800px; /* Limit the width for larger screens */
+.food-update-popup .popup-content {
+  background: white;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  display: flex; /* Flexbox for side-by-side layout */
-  gap: 20px; /* Space between image and form */
-  position: relative;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Close Icon */
-.close_icon {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
-  color: #333;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.close_icon:hover {
-  color: #ed1c24; /* Red on hover */
-}
-
-/* Left Side: Image */
-.popup-content img {
-  width: 100%; /* Full width of the container */
-  max-width: 300px; /* Limit the width */
-  height: auto;
-  object-fit: cover; /* Maintain aspect ratio */
   border-radius: 8px;
-  border: 1px solid #ddd;
+  width: 400px;
+  text-align: center;
 }
 
-/* Right Side: Form Details */
-.popup-content-details {
-  flex: 1; /* Take up remaining space */
+.food-update-popup .popup-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.food-update-popup .image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.food-update-popup .food-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.food-update-popup .camera-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  background: white;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.food-update-popup .input-group {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Space between form fields */
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-.popup-content-details label {
-  font-size: 16px;
-  font-weight: bold;
-  color: #555;
-}
-
-.popup-content-details input {
+.food-update-popup .input-field {
   width: 100%;
   padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 0.3s ease;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-.popup-content-details input:focus {
-  border-color: #007bff; /* Blue border on focus */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow */
+.food-update-popup .price-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-/* Buttons */
-.popup-content button {
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
+.food-update-popup .price-inputs input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.food-update-popup .button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.food-update-popup .update-button, .cancel-button {
+  padding: 10px 15px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s;
 }
 
-.popup-content button:first-of-type {
-  background-color: #28a745; /* Green for save button */
-  color: #fff;
+.food-update-popup .update-button {
+  background-color: #28a745;
+  color: white;
 }
 
-.popup-content button:first-of-type:hover {
-  background-color: #218838; /* Darker green */
-  transform: scale(1.05); /* Slight zoom effect */
-}
-
-.popup-content button:last-of-type {
-  background-color: #dc3545; /* Red for cancel button */
-  color: #fff;
-  margin-left: 10px;
-}
-
-.popup-content button:last-of-type:hover {
-  background-color: #c82333; /* Darker red */
-  transform: scale(1.05); /* Slight zoom effect */
-}
-
-/* Animation for Popup */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .popup-content {
-    flex-direction: column; /* Stack image and form vertically */
-    width: 95%;
-    padding: 20px;
-  }
-
-  .popup-content img {
-    max-width: 100%; /* Full width for smaller screens */
-    margin-bottom: 20px; /* Add spacing below the image */
-  }
-
-  .popup-content button {
-    font-size: 14px;
-    padding: 10px;
-  }
+.food-update-popup .cancel-button {
+  background-color: #dc3545;
+  color: white;
 }
