@@ -3,12 +3,20 @@ import { assets } from "../../assets/assets";
 import FoodItemPopup from "../FoodItemPopup/FoodItemPopup";
 import "./FoodItem.css";
 import { StoreContext } from "../../Context/StoreContext";
+import { motion } from "framer-motion";
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const [showItem, setShowItem] = useState(false);
   const { url } = useContext(StoreContext);
+
   return (
-    <div className="food-item">
+    <motion.div
+      className="food-item"
+      initial={{ opacity: 0, y: 50 }} 
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }} 
+      viewport={{ once: false, amount: 0.3 }} 
+    >
       <div className="food-item-img-container">
         <img
           className="food-item-image"
@@ -17,10 +25,11 @@ const FoodItem = ({ id, name, price, description, image }) => {
           onClick={() => setShowItem(true)}
         />
         <i
-          class="bi bi-search search-icon"
+          className="bi bi-search search-icon"
           onClick={() => setShowItem(true)}
         ></i>
       </div>
+
       <div className="food-item-info">
         <div className="food-item-name-rating">
           <div className="foof-item-name-container">
@@ -50,10 +59,17 @@ const FoodItem = ({ id, name, price, description, image }) => {
           </div>
 
           <div className="add-to-cart">
-            <button onClick={() => setShowItem(true)}>Add to Cart</button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setShowItem(true)}
+            >
+              Add to Cart
+            </motion.button>
           </div>
         </div>
       </div>
+
       {showItem && (
         <FoodItemPopup
           setShowItem={setShowItem}
@@ -64,7 +80,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
           price={price}
         />
       )}
-    </div>
+    </motion.div>
   );
 };
 

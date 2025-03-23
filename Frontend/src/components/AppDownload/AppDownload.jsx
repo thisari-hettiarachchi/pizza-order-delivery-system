@@ -13,7 +13,6 @@ const AppDownload = () => {
       <section className="shop_section">
         <Container>
           <Row className="align-items-center">
-            {/* Left Section - Text & Buttons */}
             <Col lg={6} className="text-center text-lg-start mb-5 mb-lg-0">
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -46,7 +45,6 @@ const AppDownload = () => {
               </motion.div>
             </Col>
 
-            {/* Right Section - Image */}
             <Col lg={6}>
               <motion.img
                 src={DownloadImage}
