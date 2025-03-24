@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
 
 export const StoreContext = createContext(null);
@@ -15,6 +16,7 @@ const StoreContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [formType, setFormType] = useState("Login");
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   const scrollTop = () => {
     window.scrollTo({
@@ -25,9 +27,6 @@ const StoreContextProvider = (props) => {
 
   const handleLogout = () => {
 
-    const userConfirmed = window.confirm("Are you sure you want to log out?");
-    if (!userConfirmed) return;
-    
     // Clear user-related data
     localStorage.clear(); // Clears all localStorage data related to the user
     sessionStorage.clear(); // Optional: Clears sessionStorage if used

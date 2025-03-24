@@ -6,6 +6,7 @@ import com.pizzadelivery.pizza_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -97,12 +98,19 @@ public class UserController {
 
     // Delete user by username
     @DeleteMapping("/delete/{userName}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
+    public ResponseEntity<String> deleteUser(@PathVariable String userName) {
         try {
             userService.deleteUser(userName);
-            return ResponseEntity.noContent().build(); // No content if deletion is successful
+            return ResponseEntity.ok("User deleted successfully"); // ✅ Success response
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build(); // User not found
+            e.printStackTrace(); // Log the error for debugging
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found or already deleted");
+        } catch (Exception e) {
+            e.printStackTrace(); // Log unexpected errors
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
     }
+
+
+
 }

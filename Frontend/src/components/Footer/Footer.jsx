@@ -78,7 +78,9 @@ function Footer() {
                 viewport={{ once: false, amount: 0.3 }}
               >
                 <h5>Order Now</h5>
-                <p>Enjoy quick and hassle-free ordering with just a few taps.</p>
+                <p>
+                  Enjoy quick and hassle-free ordering with just a few taps.
+                </p>
                 <p>
                   <Link to="tel:9998887777" className="calling" id="contact-us">
                     0112-123-153
@@ -97,7 +99,10 @@ function Footer() {
                 viewport={{ once: false, amount: 0.3 }}
               >
                 <h5>Follow Us</h5>
-                <p>Stay connected with us for the latest updates, exclusive offers, and exciting news.</p>
+                <p>
+                  Stay connected with us for the latest updates, exclusive
+                  offers, and exciting news.
+                </p>
                 <ul className="list-unstyled text-center mt-2">
                   <li>
                     <Link to="/">
@@ -134,16 +139,24 @@ function Footer() {
               >
                 <ul className="list-unstyled text-center mb-0">
                   <li>
-                    <Link to="/">© 2024 RED OVEN All Rights Reserved</Link>
+                    <Link to="/" className="text-decoration-none">
+                      © 2024 RED OVEN All Rights Reserved
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/">About Us</Link>
+                    <Link to="/" className="text-decoration-none">
+                      About Us
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/">Terms Of Use</Link>
+                    <Link to="/" className="text-decoration-none">
+                      Terms Of Use
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/">Privacy Policy</Link>
+                    <Link to="/" className="text-decoration-none">
+                      Privacy Policy
+                    </Link>
                   </li>
                 </ul>
               </motion.div>
