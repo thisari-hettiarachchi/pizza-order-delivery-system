@@ -3,12 +3,15 @@ import "./ProfileContent.css";
 import ProfileEdit from "../../components/ProfileEdit/ProfileEdit";
 import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom"; 
 
 const ProfileContent = () => {
   const { userName, url, user, setUser, handleLogout } =
     useContext(StoreContext);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userName) {
@@ -33,18 +36,22 @@ const ProfileContent = () => {
 
     try {
       // Update URL to match the backend delete endpoint
-      const response = await fetch(`http://localhost:8080/api/users/${userName}`, {
+      const response = await fetch(`http://localhost:8080/api/users/delete/${userName}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
         alert("Account deleted successfully!");
+        handleLogout();
+         navigate("/", { replace: true }); 
+
         // Optionally, redirect the user or reset the state
       } else {
         toast.error("Failed to delete account. Please try again.");
       }
     } catch (error) {
-      toast.error(`Error deleting account: ${error.message}`);
+      toast.error("Error deleting account. Please try again.");
+      console.error("Error:", error);
     }
 
     setIsDeleting(false);
