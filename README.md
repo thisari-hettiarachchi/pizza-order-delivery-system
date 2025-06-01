@@ -84,7 +84,6 @@ Before running this application, make sure you have the following installed:
    ```properties
    # MongoDB Configuration
    spring.data.mongodb.uri=${MONGODB_URI}
-   spring.data.mongodb.database=pizza_delivery
    
    # Stripe Configuration
    stripe.secret.key=${STRIPE_SECRET_KEY}
