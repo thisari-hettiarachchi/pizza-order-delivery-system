@@ -79,12 +79,7 @@ Before running this application, make sure you have the following installed:
    
    # Stripe Configuration
    STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key_here
-   
-   # Application Configuration
-   JWT_SECRET=your_jwt_secret_key_here
-   SERVER_PORT=8080
-   ```
-
+  
 4. **Update application.properties**
    ```properties
    # MongoDB Configuration
@@ -93,17 +88,7 @@ Before running this application, make sure you have the following installed:
    
    # Stripe Configuration
    stripe.secret.key=${STRIPE_SECRET_KEY}
-   stripe.publishable.key=${STRIPE_PUBLISHABLE_KEY}
-   stripe.webhook.secret=${STRIPE_WEBHOOK_SECRET}
    
-   # Server Configuration
-   server.port=${SERVER_PORT:8080}
-   
-   # JWT Configuration
-   jwt.secret=${JWT_SECRET}
-   jwt.expiration=86400000
-   ```
-
 4. **Install dependencies and run**
    ```bash
    mvn clean install
