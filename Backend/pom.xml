@@ -75,6 +75,7 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.12.3</version>  <!-- Ensure this version matches your Spring Boot version -->
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-crypto</artifactId>
@@ -92,6 +93,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
@@ -122,6 +124,13 @@
 			<artifactId>stripe-java</artifactId>
 			<version>24.9.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>io.github.cdimascio</groupId>
+			<artifactId>dotenv-java</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 
 
 
@@ -166,6 +175,16 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.2</version> <!-- or latest -->
+				<configuration>
+					<systemPropertyVariables>
+						<STRIPE_SECRET_KEY>sk_test_XXXXXXXXXXXX</STRIPE_SECRET_KEY>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 		</plugins>
