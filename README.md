@@ -144,20 +144,7 @@ Before running this application, make sure you have the following installed:
    yarn install
    ```
 
-3. **Configure API endpoint**
-   - Create a `.env` file in the frontend root directory:
-   ```env
-   REACT_APP_API_BASE_URL=http://localhost:8080/api
-   REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key_here
-   ```
-   
-   - Or update your configuration file:
-   ```javascript
-   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
-   const STRIPE_PUBLISHABLE_KEY = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
-   ```
-
-4. **Start the development server**
+3. **Start the development server**
    ```bash
    npm start
    # or
