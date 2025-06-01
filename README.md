@@ -275,8 +275,23 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**DH-0216**
+**Dulaj Hashmika**
 - GitHub: [@DH-0216](https://github.com/DH-0216)
+
+**Thisari Hettiarachchi**
+- GitHub: [@thisari-hettiarachchi](https://github.com/thisari-hettiarachchi)
+
+**Prabash Lakshitha**
+- GitHub: [@Prabashlakshitha](https://github.com/Prabashlakshitha)
+
+**Biyanga Kalupahana**
+- GitHub: [@BiyangaKalupahana](https://github.com/BiyangaKalupahana)
+
+**Rashmi Wickramarathne**
+- GitHub: [@RashmiWick](https://github.com/RashmiWick)
+
+**Hansani Madurangi**
+- GitHub: [@Hansani2002-ab](https://github.com/Hansani2002-ab)
 
 ## 🙏 Acknowledgments
 
