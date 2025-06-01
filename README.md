@@ -110,9 +110,6 @@ Before running this application, make sure you have the following installed:
 2. Go to Developers → API Keys
 3. Copy your publishable key and secret key
 4. Update the Stripe keys in your `.env` file
-5. Set up webhooks in Stripe dashboard for payment confirmations
-   - Endpoint: `https://your-domain.com/api/payments/webhook`
-   - Events: `payment_intent.succeeded`, `payment_intent.payment_failed`
 
 ### Frontend Setup (React)
 
