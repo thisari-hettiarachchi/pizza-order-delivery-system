@@ -273,7 +273,7 @@ yarn test
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## 👨‍💻 Authors
 
 **Dulaj Hashmika**
 - GitHub: [@DH-0216](https://github.com/DH-0216)
