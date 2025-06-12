@@ -238,12 +238,6 @@ npm test
 yarn test
 ```
 
-## 📱 Screenshots
-
-
-
-![RedOven](https://github.com/user-attachments/assets/70723b66-5d8a-4829-be2f-e7423208dfee)
-
 
 ## 🚀 Deployment
 
