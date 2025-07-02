@@ -1,11 +1,12 @@
 package com.pizzadelivery.pizza_backend.service;
 
-import com.pizzadelivery.pizza_backend.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import com.pizzadelivery.pizza_backend.dto.response.AuthResponse;
+import com.pizzadelivery.pizza_backend.model.User;
 import com.pizzadelivery.pizza_backend.repository.UserRepository;
-import com.pizzadelivery.pizza_backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,56 +15,47 @@ import java.util.Optional;
 public class AuthService {
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AuthResponse verifyFirebaseToken(String idToken) {
+        try {
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            String uid = decodedToken.getUid();
+            String email = decodedToken.getEmail();
 
-    // User Registration
-    public AuthResponse userRegister(User user) {
+            Optional<User> optionalUser = userRepository.findByUid(uid);
 
-        Optional<User> existingUser = userRepository.findByEmail(user.getEmail())
-                .or(() -> userRepository.findByUserName(user.getUserName()));
-
-        if (existingUser.isPresent()) {
-            String errorMessage = existingUser.get().getEmail().equals(user.getEmail()) ? "Email already exists" : "Username already exists";
-            return new AuthResponse(null, null, errorMessage, false);
-        }
-
-        // Encode the password before saving
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-
-        // Return a successful response
-        return new AuthResponse(null, user.getUserName(), "Registration successful", true);
-    }
-
-    // User Login
-    public AuthResponse userLogin(String email, String password) {
-        // Find the user by email
-        Optional<User> user = userRepository.findByEmail(email);
-
-        // Check if the user exists and the password matches
-        if (user.isPresent()) {
-
-            if (passwordEncoder.matches(password, user.get().getPassword())){
-                // Generate JWT token using email
-                String token = jwtUtil.generateToken(user.get().getEmail(), user.get().getId());
-
-                // Return a successful login response with the token
-                return new AuthResponse(token, user.get().getUserName(), "Login successful", true);
-            }else {
-                return new AuthResponse(null, null, "Invalid password", false);
+            User user;
+            if (optionalUser.isPresent()) {
+                user = optionalUser.get();
+            } else {
+                // create user if not exist
+                user = new User();
+                user.setUid(uid);
+                user.setEmail(email);
+                user.setUserName(email.split("@")[0]); // example username
+                userRepository.save(user);
             }
 
-        } else {
+            return new AuthResponse(null, user.getUserName(), "Login successful", true);
 
-            // Return an error response if login fails
-            return new AuthResponse(null, null, "Invalid email", false);
+        } catch (FirebaseAuthException e) {
+            return new AuthResponse(null, null, "Invalid Firebase ID token", false);
+        }
+    }
+
+    public User registerOrLogin(String uid, String name, String email) {
+        Optional<User> optionalUser = userRepository.findByUid(uid);
+
+        if (optionalUser.isPresent()) {
+            return optionalUser.get(); // Already registered
         }
 
+        // Register new user
+        User newUser = new User();
+        newUser.setUid(uid);
+        newUser.setUserName(name != null ? name : email.split("@")[0]);
+        newUser.setEmail(email);
+        return userRepository.save(newUser);
     }
 }

@@ -63,6 +63,7 @@ import profile_icon from "./profile_icon.png";
 import bag_icon from "./bag_icon.png";
 import logout_icon from "./logout_icon.png";
 import parcel_icon from "./parcel_icon.png";
+import google from "./icons8-google-48.png";
 
 
 import Pizza from "./pizza.png";
@@ -91,6 +92,7 @@ export const assets = {
   bag_icon,
   parcel_icon,
   userPic,
+  google,
 };
 
 export const mockData = [
