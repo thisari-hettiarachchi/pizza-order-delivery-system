@@ -1,22 +1,12 @@
 package com.pizzadelivery.pizza_backend.dto.request;
 
 public class LoginRequest {
-    private String email;
-    private String password;
+    private String idToken; // Firebase ID Token
 
-    public String getEmail() {
-        return email;
+    public String getIdToken() {
+        return idToken;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setIdToken(String idToken) {
+        this.idToken = idToken;
     }
 }

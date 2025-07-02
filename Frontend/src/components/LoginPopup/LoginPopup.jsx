@@ -1,4 +1,10 @@
 import React, { useContext, useState } from "react";
+import { auth } from "../../utils/firebase";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
@@ -9,59 +15,65 @@ const LoginPopup = ({ setShowLogin }) => {
   const { fetchCartItems, formType, setFormType, setIsLoggedIn } =
     useContext(StoreContext);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+    
 
-    const formData = {
-      userName: formType === "Sign Up" ? e.target.userName?.value || "" : null,
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
-
-    console.log("Form Data:", formData);
-
-    const endpoint = formType === "Sign Up" ? "signup" : "signin";
-
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/auth/${endpoint}`,
-        {
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+    
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const userName = e.target.userName?.value || "";
+    
+      const auth = getAuth();
+    
+      try {
+        let userCredential;
+        if (formType === "Sign Up") {
+          userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          toast.success("Sign Up Successful. Please log in to continue.");
+          setFormType("Login");
+          setLoading(false);
+          return; // No need to proceed to backend for signup unless you store user profile separately.
+        } else {
+          userCredential = await signInWithEmailAndPassword(auth, email, password);
+        }
+    
+        const token = await userCredential.user.getIdToken();
+    
+        console.log("Firebase ID Token:", token);
+    
+        // Send token to backend to verify and fetch user data or cart
+        const response = await fetch(`http://localhost:8080/api/auth/signin`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, 
           },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await response.json();
-
-      console.log("Response from backend:", data);
-
-      if (response.ok) {
-        if (formType === "Sign Up") {
-          toast.success("Sign Up Successful. Please log in to continue.");
-          setFormType("Login");
-        } else if (formType === "Login") {
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("userName", data.userName);
+        });
+    
+        const data = await response.json();
+    
+        console.log("Response from backend:", data);
+    
+        if (response.ok) {
+          localStorage.setItem("token", token);
+          localStorage.setItem("userName", data.userName || userCredential.user.displayName || email);
           setIsLoggedIn(true);
           setShowLogin(false);
           fetchCartItems();
           toast.success("Login Successful!");
+        } else {
+          toast.error(`Login failed. ${data.message}`);
         }
-      } else {
-        console.log("Error:", data.message);
-        toast.error(`${formType} failed. ${data.message}`);
+      } catch (error) {
+        console.error("Error:", error);
+        toast.error(error.message);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Error connecting to the server.");
-    } finally {
-      setLoading(false); 
-    }
-  };
+    };
+    
 
   return (
     <div className="login-popup">
