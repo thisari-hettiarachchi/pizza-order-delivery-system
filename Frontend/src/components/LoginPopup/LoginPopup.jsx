@@ -4,6 +4,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
@@ -15,65 +17,124 @@ const LoginPopup = ({ setShowLogin }) => {
   const { fetchCartItems, formType, setFormType, setIsLoggedIn } =
     useContext(StoreContext);
 
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setLoading(true);
-    
-      const email = e.target.email.value;
-      const password = e.target.password.value;
-      const userName = e.target.userName?.value || "";
-    
-      const auth = getAuth();
-    
-      try {
-        let userCredential;
-        if (formType === "Sign Up") {
-          userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          toast.success("Sign Up Successful. Please log in to continue.");
-          setFormType("Login");
-          setLoading(false);
-          return; // No need to proceed to backend for signup unless you store user profile separately.
-        } else {
-          userCredential = await signInWithEmailAndPassword(auth, email, password);
-        }
-    
-        const token = await userCredential.user.getIdToken();
-    
-        console.log("Firebase ID Token:", token);
-    
-        // Send token to backend to verify and fetch user data or cart
-        const response = await fetch(`http://localhost:8080/api/auth/signin`, {
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const userName = e.target.userName?.value || "";
+
+    const auth = getAuth();
+
+    try {
+      let userCredential;
+      if (formType === "Sign Up") {
+        userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        toast.success("Sign Up Successful. Please log in to continue.");
+        setFormType("Login");
+        setLoading(false);
+        return;
+      } else {
+        userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+      }
+
+      const token = await userCredential.user.getIdToken();
+
+      console.log("Firebase ID Token:", token);
+
+      // Send token to backend to verify and fetch user data or cart
+      const response = await fetch(`http://localhost:8080/api/auth/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      console.log("Response from backend:", data);
+
+      if (response.ok) {
+        localStorage.setItem("token", token);
+        localStorage.setItem(
+          "userName",
+          data.userName || userCredential.user.displayName || email
+        );
+        setIsLoggedIn(true);
+        setShowLogin(false);
+        fetchCartItems();
+        toast.success("Login Successful!");
+      } else {
+        toast.error(`Login failed. ${data.message || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error.message || "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+
+      // Store token consistently
+      localStorage.setItem("token", idToken);
+      localStorage.setItem("userName", user.displayName || user.email);
+
+      // Send token to backend to register/check user
+      const response = await fetch(
+        "http://localhost:8080/api/auth/registerOrLogin",
+        {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${idToken}`,
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, 
           },
-        });
-    
-        const data = await response.json();
-    
-        console.log("Response from backend:", data);
-    
-        if (response.ok) {
-          localStorage.setItem("token", token);
-          localStorage.setItem("userName", data.userName || userCredential.user.displayName || email);
-          setIsLoggedIn(true);
-          setShowLogin(false);
-          fetchCartItems();
-          toast.success("Login Successful!");
-        } else {
-          toast.error(`Login failed. ${data.message}`);
+          body: JSON.stringify({
+            userName: user.displayName,
+            email: user.email,
+          }),
         }
-      } catch (error) {
-        console.error("Error:", error);
-        toast.error(error.message);
-      } finally {
-        setLoading(false);
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsLoggedIn(true);
+        setShowLogin(false);
+        fetchCartItems();
+        toast.success("Google Sign-in Successful!");
+        console.log("Signed in with Google!", user);
+      } else {
+        toast.error(
+          `Google sign-in failed. ${data.message || "Unknown error"}`
+        );
       }
-    };
-    
+    } catch (error) {
+      console.error("Google sign-in error", error);
+      toast.error(error.message || "Google sign-in failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="login-popup">
@@ -110,13 +171,31 @@ const LoginPopup = ({ setShowLogin }) => {
           />
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={loading} className="submit-button">
           {loading
             ? "Processing..."
             : formType === "Sign Up"
             ? "Create account"
             : "Login"}
         </button>
+
+        <div className="google-signin-container">
+          <div className="google-signin-divider">
+            <hr />
+            <p>or continue with</p>
+            <hr />
+          </div>
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="google-signin-button"
+          >
+            <div className="google-signin-content">
+              <img src={assets.google} alt="Google" className="google-icon" />
+              <span className="google-text">Google</span>
+            </div>
+          </button>
+        </div>
 
         <div className="login-popup-condition">
           <input type="checkbox" required />

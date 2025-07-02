@@ -43,4 +43,19 @@ public class AuthService {
             return new AuthResponse(null, null, "Invalid Firebase ID token", false);
         }
     }
+
+    public User registerOrLogin(String uid, String name, String email) {
+        Optional<User> optionalUser = userRepository.findByUid(uid);
+
+        if (optionalUser.isPresent()) {
+            return optionalUser.get(); // Already registered
+        }
+
+        // Register new user
+        User newUser = new User();
+        newUser.setUid(uid);
+        newUser.setUserName(name != null ? name : email.split("@")[0]);
+        newUser.setEmail(email);
+        return userRepository.save(newUser);
+    }
 }

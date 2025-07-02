@@ -1,6 +1,10 @@
 package com.pizzadelivery.pizza_backend.controller;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import com.pizzadelivery.pizza_backend.dto.response.AuthResponse;
+import com.pizzadelivery.pizza_backend.model.User;
 import com.pizzadelivery.pizza_backend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +37,24 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+    }
+
+    @PostMapping("/registerOrLogin")
+    public ResponseEntity<?> registerOrLogin(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+
+            String uid = decodedToken.getUid();
+            String name = decodedToken.getName();
+            String email = decodedToken.getEmail();
+
+            User user = authService.registerOrLogin(uid, name, email);
+            return ResponseEntity.ok(user);
+
+        } catch (FirebaseAuthException e) {
+            return ResponseEntity.status(401).body("Invalid Firebase token");
         }
     }
 
