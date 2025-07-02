@@ -27,6 +27,7 @@ const PlaceOrder = () => {
     country: "",
     contactNumber: "",
   });
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +44,8 @@ const PlaceOrder = () => {
       toast.warn("Your cart is empty. Please add items to proceed.");
       return;
     }
+
+    setLoading(true); // Set loading to true when submitting
 
     const orderItems = Object.entries(cartItems).map(
       ([compositeKey, itemData]) => {
@@ -101,6 +104,8 @@ const PlaceOrder = () => {
       });
     } catch (error) {
       toast.error("Error placing order: " + error);
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -218,7 +223,9 @@ const PlaceOrder = () => {
               <b>Rs.{getTotalPrice() === 0 ? 0 : lastTotalPrice()} </b>
             </div>
           </div>
-          <button type="submit">PROCEED TO PAYMENT</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "PROCESSING..." : "PROCEED TO PAYMENT"}
+          </button>
         </div>
       </div>
     </form>
