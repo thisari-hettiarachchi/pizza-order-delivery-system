@@ -14,7 +14,7 @@ import { StoreContext } from "../../Context/StoreContext";
 
 const LoginPopup = ({ setShowLogin }) => {
   const [loading, setLoading] = useState(false);
-  const { fetchCartItems, formType, setFormType, setIsLoggedIn } =
+  const { fetchCartItems, formType, setFormType, setIsLoggedIn,url } =
     useContext(StoreContext);
 
   const handleSubmit = async (e) => {
@@ -52,7 +52,7 @@ const LoginPopup = ({ setShowLogin }) => {
       console.log("Firebase ID Token:", token);
 
       // Send token to backend to verify and fetch user data or cart
-      const response = await fetch(`http://localhost:8080/api/auth/signin`, {
+      const response = await fetch(`${url}/api/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,7 +101,7 @@ const LoginPopup = ({ setShowLogin }) => {
 
       // Send token to backend to register/check user
       const response = await fetch(
-        "http://localhost:8080/api/auth/registerOrLogin",
+        `${url}/api/auth/registerOrLogin`,
         {
           method: "POST",
           headers: {
