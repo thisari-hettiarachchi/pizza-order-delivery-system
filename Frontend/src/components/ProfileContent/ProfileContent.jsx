@@ -5,6 +5,8 @@ import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"; 
+import { auth } from "../../utils/firebase";
+import { deleteUser } from "firebase/auth";
 
 const ProfileContent = () => {
   const { userName, url, user, setUser, handleLogout } =
@@ -35,29 +37,36 @@ const ProfileContent = () => {
     setIsDeleting(true);
 
     try {
-      // Update URL to match the backend delete endpoint
       const response = await fetch(`${url}/api/users/delete/${userName}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
+        const currentUser = auth.currentUser;
+
+        if (currentUser) {
+          await deleteUser(currentUser);
+          console.log("Firebase user deleted.");
+        }
+
         alert("Account deleted successfully!");
         handleLogout();
-         navigate("/", { replace: true }); 
-
-        // Optionally, redirect the user or reset the state
+        navigate("/", { replace: true });
       } else {
         toast.error("Failed to delete account. Please try again.");
       }
     } catch (error) {
-      toast.error("Error deleting account. Please try again.");
-      console.error("Error:", error);
+      if (error.code === "auth/requires-recent-login") {
+        toast.error("Please log in again to delete your account.");
+      } else {
+        toast.error("Error deleting account. Please try again.");
+        console.error("Error:", error);
+      }
     }
 
     setIsDeleting(false);
   };
   
-
   return (
     <div>
       {isEditing ? (

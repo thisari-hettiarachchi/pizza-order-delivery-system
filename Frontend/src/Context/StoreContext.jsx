@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"; 
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
 import axios from "axios";
 
 
@@ -209,15 +210,12 @@ const StoreContextProvider = (props) => {
   };
 
   const handleLogout = () => {
-    const auth = getAuth();
-
     signOut(auth)
       .then(() => {
-        // Clear user-related data
         localStorage.clear();
-        sessionStorage.clear(); // Optional
+        sessionStorage.clear();
 
-        localStorage.removeItem("userName"); // Redundant due to clear(), but fine
+        localStorage.removeItem("userName");
         setCartItem([]);
         setUserName("");
         setIsLoggedIn(false);
@@ -232,6 +230,7 @@ const StoreContextProvider = (props) => {
         toast.error("Error during logout. Please try again.");
       });
   };
+  
   
   const getTotalPrice = () => {
     if (!cartItems || !foodList) return 0; 
