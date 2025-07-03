@@ -170,7 +170,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
           </label>
         </div>
         <div className="myaccount-mutli-fields">
-          <input class="myaccount-input"
+          <input className="myaccount-input"
             type="text"
             name="firstName"
             value={formData.firstName}
@@ -178,7 +178,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
             onChange={handleChange}
           />
           <input
-            class="myaccount-input"
+            className="myaccount-input"
             type="text"
             name="lastName"
             value={formData.lastName}
@@ -188,7 +188,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
         </div>
 
         <input
-          class="myaccount-input"
+          className="myaccount-input"
           type="email"
           name="email"
           value={formData.email}
@@ -197,7 +197,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
         />
         <div className="myaccount-mutli-fields">
           <input
-            class="myaccount-input"
+            className="myaccount-input"
             type="text"
             name="street"
             value={formData.address.street}
@@ -205,7 +205,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
             onChange={handleChange}
           />
           <input
-            class="myaccount-input"
+            className="myaccount-input"
             type="text"
             name="city"
             value={formData.address.city}
@@ -215,7 +215,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
         </div>
         <div className="myaccount-mutli-fields">
           <input
-            class="myaccount-input"
+            className="myaccount-input"
             type="text"
             name="state"
             value={formData.address.state}
@@ -223,7 +223,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
             onChange={handleChange}
           />
           <input
-            class="myaccount-input"
+            className="myaccount-input"
             type="text"
             name="zipCode"
             value={formData.address.zipCode}
@@ -233,7 +233,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
         </div>
         <div className="myaccount-mutli-fields">
           <input
-            class="myaccount-input"
+            className="myaccount-input"
             type="text"
             name="country"
             value={formData.address.country}
@@ -242,7 +242,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
           />
         </div>
         <input
-          class="myaccount-input"
+          className="myaccount-input"
           type="text"
           name="contactNumber"
           value={formData.contactNumber}
