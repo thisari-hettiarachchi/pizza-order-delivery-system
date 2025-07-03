@@ -1,7 +1,10 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"; 
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
 import axios from "axios";
+
 
 export const StoreContext = createContext(null);
 
@@ -18,29 +21,32 @@ const StoreContextProvider = (props) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const scrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+
+
+  const fetchFoodList = async () => {
+    try {
+      const response = await fetch(`${url}/api/food/getfoods`);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch data: ${response.status} ${response.statusText}`
+        );
+      }
+      const data = await response.json();
+      setFoodList(data);
+    } catch (error) {
+      console.error("Error fetching food list:", error);
+      setFoodList([]);
+    }
   };
 
-  const handleLogout = () => {
+  useEffect(() => {
+    async function loadData() {
+      await fetchFoodList();
+    }
+    loadData();
+  }, []);
 
-    // Clear user-related data
-    localStorage.clear(); // Clears all localStorage data related to the user
-    sessionStorage.clear(); // Optional: Clears sessionStorage if used
-
-    localStorage.removeItem("userName");
-    setCartItem([]); 
-    console.log("User logged out and cart cleared");
-
-    setUserName("");
-    setIsLoggedIn(false);
-
-    toast.success("Logged out successfully!");
-    navigate("/", { replace: true }); 
-  };
+  
 
   const fetchCartItems = async () => {
     try {
@@ -106,6 +112,7 @@ const StoreContextProvider = (props) => {
 
     console.log("Mapped Cart Items with Cart ID:", cartDetails);
   }, [cartItems, foodList]);
+
 
   const updateCartQuantity = async (itemId, size) => {
     const compositeKey = `${itemId}|${size}`;
@@ -195,29 +202,36 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  const fetchFoodList = async () => {
-    try {
-      const response = await fetch(`${url}/api/food/getfoods`);
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch data: ${response.status} ${response.statusText}`
-        );
-      }
-      const data = await response.json();
-      setFoodList(data);
-    } catch (error) {
-      console.error("Error fetching food list:", error);
-      setFoodList([]); 
-    }
+  const scrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  useEffect(() => {
-    async function loadData() {
-      await fetchFoodList();
-    }
-    loadData();
-  }, []);
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        localStorage.clear();
+        sessionStorage.clear();
 
+        localStorage.removeItem("userName");
+        setCartItem([]);
+        setUserName("");
+        setIsLoggedIn(false);
+
+        toast.success("Logged out successfully!");
+        navigate("/", { replace: true });
+
+        console.log("User signed out from Firebase and cart cleared");
+      })
+      .catch((error) => {
+        console.error("Error during Firebase sign out:", error);
+        toast.error("Error during logout. Please try again.");
+      });
+  };
+  
+  
   const getTotalPrice = () => {
     if (!cartItems || !foodList) return 0; 
 

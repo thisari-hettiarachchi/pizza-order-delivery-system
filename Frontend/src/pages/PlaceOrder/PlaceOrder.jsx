@@ -27,7 +27,7 @@ const PlaceOrder = () => {
     country: "",
     contactNumber: "",
   });
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +45,7 @@ const PlaceOrder = () => {
       return;
     }
 
-    setLoading(true); // Set loading to true when submitting
+    setLoading(true);
 
     const orderItems = Object.entries(cartItems).map(
       ([compositeKey, itemData]) => {
@@ -82,7 +82,7 @@ const PlaceOrder = () => {
     };
 
     try {
-      const response = await axios.post(url + "/api/order/create", orderData);
+      const response = await axios.post(`${url}/api/order/create`, orderData);
 
       if (response.data) {
         window.location.href = response.data;
@@ -105,7 +105,7 @@ const PlaceOrder = () => {
     } catch (error) {
       toast.error("Error placing order: " + error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 

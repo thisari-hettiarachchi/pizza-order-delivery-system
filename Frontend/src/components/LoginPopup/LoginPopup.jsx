@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
-import { auth } from "../../utils/firebase";
+import { useContext, useState } from "react";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  updateProfile,
 } from "firebase/auth";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
@@ -14,7 +14,7 @@ import { StoreContext } from "../../Context/StoreContext";
 
 const LoginPopup = ({ setShowLogin }) => {
   const [loading, setLoading] = useState(false);
-  const { fetchCartItems, formType, setFormType, setIsLoggedIn,url } =
+  const { fetchCartItems, formType, setFormType, setIsLoggedIn, url } =
     useContext(StoreContext);
 
   const handleSubmit = async (e) => {
@@ -29,13 +29,48 @@ const LoginPopup = ({ setShowLogin }) => {
 
     try {
       let userCredential;
+
       if (formType === "Sign Up") {
         userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
           password
         );
-        toast.success("Sign Up Successful. Please log in to continue.");
+
+        // Update display name
+        await updateProfile(userCredential.user, {
+          displayName: userName,
+        });
+
+        // Force refresh the token after updating profile
+        const token = await userCredential.user.getIdToken(true);
+
+        // Send userName + email to backend
+        const response = await fetch(`${url}/api/auth/registerOrLogin`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userName: userName,
+            email: email,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem("token", token);
+          localStorage.setItem("userName", userName);
+          setIsLoggedIn(true);
+          setShowLogin(false);
+          fetchCartItems();
+          toast.success("Sign Up Successful!");
+        } else {
+          toast.error(data.message || "Registration failed");
+        }
+
         setFormType("Login");
         setLoading(false);
         return;
@@ -45,37 +80,32 @@ const LoginPopup = ({ setShowLogin }) => {
           email,
           password
         );
-      }
 
-      const token = await userCredential.user.getIdToken();
+        const token = await userCredential.user.getIdToken();
 
-      console.log("Firebase ID Token:", token);
+        const response = await fetch(`${url}/api/auth/signin`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      // Send token to backend to verify and fetch user data or cart
-      const response = await fetch(`${url}/api/auth/signin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        const data = await response.json();
 
-      const data = await response.json();
-
-      console.log("Response from backend:", data);
-
-      if (response.ok) {
-        localStorage.setItem("token", token);
-        localStorage.setItem(
-          "userName",
-          data.userName || userCredential.user.displayName || email
-        );
-        setIsLoggedIn(true);
-        setShowLogin(false);
-        fetchCartItems();
-        toast.success("Login Successful!");
-      } else {
-        toast.error(`Login failed. ${data.message || "Unknown error"}`);
+        if (response.ok) {
+          localStorage.setItem("token", token);
+          localStorage.setItem(
+            "userName",
+            data.userName || userCredential.user.displayName || email
+          );
+          setIsLoggedIn(true);
+          setShowLogin(false);
+          fetchCartItems();
+          toast.success("Login Successful!");
+        } else {
+          toast.error(`Login failed. ${data.message || "Unknown error"}`);
+        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -95,25 +125,20 @@ const LoginPopup = ({ setShowLogin }) => {
       const user = result.user;
       const idToken = await user.getIdToken();
 
-      // Store token consistently
       localStorage.setItem("token", idToken);
       localStorage.setItem("userName", user.displayName || user.email);
 
-      // Send token to backend to register/check user
-      const response = await fetch(
-        `${url}/api/auth/registerOrLogin`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userName: user.displayName,
-            email: user.email,
-          }),
-        }
-      );
+      const response = await fetch(`${url}/api/auth/registerOrLogin`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName: user.displayName,
+          email: user.email,
+        }),
+      });
 
       const data = await response.json();
 
@@ -122,7 +147,6 @@ const LoginPopup = ({ setShowLogin }) => {
         setShowLogin(false);
         fetchCartItems();
         toast.success("Google Sign-in Successful!");
-        console.log("Signed in with Google!", user);
       } else {
         toast.error(
           `Google sign-in failed. ${data.message || "Unknown error"}`
