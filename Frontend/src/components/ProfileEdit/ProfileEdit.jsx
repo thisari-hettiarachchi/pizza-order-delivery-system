@@ -5,7 +5,7 @@ import { StoreContext} from "../../Context/StoreContext";
 import "./ProfileEdit.css";
 
 export const ProfileEdit = ({ setIsEditing }) => {
-  const { user, setUser, url } = useContext(StoreContext);
+  const { user, setUser, url, token } = useContext(StoreContext);
   const [formData, setFormData] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
@@ -114,6 +114,9 @@ export const ProfileEdit = ({ setIsEditing }) => {
         `${url}/api/users/update/${user.userName}`,
         {
           method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: formDataToSend,
         }
       );

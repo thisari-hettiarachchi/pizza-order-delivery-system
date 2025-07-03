@@ -14,11 +14,10 @@ const FoodItemPopup = ({
   description,
   price,
 }) => {
-  const { url, setCartItem } = useContext(StoreContext);
+  const { url, setCartItem, token } = useContext(StoreContext);
   const [localCount, setLocalCount] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const selectedPrice = selectedSize ? price[selectedSize] : null;
-  const token = localStorage.getItem("token");
   const userName = localStorage.getItem("userName");
 
   const addToCart = async () => {
@@ -36,8 +35,13 @@ const FoodItemPopup = ({
         console.log("cart items: " + cartItem);
 
         const response = await axios.post(
-          `${url}/api/cart/addtocart/${userName}`, 
-          cartItem
+          `${url}/api/cart/addtocart/${userName}`,
+          cartItem,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         if (response.status === 200) {

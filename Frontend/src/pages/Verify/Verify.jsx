@@ -7,7 +7,7 @@ import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { StoreContext } from "../../Context/StoreContext";
 
 const Verify = () => {
-  const { url } = useContext(StoreContext);
+  const { url, token } = useContext(StoreContext);
   const [searchParams] = useSearchParams();
   const success = searchParams.get("success");
   const sessionId = searchParams.get("session_id");
@@ -20,8 +20,12 @@ const Verify = () => {
 
   const verifyPayment = async (sessionId) => {
     try {
-      const response = await axios.post(url + "/api/order/verify", {
+      const response = await axios.post(`${url}/api/order/verify`, {
         sessionId,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.data.success) {
