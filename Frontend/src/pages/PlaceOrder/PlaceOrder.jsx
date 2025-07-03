@@ -15,6 +15,7 @@ const PlaceOrder = () => {
     url,
     userName,
     deleteCart,
+    token,
   } = useContext(StoreContext);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -82,7 +83,13 @@ const PlaceOrder = () => {
     };
 
     try {
-      const response = await axios.post(`${url}/api/order/create`, orderData);
+      const response = await axios.post(`${url}/api/order/create`, orderData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.data) {
         window.location.href = response.data;

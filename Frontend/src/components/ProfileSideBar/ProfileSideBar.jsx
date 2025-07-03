@@ -11,11 +11,49 @@ import { assets } from "../../assets/assets";
 import "./ProfileSideBar.css";
 
 const ProfileSideBar = ({ setActiveSection, activeSection }) => {
-  const { userName, handleLogout, url, user } = useContext(StoreContext);
+  const { userName, handleLogout, url, user, token } = useContext(StoreContext);
+  const [profileImageUrl, setProfileImageUrl] = useState(assets.userPic);
 
   const handleBackgroundClick = (section) => {
     setActiveSection(section);
   };
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      if (user?.profilePicture) {
+        try {
+          const response = await fetch(
+            `${url}/api/users/image/${user.profilePicture}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const blob = await response.blob();
+            const imageUrl = URL.createObjectURL(blob);
+            setProfileImageUrl(imageUrl);
+          }
+        } catch (error) {
+          console.error("Error fetching profile image:", error);
+          setProfileImageUrl(assets.userPic); // Fallback to default
+        }
+      } else {
+        setProfileImageUrl(assets.userPic);
+      }
+    };
+
+    fetchProfileImage();
+
+    // Cleanup blob URL on unmount
+    return () => {
+      if (profileImageUrl !== assets.userPic) {
+        URL.revokeObjectURL(profileImageUrl);
+      }
+    };
+  }, [user?.profilePicture]);
 
   return (
     <div
@@ -26,13 +64,9 @@ const ProfileSideBar = ({ setActiveSection, activeSection }) => {
         {user ? (
           <div className="profile-info">
             <img
-              src={
-                user.profilePicture
-                  ? url + "/api/users/image/" + user.profilePicture
-                  : assets.userPic
-              }
+              src={profileImageUrl}
               className="profile_image"
-             
+              alt="Profile"
             />
             <p className="profile-username">{userName}</p>
           </div>

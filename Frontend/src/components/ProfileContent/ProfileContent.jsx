@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./ProfileContent.css";
 import ProfileEdit from "../../components/ProfileEdit/ProfileEdit";
 import { StoreContext } from "../../Context/StoreContext";
@@ -9,15 +9,22 @@ import { auth } from "../../utils/firebase";
 import { deleteUser } from "firebase/auth";
 
 const ProfileContent = () => {
-  const { userName, url, user, setUser, handleLogout } =
+  const { userName, url, user, setUser, handleLogout , token} =
     useContext(StoreContext);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false); 
+  const [profileImageUrl, setProfileImageUrl] = useState(assets.userPic);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (userName) {
-      fetch(`${url}/api/users/getuser/${userName}`)
+      fetch(`${url}/api/users/getuser/${userName}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           setUser(data);
@@ -39,6 +46,10 @@ const ProfileContent = () => {
     try {
       const response = await fetch(`${url}/api/users/delete/${userName}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -66,6 +77,40 @@ const ProfileContent = () => {
 
     setIsDeleting(false);
   };
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      if (user?.profilePicture) {
+        try {
+          const response = await fetch(
+            `${url}/api/users/image/${user.profilePicture}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const blob = await response.blob();
+            const imageUrl = URL.createObjectURL(blob);
+            setProfileImageUrl(imageUrl);
+          }
+        } catch (error) {
+          console.error("Error fetching profile image:", error);
+        }
+      }
+    };
+
+    fetchProfileImage();
+
+    // Cleanup blob URL
+    return () => {
+      if (profileImageUrl !== assets.userPic) {
+        URL.revokeObjectURL(profileImageUrl);
+      }
+    };
+  }, [user?.profilePicture]);
   
   return (
     <div>
@@ -79,11 +124,7 @@ const ProfileContent = () => {
         <div className="myAccount-content">
           <div className="profile-img-container">
             <img
-              src={
-                user?.profilePicture
-                  ? url + "/api/users/image/" + user.profilePicture
-                  : assets.userPic
-              }
+              src={profileImageUrl}
               className="profile-img"
               alt="User Profile"
             />
@@ -122,11 +163,10 @@ const ProfileContent = () => {
               type="button"
               className="myAccount-dltbutton"
               disabled={isDeleting}
-              onClick={handleDelete} 
+              onClick={handleDelete}
             >
               {isDeleting ? "Deleting..." : "Delete"}
             </button>
-
           </div>
         </div>
       )}

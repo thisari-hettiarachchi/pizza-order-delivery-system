@@ -16,7 +16,8 @@ const StoreContextProvider = (props) => {
   const deliveryFee = 200;
   const url = "http://localhost:8080";
   const [userName, setUserName] = useState(localStorage.getItem("userName"));
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const token = localStorage.getItem("token");
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token);
   const [formType, setFormType] = useState("Login");
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -50,7 +51,13 @@ const StoreContextProvider = (props) => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await fetch(`${url}/api/cart/getcart/${userName}`);
+      const response = await fetch(`${url}/api/cart/getcart/${userName}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        },
+      });
       if (!response.ok) {
         throw new Error(
           `Failed to fetch cart items: ${response.status} ${response.statusText}`
@@ -140,8 +147,11 @@ const StoreContextProvider = (props) => {
         try {
           const response = await axios.put(
             `${url}/api/cart/updatecart/${userName}`,
-            updatedCartItem
-          );
+            updatedCartItem, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
           if (response.status === 200) {
             toast.success("Item quantity updated in cart!");
@@ -166,8 +176,11 @@ const StoreContextProvider = (props) => {
     if (currentCartItems[compositeKey]) {
       try {
         const response = await axios.delete(
-          `${url}/api/cart/deletecart/${userName}/${itemId}/${size}`
-        );
+          `${url}/api/cart/deletecart/${userName}/${itemId}/${size}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (response.status === 200) {
           delete currentCartItems[compositeKey];
           setCartItem(currentCartItems);
@@ -188,7 +201,11 @@ const StoreContextProvider = (props) => {
   const deleteCart = async () => {
     try {
       const response = await axios.delete(
-        `${url}/api/cart/deletecart/${userName}`
+        `${url}/api/cart/deletecart/${userName}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (response.status === 200) {
         setCartItem({});
@@ -311,6 +328,7 @@ const StoreContextProvider = (props) => {
     url,
     user,
     setUser,
+    token,
   };
 
   return (

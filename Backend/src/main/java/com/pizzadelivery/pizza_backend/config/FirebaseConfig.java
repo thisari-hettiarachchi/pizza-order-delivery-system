@@ -3,9 +3,10 @@ package com.pizzadelivery.pizza_backend.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -13,13 +14,10 @@ import java.io.InputStream;
 public class FirebaseConfig {
 
     @PostConstruct
-    public void initializeFirebase() throws IOException {
-        try (InputStream serviceAccount =
-                     getClass().getClassLoader().getResourceAsStream("firebase/firebase-config.json")) {
-
-            if (serviceAccount == null) {
-                throw new IOException("Firebase config file not found.");
-            }
+    public void initialize() {
+        try {
+            // Load service account key from classpath
+            InputStream serviceAccount = new ClassPathResource("/firebase/firebase-config.json").getInputStream();
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -28,6 +26,8 @@ public class FirebaseConfig {
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
             }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to initialize Firebase", e);
         }
     }
 }

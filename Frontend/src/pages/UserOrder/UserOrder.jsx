@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import parcelIcon from "../../assets/parcel_icon.png"; 
 
 const UserOrder = () => {
-  const { url, userName } = useContext(StoreContext);
+  const { url, userName, token } = useContext(StoreContext);
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
@@ -21,6 +21,7 @@ const UserOrder = () => {
       const response = await fetch(`${url}/api/order/getorder/${userName}`, {
         method: "GET",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
