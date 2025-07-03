@@ -9,7 +9,7 @@ import { auth } from "../../utils/firebase";
 import { deleteUser } from "firebase/auth";
 
 const ProfileContent = () => {
-  const { userName, url, user, setUser, handleLogout , token} =
+  const { userName, url, user, setUser, handleLogout , token, deleteCart} =
     useContext(StoreContext);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false); 
@@ -61,6 +61,7 @@ const ProfileContent = () => {
         }
 
         alert("Account deleted successfully!");
+        deleteCart();
         handleLogout();
         navigate("/", { replace: true });
       } else {
