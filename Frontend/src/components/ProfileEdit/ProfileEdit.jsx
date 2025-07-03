@@ -111,7 +111,7 @@ export const ProfileEdit = ({ setIsEditing }) => {
       }
 
       const response = await fetch(
-        `http://localhost:8080/api/users/update/${user.userName}`,
+        `${url}/api/users/update/${user.userName}`,
         {
           method: "PUT",
           body: formDataToSend,

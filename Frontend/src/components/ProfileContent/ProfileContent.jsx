@@ -15,7 +15,7 @@ const ProfileContent = () => {
 
   useEffect(() => {
     if (userName) {
-      fetch(`http://localhost:8080/api/users/getuser/${userName}`)
+      fetch(`${url}/api/users/getuser/${userName}`)
         .then((response) => response.json())
         .then((data) => {
           setUser(data);
@@ -36,7 +36,7 @@ const ProfileContent = () => {
 
     try {
       // Update URL to match the backend delete endpoint
-      const response = await fetch(`http://localhost:8080/api/users/delete/${userName}`, {
+      const response = await fetch(`${url}/api/users/delete/${userName}`, {
         method: "DELETE",
       });
 
