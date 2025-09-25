@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const App = () => {
-  const url = "http://localhost:8080";
+  const url = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
   return (
     <div>
