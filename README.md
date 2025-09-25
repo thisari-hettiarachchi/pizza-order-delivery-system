@@ -223,37 +223,6 @@ The application uses MongoDB collections with the following main document struct
   }
   ```
 
-## 🔐 API Endpoints
-
-### Authentication
-
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-
-### Orders
-
-- `GET /api/orders` - Get all orders (admin)
-- `GET /api/orders/user/{userId}` - Get user orders
-- `POST /api/orders` - Create new order
-- `PUT /api/orders/{id}` - Update order status
-- `DELETE /api/orders/{id}` - Cancel order
-
-### Products
-
-- `GET /api/products` - Get all products
-- `GET /api/products/{id}` - Get product by ID
-- `POST /api/products` - Add new product (admin)
-- `PUT /api/products/{id}` - Update product (admin)
-- `DELETE /api/products/{id}` - Delete product (admin)
-
-### Payments (Stripe Integration)
-
-- `POST /api/payments/create-payment-intent` - Create Stripe payment intent
-- `POST /api/payments/confirm-payment` - Confirm payment and update order
-- `POST /api/payments/webhook` - Stripe webhook endpoint
-- `GET /api/payments/order/{orderId}` - Get payment status for order
-
 ## 🎯 Usage
 
 ### For Customers:
@@ -313,23 +282,29 @@ yarn test
    ```
 2. Deploy the `build` folder to your hosting service (Netlify, Vercel, etc.)
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## 👨‍💻 Authors
 
-**DH-0216**
-
+**Dulaj Hashmika**
 - GitHub: [@DH-0216](https://github.com/DH-0216)
+
+**Thisari Hettiarachchi**
+- GitHub: [@thisari-hettiarachchi](https://github.com/thisari-hettiarachchi)
+
+**Prabash Lakshitha**
+- GitHub: [@Prabashlakshitha](https://github.com/Prabashlakshitha)
+
+**Biyanga Kalupahana**
+- GitHub: [@BiyangaKalupahana](https://github.com/BiyangaKalupahana)
+
+**Rashmi Wickramarathne**
+- GitHub: [@RashmiWick](https://github.com/RashmiWick)
+
+**Hansani Madurangi**
+- GitHub: [@Hansani2002-ab](https://github.com/Hansani2002-ab)
 
 ## 🙏 Acknowledgments
 
