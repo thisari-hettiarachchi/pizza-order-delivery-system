@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import axios from "axios";
@@ -11,6 +11,7 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItem] = useState({});
   const [foodList, setFoodList] = useState([]);
+  const [serverOffline, setServerOffline] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const deliveryFee = 200;
@@ -34,9 +35,11 @@ const StoreContextProvider = (props) => {
       }
       const data = await response.json();
       setFoodList(data);
+      setServerOffline(false);
     } catch (error) {
       console.error("Error fetching food list:", error);
       setFoodList([]);
+      setServerOffline(true);
     }
   };
 
@@ -47,7 +50,7 @@ const StoreContextProvider = (props) => {
     loadData();
   }, []);
 
-  
+
 
   const fetchCartItems = async () => {
     try {
@@ -55,7 +58,7 @@ const StoreContextProvider = (props) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       });
       if (!response.ok) {
@@ -71,7 +74,7 @@ const StoreContextProvider = (props) => {
         const compositeKey = `${item.itemId}|${item.size}`;
         formattedCartData[compositeKey] = {
           quantity: item.quantity,
-          cartId: cartData.id, 
+          cartId: cartData.id,
         };
       });
 
@@ -83,7 +86,7 @@ const StoreContextProvider = (props) => {
       }
     } catch (error) {
       console.error("Error fetching cart items:", error);
-      setCartItem({}); 
+      setCartItem({});
     }
   };
 
@@ -93,7 +96,7 @@ const StoreContextProvider = (props) => {
       return;
     }
     fetchCartItems();
-  }, [userName]); 
+  }, [userName]);
 
   useEffect(() => {
     if (!cartItems || !foodList) return;
@@ -115,7 +118,7 @@ const StoreContextProvider = (props) => {
           cartId,
         };
       })
-      .filter(Boolean); 
+      .filter(Boolean);
 
     console.log("Mapped Cart Items with Cart ID:", cartDetails);
   }, [cartItems, foodList]);
@@ -202,10 +205,10 @@ const StoreContextProvider = (props) => {
     try {
       const response = await axios.delete(
         `${url}/api/cart/deletecart/${userName}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
       );
       if (response.status === 200) {
         setCartItem({});
@@ -247,10 +250,10 @@ const StoreContextProvider = (props) => {
         toast.error("Error during logout. Please try again.");
       });
   };
-  
-  
+
+
   const getTotalPrice = () => {
-    if (!cartItems || !foodList) return 0; 
+    if (!cartItems || !foodList) return 0;
 
     return Object.entries(cartItems).reduce(
       (total, [compositeKey, { quantity }]) => {
@@ -258,7 +261,7 @@ const StoreContextProvider = (props) => {
         const item = foodList.find((food) => food.id === itemId);
 
         if (item && item.price && item.price[size]) {
-          const sizePrice = item.price[size]; 
+          const sizePrice = item.price[size];
           total += sizePrice * quantity;
         } else {
           console.warn(
@@ -274,7 +277,7 @@ const StoreContextProvider = (props) => {
 
   const lastTotalPrice = () => {
     const subtotal = getTotalPrice();
-    const discountAmount = (subtotal * discount) / 100; 
+    const discountAmount = (subtotal * discount) / 100;
     return subtotal > 0 ? subtotal - discountAmount + deliveryFee : 0;
   };
 
@@ -298,7 +301,7 @@ const StoreContextProvider = (props) => {
     return Object.values(cartItems).reduce((total, item) => {
       const quantity = parseInt(item.quantity, 10) || 0;
       return total + quantity;
-    }, 0); 
+    }, 0);
   };
 
   const contextValue = {
@@ -329,6 +332,7 @@ const StoreContextProvider = (props) => {
     user,
     setUser,
     token,
+    serverOffline,
   };
 
   return (
