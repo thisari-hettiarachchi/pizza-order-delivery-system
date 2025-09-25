@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StoreContext } from "../../Context/StoreContext";
-import "./cart.css";
+import "./Cart.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
