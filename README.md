@@ -5,6 +5,7 @@ A full-stack web application for managing pizza orders and deliveries, built wit
 ## 🍕 Features
 
 - **Customer Portal**
+
   - Browse pizza menu with detailed descriptions and pricing
   - Customize pizza orders (size, toppings, crust type)
   - **Secure payment processing with Stripe**
@@ -14,6 +15,7 @@ A full-stack web application for managing pizza orders and deliveries, built wit
   - Delivery address management
 
 - **Admin Dashboard**
+
   - Order management and status updates
   - Menu item management (add, edit, delete pizzas)
   - Customer management
@@ -30,6 +32,7 @@ A full-stack web application for managing pizza orders and deliveries, built wit
 ## 🛠 Tech Stack
 
 ### Frontend
+
 - **React** - User interface framework
 - **React Router** - Client-side routing
 - **Axios** - HTTP client for API calls
@@ -37,6 +40,7 @@ A full-stack web application for managing pizza orders and deliveries, built wit
 - **JavaScript (ES6+)** - Core programming language
 
 ### Backend
+
 - **Spring Boot** - Java application framework
 - **Spring Security** - Authentication and authorization
 - **Spring Data MongoDB** - MongoDB database abstraction layer
@@ -60,35 +64,51 @@ Before running this application, make sure you have the following installed:
 ### Backend Setup (Spring Boot)
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/DH-0216/pizza-order-delivery-system.git
    cd pizza-order-delivery-system
    ```
 
 2. **Navigate to backend directory**
+
    ```bash
    cd backend
    ```
 
-3. **Configure environment variables**
-   - Create a `.env` file in the backend root directory
-   - Add the following environment variables:
+3. **Configure environment variables (Backend/.env)**
+
    ```env
-   # MongoDB Atlas Configuration
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/pizza_delivery?retryWrites=true&w=majority
-   
-   # Stripe Configuration
-   STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key_here
+
+   # MongoDB Atlas
+   MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<db>?retryWrites=true&w=majority
+
+   # Stripe Secret
+   STRIPE_SECRET_KEY=sk_live_or_test_key
+
+   # Firebase Admin (choose ONE)
+   # Preferred: raw JSON as single line
+   FIREBASE_CONFIG_JSON={"type":"service_account","project_id":"...","private_key_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"..."}
+   # Or: path to JSON stored outside repo
+   # FIREBASE_CONFIG_PATH=/etc/secrets/firebase.json
+
+   # CORS (comma-separated origins)
+   ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5174
+
+   # Port (optional)
+   SERVER_PORT=8080
+   ```
   
 4. **Update application.properties**
+
    ```properties
-   # MongoDB Configuration
    spring.data.mongodb.uri=${MONGODB_URI}
-   
-   # Stripe Configuration
    stripe.secret.key=${STRIPE_SECRET_KEY}
-   
-4. **Install dependencies and run**
+   server.port=${SERVER_PORT:8080}
+   ```
+
+5. **Install dependencies and run**
+
    ```bash
    mvn clean install
    mvn spring-boot:run
@@ -99,6 +119,7 @@ Before running this application, make sure you have the following installed:
 ### Environment Setup
 
 #### MongoDB Atlas Setup:
+
 1. Create a [MongoDB Atlas](https://www.mongodb.com/atlas) account
 2. Create a new cluster (free tier available)
 3. Create a database user with read/write permissions
@@ -106,6 +127,7 @@ Before running this application, make sure you have the following installed:
 5. Get your connection string and update the `MONGODB_URI` in `.env`
 
 #### Stripe Setup:
+
 1. Create a [Stripe](https://stripe.com) account
 2. Go to Developers → API Keys
 3. Copy your publishable key and secret key
@@ -114,18 +136,34 @@ Before running this application, make sure you have the following installed:
 ### Frontend Setup (React)
 
 1. **Navigate to frontend directory**
+
    ```bash
    cd frontend
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
    yarn install
    ```
 
-3. **Start the development server**
+
+3. **Configure Firebase Web env (Frontend/.env)**
+
+   ```env
+   VITE_FIREBASE_API_KEY=YOUR_WEB_API_KEY
+   VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your-project-id
+   VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+   VITE_FIREBASE_MESSAGING_SENDER_ID=YOUR_SENDER_ID
+   VITE_FIREBASE_APP_ID=YOUR_APP_ID
+   VITE_FIREBASE_MEASUREMENT_ID=G-XXXXXXXXXX
+   ```
+
+4. **Start the development server**
+
    ```bash
    npm start
    # or
@@ -139,6 +177,7 @@ Before running this application, make sure you have the following installed:
 The application uses MongoDB collections with the following main document structures:
 
 - **Users** - Customer and admin information
+
   ```json
   {
     "_id": "ObjectId",
@@ -146,17 +185,22 @@ The application uses MongoDB collections with the following main document struct
     "email": "string",
     "password": "hashed_string",
     "role": "CUSTOMER|ADMIN",
-    "addresses": [{"street": "string", "city": "string", "zipCode": "string"}],
+    "addresses": [
+      { "street": "string", "city": "string", "zipCode": "string" }
+    ],
     "createdAt": "date"
   }
   ```
 
 - **Orders** - Order details and status
+
   ```json
   {
     "_id": "ObjectId",
     "userId": "ObjectId",
-    "items": [{"productId": "ObjectId", "quantity": "number", "price": "number"}],
+    "items": [
+      { "productId": "ObjectId", "quantity": "number", "price": "number" }
+    ],
     "totalAmount": "number",
     "status": "PENDING|CONFIRMED|PREPARING|OUT_FOR_DELIVERY|DELIVERED",
     "paymentIntentId": "string",
@@ -178,36 +222,10 @@ The application uses MongoDB collections with the following main document struct
   }
   ```
 
-## 🔐 API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-
-### Orders
-- `GET /api/orders` - Get all orders (admin)
-- `GET /api/orders/user/{userId}` - Get user orders
-- `POST /api/orders` - Create new order
-- `PUT /api/orders/{id}` - Update order status
-- `DELETE /api/orders/{id}` - Cancel order
-
-### Products
-- `GET /api/products` - Get all products
-- `GET /api/products/{id}` - Get product by ID
-- `POST /api/products` - Add new product (admin)
-- `PUT /api/products/{id}` - Update product (admin)
-- `DELETE /api/products/{id}` - Delete product (admin)
-
-### Payments (Stripe Integration)
-- `POST /api/payments/create-payment-intent` - Create Stripe payment intent
-- `POST /api/payments/confirm-payment` - Confirm payment and update order
-- `POST /api/payments/webhook` - Stripe webhook endpoint
-- `GET /api/payments/order/{orderId}` - Get payment status for order
-
 ## 🎯 Usage
 
 ### For Customers:
+
 1. Register/Login to your account
 2. Browse the pizza menu
 3. Add items to cart and customize as needed
@@ -216,6 +234,7 @@ The application uses MongoDB collections with the following main document struct
 6. Rate and review your order after delivery
 
 ### For Admins:
+
 1. Login with admin credentials
 2. Manage menu items and categories
 3. View and update order statuses
@@ -225,12 +244,14 @@ The application uses MongoDB collections with the following main document struct
 ## 🧪 Testing
 
 ### Backend Testing
+
 ```bash
 cd backend
 mvn test
 ```
 
 ### Frontend Testing
+
 ```bash
 cd frontend
 npm test
@@ -242,6 +263,7 @@ yarn test
 ## 🚀 Deployment
 
 ### Backend Deployment
+
 1. Build the JAR file:
    ```bash
    mvn clean package
@@ -249,19 +271,12 @@ yarn test
 2. Deploy to your preferred hosting service (Heroku, AWS, etc.)
 
 ### Frontend Deployment
+
 1. Build the production version:
    ```bash
    npm run build
    ```
 2. Deploy the `build` folder to your hosting service (Netlify, Vercel, etc.)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## 📄 License
 
