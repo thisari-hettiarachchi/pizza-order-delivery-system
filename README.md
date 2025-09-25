@@ -1,4 +1,4 @@
-# Pizza Order Delivery System
+![RedOven](https://github.com/user-attachments/assets/f992239b-88d0-4edf-831b-72c123896f18)# Pizza Order Delivery System
 
 A full-stack web application for managing pizza orders and deliveries, built with React frontend and Spring Boot backend.
 
@@ -79,6 +79,7 @@ Before running this application, make sure you have the following installed:
 3. **Configure environment variables (Backend/.env)**
 
    ```env
+
    # MongoDB Atlas
    MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<db>?retryWrites=true&w=majority
 
@@ -97,8 +98,8 @@ Before running this application, make sure you have the following installed:
    # Port (optional)
    SERVER_PORT=8080
    ```
-
-4. **application.properties** (preconfigured)
+  
+4. **Update application.properties**
 
    ```properties
    spring.data.mongodb.uri=${MONGODB_URI}
@@ -131,9 +132,6 @@ Before running this application, make sure you have the following installed:
 2. Go to Developers → API Keys
 3. Copy your publishable key and secret key
 4. Update the Stripe keys in your `.env` file
-5. Set up webhooks in Stripe dashboard for payment confirmations
-   - Endpoint: `https://your-domain.com/api/payments/webhook`
-   - Events: `payment_intent.succeeded`, `payment_intent.payment_failed`
 
 ### Frontend Setup (React)
 
@@ -150,6 +148,7 @@ Before running this application, make sure you have the following installed:
    # or
    yarn install
    ```
+
 
 3. **Configure Firebase Web env (Frontend/.env)**
 
@@ -260,9 +259,6 @@ npm test
 yarn test
 ```
 
-## 📱 Screenshots
-
-[Add screenshots of your application here]
 
 ## 🚀 Deployment
 
