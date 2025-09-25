@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { assets } from "../../assets/assets";
 import FoodItemPopup from "../FoodItemPopup/FoodItemPopup";
-import "./FoodItem.css";
+import "./Fooditem.css";
 import { StoreContext } from "../../Context/StoreContext";
 import { motion } from "framer-motion";
 
