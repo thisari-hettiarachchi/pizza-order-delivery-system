@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:5174}")
+    @Value("${ALLOWED_ORIGINS}")
     private String allowedOriginsCsv;
 
     @Override
