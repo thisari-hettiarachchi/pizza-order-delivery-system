@@ -89,8 +89,6 @@ Before running this application, make sure you have the following installed:
    # Firebase Admin (choose ONE)
    # Preferred: raw JSON as single line
    FIREBASE_CONFIG_JSON={"type":"service_account","project_id":"...","private_key_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"..."}
-   # Or: path to JSON stored outside repo
-   # FIREBASE_CONFIG_PATH=/etc/secrets/firebase.json
 
    # CORS (comma-separated origins)
    ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5174
@@ -102,9 +100,15 @@ Before running this application, make sure you have the following installed:
 4. **Update application.properties**
 
    ```properties
-   spring.data.mongodb.uri=${MONGODB_URI}
-   stripe.secret.key=${STRIPE_SECRET_KEY}
-   server.port=${SERVER_PORT:8080}
+    spring.application.name=PizzaDeliveryBackend
+    
+    spring.data.mongodb.uri=${MONGODB_URI}
+    stripe.secret.key=${STRIPE_SECRET_KEY}
+    FIREBASE_CONFIG_JSON=${FIREBASE_CONFIG_JSON:}
+    
+    ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+    
+    server.port=8080
    ```
 
 5. **Install dependencies and run**
