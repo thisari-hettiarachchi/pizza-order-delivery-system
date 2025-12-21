@@ -105,7 +105,7 @@ Before running this application, make sure you have the following installed:
     spring.data.mongodb.uri=${MONGODB_URI}
     stripe.secret.key=${STRIPE_SECRET_KEY}
     FIREBASE_CONFIG_JSON=${FIREBASE_CONFIG_JSON:}
-    
+   
     ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
     
     server.port=8080
